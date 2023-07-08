@@ -18,6 +18,14 @@ namespace gamo
         /// @return 0 on success, or < 0 on faliure
         /// @return 
         virtual int Render(FPoint *position, float rotate, FPoint *scale, float window_pixel_per_unit) = 0;
+
+        /// @brief the width of the sprite, the unit is *Unit*
+        virtual float UnitWidth() = 0;
+
+        /// @brief the height of the sprite, the unit is *Unit*
+        virtual float UnitHeight() = 0;
+
+        virtual FPoint Pivot() = 0;
     };
 
     class SingleSprite : public Sprite
@@ -33,6 +41,9 @@ namespace gamo
         
         FPoint Pivot() { return _pivot; }
         void Pivot(FPoint pivot) { _pivot = pivot; }
+
+        float UnitWidth();
+        float UnitHeight();
         
         /// @brief create a sprite, setting the pivot to the center of the sprite as default (unit is *Pixel*)
         /// @param target_texture the target texture to clip
@@ -51,6 +62,11 @@ namespace gamo
         std::vector<SingleSprite*> _sprite_frames = std::vector<SingleSprite*>();
         uint _current_frame = 0;
     public:
+        float UnitWidth();
+        float UnitHeight();
+
+        FPoint Pivot();
+
         /// @brief add a sprite as a frame
         /// @param sprite the sprite as frame image
         void AddFrame(SingleSprite *sprite);

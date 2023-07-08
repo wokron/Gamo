@@ -9,6 +9,18 @@ namespace gamo
         _pivot = {0.5f, 0.5f}; // the default pivot position is the center of sprite
     }
 
+    float SingleSprite::UnitWidth()
+    {
+        float tppu = _target_texture->PixelPerUnit();
+        return _sprite_clip.w / tppu;
+    }
+
+    float SingleSprite::UnitHeight()
+    {
+        float tppu = _target_texture->PixelPerUnit();
+        return _sprite_clip.h / tppu;
+    }
+
     int SingleSprite::Render(FPoint *position, float rotate, FPoint *scale, float window_pixel_per_unit)
     {
         float tppu = _target_texture->PixelPerUnit();
@@ -74,6 +86,21 @@ namespace gamo
             unit_top_pad = unit_bottom_pad * -scale->y;
             unit_bottom_pad = tmp * -scale->y;
         }
+    }
+
+    float AnimateSprite::UnitWidth()
+    {
+        return _sprite_frames[_current_frame]->UnitWidth();
+    }
+
+    float AnimateSprite::UnitHeight()
+    {
+        return _sprite_frames[_current_frame]->UnitHeight();
+    }
+
+    FPoint AnimateSprite::Pivot()
+    {
+        return _sprite_frames[_current_frame]->Pivot();
     }
 
     void AnimateSprite::AddFrame(SingleSprite *sprite)
