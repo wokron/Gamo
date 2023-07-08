@@ -25,7 +25,7 @@ namespace gamo
     private:
         Texture *_target_texture;
         Rect _sprite_clip;
-        FPoint _pivot;
+        FPoint _pivot; // the unit of the _pivot is the ratio of the position of the pivot to the length or width of texture
     
     public:
         Rect SpriteClip() { return _sprite_clip; }

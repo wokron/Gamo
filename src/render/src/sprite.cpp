@@ -6,7 +6,7 @@ namespace gamo
     {
         _target_texture = target_texture;
         _sprite_clip = *cliprect;
-        _pivot = {_sprite_clip.w / 2.0f, _sprite_clip.h / 2.0f};
+        _pivot = {0.5f, 0.5f}; // the default pivot position is the center of sprite
     }
 
     int SingleSprite::Render(FPoint *position, float rotate, FPoint *scale, float window_pixel_per_unit)
@@ -17,8 +17,11 @@ namespace gamo
         float sprite_unit_width = _sprite_clip.w / tppu;
         float sprite_unit_height = _sprite_clip.h / tppu;
 
-        float unit_left_pad = _pivot.x / tppu;
-        float unit_top_pad = _pivot.y / tppu;
+        float pivot_w = _sprite_clip.w * _pivot.x;
+        float pivot_h = _sprite_clip.h * _pivot.y;
+
+        float unit_left_pad = pivot_w / tppu;
+        float unit_top_pad = pivot_h / tppu;
         float unit_right_pad = sprite_unit_width - unit_left_pad;
         float unit_bottom_pad = sprite_unit_height - unit_top_pad;
 

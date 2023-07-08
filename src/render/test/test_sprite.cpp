@@ -7,7 +7,7 @@
 using namespace gamo;
 
 const char *SOURCE_PATH = "/home/wokron/Code/Projects/Gamo/src/render/test/example.jpeg";
-const char *ANIMATE_PATH = "/home/wokron/Code/Projects/Gamo/src/render/test/walk_animate.png";
+const char *ANIMATE_PATH = "/home/wokron/Code/Projects/Gamo/src/render/test/walk_animate.png"; // this image come from Lazy Foo' Productions（http://lazyfoo.net/） 
 const int FRAME_DELAY = 50;
 
 void Init()
@@ -57,8 +57,8 @@ TEST(TestSprite, sprite_clip)
     ASSERT_NE(sprite, nullptr);
 
     auto pivot = sprite->Pivot();
-    ASSERT_EQ(pivot.x, w / 2);
-    ASSERT_EQ(pivot.y, h / 2);
+    ASSERT_EQ(pivot.x, 0.5);
+    ASSERT_EQ(pivot.y, 0.5);
 
     Destroy();
 }
@@ -119,9 +119,29 @@ TEST(TestSprite, sprite_render)
     SpriteRender(s, &pos1, 0, nullptr, wppu);
     
     // change the pivot so the center will change
-    FPoint pivot = {20, 20};
+    FPoint pivot = {0.3, 0.3};
     SingleSprite *ss = (SingleSprite *)s;
     ss->Pivot(pivot);
+    SpriteRender(s, &pos1, 0, nullptr, wppu);
+
+    // rotate again
+    SpriteRender(s, &pos1, 30, nullptr, wppu);
+
+    // scale again
+    SpriteRender(s, &pos1, 0, &scale1, wppu);
+
+    // rotate and scale again
+    SpriteRender(s, &pos1, 30, &scale1, wppu);
+
+    // rotate and flip scale again
+    SpriteRender(s, &pos1, 30, &scale2, wppu);
+
+    // rotate and flip scale in both horizontal and vertical again
+    SpriteRender(s, &pos1, 30, &scale3, wppu);
+
+    // change the pivot so the center will change, this time pivot value will be out of [0, 1]
+    FPoint pivot2 = {-0.5, 0.5};
+    ss->Pivot(pivot2);
     SpriteRender(s, &pos1, 0, nullptr, wppu);
 
     // rotate again
@@ -161,7 +181,7 @@ TEST(TestSprite, sprite_render_strong)
     Sprite *s = texture->ClipAndCreateSprite(&cliprect);
     ASSERT_NE(s, nullptr);
 
-    FPoint pivot = {30, 70};
+    FPoint pivot = {0.3, 0.7};
     SingleSprite *ss = (SingleSprite *)s;
     ss->Pivot(pivot);
 
