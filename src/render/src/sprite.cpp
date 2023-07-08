@@ -1,4 +1,4 @@
-#include "sprite.h"
+#include "render.h"
 
 namespace gamo
 {
@@ -88,8 +88,9 @@ namespace gamo
 
     int AnimateSprite::Render(FPoint *position, float rotate, FPoint *scale, float window_pixel_per_unit)
     {
-        _sprite_frames[_current_frame]->Render(position, rotate, scale, window_pixel_per_unit);
+        int r = _sprite_frames[_current_frame]->Render(position, rotate, scale, window_pixel_per_unit);
         _current_frame = (_current_frame + 1) % _sprite_frames.size(); // the animation will loop after reaching the end, just like gif
+        return r;
     }
 
 } // namespace gamo

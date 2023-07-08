@@ -1,11 +1,12 @@
 #pragma once
 
 #include <vector>
-#include "texture.h"
 #include "utils.h"
 
 namespace gamo
 {
+    class Texture;
+
     class Sprite
     {
     public:
