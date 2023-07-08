@@ -45,7 +45,8 @@ namespace gamo
         /// @param color_key the color for background, null for no color key
         static Texture *LoadTexture(std::string texture_path, Color *color_key);
 
-        Texture(SDL_Texture *sdl_texture, int pixel_width, int pixel_height) : _sdl_texture(sdl_texture), _pixel_width(pixel_width), _pixel_height(pixel_height) { }
+        Texture(SDL_Texture *sdl_texture, int pixel_width, int pixel_height)
+            : _sdl_texture(sdl_texture), _pixel_width(pixel_width), _pixel_height(pixel_height) { }
 
         ~Texture();
 
@@ -54,7 +55,8 @@ namespace gamo
         /// @param srcrect the rect area in texture to rendered to window, the unit is *Pixel*
         /// @param dstrect the rect area in window to render, the unit is *Pixel*
         /// @param angle An angle in degrees that indicates the rotation that will be applied to dstrect
-        /// @param center A pointer to a point indicating the point around which dstrect will be rotated (if NULL, rotation will be done around dstrect.w/2, dstrect.h/2), the unit is *Pixel*
+        /// @param center A pointer to a point indicating the point around which dstrect will be rotated
+        /// (if NULL, rotation will be done around dstrect.w/2, dstrect.h/2), the unit is *Pixel*
         /// @param flip A pointer to a vector indicating the flip position 
         /// @return 0 on success and -1 on error
         int Render(Rect *srcrect, FRect *dstrect, float angle, FPoint *center, FVect *flip);
