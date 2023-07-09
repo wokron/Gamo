@@ -6,6 +6,7 @@
 namespace gamo
 {
     class Texture;
+    class ColorAlpha;
 
     class Sprite
     {
@@ -17,7 +18,7 @@ namespace gamo
         /// @param window_pixel_per_unit relation between window's *Pixel* and *Unit*, this is for camera setting
         /// @return 0 on success, or < 0 on faliure
         /// @return 
-        virtual int Render(FPoint *position, float rotate, FPoint *scale, float window_pixel_per_unit) = 0;
+        virtual int Render(FPoint *position, float rotate, FPoint *scale, ColorAlpha *coloralpha, float window_pixel_per_unit) = 0;
 
         /// @brief the width of the sprite, the unit is *Unit*
         virtual float UnitWidth() = 0;
@@ -50,7 +51,7 @@ namespace gamo
         /// @param cliprect the clip area
         SingleSprite(Texture *target_texture, Rect *cliprect);
 
-        int Render(FPoint *position, float rotate, FPoint *scale, float window_pixel_per_unit);
+        int Render(FPoint *position, float rotate, FPoint *scale, ColorAlpha *coloralpha, float window_pixel_per_unit);
 
     private:
         void DoScale(FPoint *scale, float &unit_left_pad, float &unit_top_pad, float &unit_right_pad, float &unit_bottom_pad);
@@ -76,6 +77,6 @@ namespace gamo
         /// @param sprite the sprite as frame image
         void AddFrame(uint continue_frames, SingleSprite *sprite);
         
-        int Render(FPoint *position, float rotate, FPoint *scale, float window_pixel_per_unit);
+        int Render(FPoint *position, float rotate, FPoint *scale, ColorAlpha *coloralpha, float window_pixel_per_unit);
     };
 } // namespace gamo

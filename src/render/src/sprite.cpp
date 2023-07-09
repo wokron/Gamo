@@ -21,7 +21,7 @@ namespace gamo
         return _sprite_clip.h / tppu;
     }
 
-    int SingleSprite::Render(FPoint *position, float rotate, FPoint *scale, float window_pixel_per_unit)
+    int SingleSprite::Render(FPoint *position, float rotate, FPoint *scale, ColorAlpha* coloralpha, float window_pixel_per_unit)
     {
         float tppu = _target_texture->PixelPerUnit();
         float wppu = window_pixel_per_unit;
@@ -48,6 +48,11 @@ namespace gamo
         FPoint center = {unit_left_pad * wppu, unit_top_pad * wppu};
 
         int r;
+        if ((r = _target_texture->SetColorAlpha(coloralpha)) < 0)
+        {
+            return r;
+        }
+
         if ((r = _target_texture->Render(&_sprite_clip, &dstrect, rotate, &center, scale)) < 0)
         {
             return r;
@@ -116,9 +121,9 @@ namespace gamo
         }
     }
 
-    int AnimateSprite::Render(FPoint *position, float rotate, FPoint *scale, float window_pixel_per_unit)
+    int AnimateSprite::Render(FPoint *position, float rotate, FPoint *scale, ColorAlpha* coloralpha, float window_pixel_per_unit)
     {
-        int r = _sprite_frames[_current_frame]->Render(position, rotate, scale, window_pixel_per_unit);
+        int r = _sprite_frames[_current_frame]->Render(position, rotate, scale, coloralpha, window_pixel_per_unit);
         _current_frame = (_current_frame + 1) % _sprite_frames.size(); // the animation will loop after reaching the end, just like gif
         return r;
     }
