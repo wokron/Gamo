@@ -109,10 +109,8 @@ TEST(TestTexture, set_color_alpha)
     int r;
 
     Init();
-
-    Color colorkey = {255, 255, 255};
     
-    auto texture = Texture::LoadTexture(SOURCE_PATH, &colorkey);
+    auto texture = Texture::LoadTexture(SOURCE_PATH, nullptr);
     ASSERT_NE(texture, nullptr);
 
     FVect flip = {1, 1};

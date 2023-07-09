@@ -35,6 +35,12 @@ namespace gamo
             return nullptr;
         }
 
+        int r;
+        if ((r = SDL_SetTextureBlendMode(sdl_texture, SDL_BLENDMODE_BLEND)) < 0)
+        {
+            Log("fail to set texture blend mode, %s. this may cause the invalid of transparency when render", SDL_GetError());
+        }
+
         Texture *texture = new Texture(sdl_texture, source_img->w, source_img->w);
 
         SDL_FreeSurface(source_img); // don't forget to free surface
