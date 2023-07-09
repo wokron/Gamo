@@ -67,7 +67,9 @@ void SpriteRender(Sprite *s, FPoint *position, float rotate, FPoint *scale, floa
 {
     SDL_RenderClear(g_renderer);
 
-    s->Render(position, rotate, scale, window_pixel_per_unit);
+    ColorAlpha coloralpha = {255, 255, 255, 255};
+
+    s->Render(position, rotate, scale, &coloralpha, window_pixel_per_unit);
 
     SDL_RenderPresent(g_renderer);
 
@@ -158,6 +160,64 @@ TEST(TestSprite, sprite_render)
 
     // rotate and flip scale in both horizontal and vertical again
     SpriteRender(s, &pos1, 30, &scale3, wppu);
+
+    Destroy();
+}
+
+TEST(TestSprite, sprite_render_color)
+{
+    int r;
+
+    Init();
+
+    float camera_size = 1.5; // means window's height is three *Unit* 
+    float wppu = 300 / camera_size;
+    
+    auto texture = Texture::LoadTexture(SOURCE_PATH, nullptr);
+    ASSERT_NE(texture, nullptr);
+    texture->PixelPerUnit(100);
+
+    int w, h;
+    w = h = 100;
+    int ph = texture->PixelHeight(), pw = texture->PixelWidth();
+
+    Rect cliprect = {pw / 2 - w / 2, ph / 2 - h / 2, w, h};
+    Sprite *s = texture->ClipAndCreateSprite(&cliprect);
+    ASSERT_NE(s, nullptr);
+
+    FVect flip = {1, 1};
+
+    for (int i = 0; i <= 255; i += 50)
+    {
+        SDL_RenderClear(g_renderer);
+
+        ColorAlpha coloralpha = {255, 255, (u_char)i, 255};
+        
+        FPoint pos = {2, 1.5};
+        FVect scale = {1, 1};
+        r = s->Render(&pos, 30, &scale, &coloralpha, wppu);
+        ASSERT_EQ(r, 0);
+
+        SDL_RenderPresent(g_renderer);
+
+        SDL_Delay(FRAME_DELAY);
+    }
+
+    for (int i = 255; i >= 0; i -= 50)
+    {
+        SDL_RenderClear(g_renderer);
+
+        ColorAlpha coloralpha = {255, 255, 255, (u_char)i};
+        
+        FPoint pos = {2, 1.5};
+        FVect scale = {1, 1};
+        r = s->Render(&pos, 30, &scale, &coloralpha, wppu);
+        ASSERT_EQ(r, 0);
+
+        SDL_RenderPresent(g_renderer);
+
+        SDL_Delay(FRAME_DELAY);
+    }
 
     Destroy();
 }
