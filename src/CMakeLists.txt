@@ -13,6 +13,7 @@ include_directories(third_party/googletest-1.13.0/googletest/include)
 
 add_subdirectory(render)
 add_subdirectory(utils)
+add_subdirectory(actor)
 
 add_executable(${PROJECT_NAME} main.cpp)
     target_link_libraries(${PROJECT_NAME}
