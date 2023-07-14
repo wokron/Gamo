@@ -1,0 +1,85 @@
+#include "render_director.h"
+#include "characteristic.h"
+
+namespace gamo
+{
+    RenderDirector *RenderDirector::_instance = nullptr; // init static member
+    
+    void RenderDirector::RegisterCamera(Camera *camera)
+    {
+        _cameras.push_back(camera);
+    }
+
+    void RenderDirector::UnRegisterAllCameras()
+    {
+        _cameras.clear();
+    }
+
+    void RenderDirector::DetectRenderer(std::vector<Actor *> actors)
+    {
+        QueueClear(_render_queue);
+
+        for (auto camera : _cameras)
+        {
+            auto renderers = camera->DetectRenderersInCameraView(actors);
+            for (auto renderer : renderers)
+            {
+                _render_queue.emplace(renderer, camera);
+            }
+        }
+    }
+
+    int RenderDirector::Render()
+    {
+        SDL_RenderClear(g_renderer);
+
+        int r = 0;
+        while (!_render_queue.empty())
+        {
+            auto rendercall = _render_queue.top();
+            _render_queue.pop();
+
+            if (rendercall.Invoke() < 0)
+            {
+                r = -1;
+            }
+        }
+
+        SDL_RenderPresent(g_renderer);
+
+        return r;
+    }
+
+    void RenderDirector::QueueClear(std::priority_queue<RenderCall> &q)
+    {
+        std::priority_queue<RenderCall> empty;
+        std::swap(empty, q);
+    }
+
+    RenderCall::RenderCall(Renderer *renderer, Camera *camera)
+    {
+        _renderer = renderer;
+
+        int win_width, win_height;
+        SDL_GetWindowSize(g_window, &win_width, &win_height);
+
+        float h_size = camera->CameraSize();
+        float w_size = h_size / win_height * win_width;
+
+        _wppu = win_height / (2 * h_size);
+
+        auto render_pos = renderer->GetTransform()->Position();
+        auto camera_pos = camera->GetTransform()->Position();
+
+        // from world coordinate to window coordinate, y axies need to reverse.
+        _position = {w_size + (render_pos.x - camera_pos.x), h_size - (render_pos.y - camera_pos.y)};
+
+        _order = (((unsigned long long)camera->Depth()) << 32) | ((unsigned long long)renderer->RenderLevel());
+    }
+
+    int RenderCall::Invoke()
+    {
+        return _renderer->Render(&_position, _wppu);
+    }
+
+} // namespace gamo
