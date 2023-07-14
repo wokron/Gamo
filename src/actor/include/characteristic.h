@@ -59,7 +59,7 @@ namespace gamo
     private:
         Sprite *_target_sprite = nullptr;
         ColorAlpha _color_config = {255, 255, 255, 255};
-        int _render_level = 0;
+        unsigned int _render_level = 0;
         bool _visiable = true;
 
     public:
@@ -71,8 +71,8 @@ namespace gamo
         ColorAlpha ColorConfig() { return _color_config; }
         void ColorConfig(ColorAlpha coloralpha) { _color_config = coloralpha; }
 
-        int RenderLevel() { return _render_level; }
-        void RenderLevel(int render_level) { _render_level = render_level; }
+        unsigned int RenderLevel() { return _render_level; }
+        void RenderLevel(unsigned int render_level) { _render_level = render_level; }
 
         bool Visiable() { return _visiable; }
         void Visiable(bool visiable) { _visiable = visiable; }
@@ -99,7 +99,7 @@ namespace gamo
     private:
         float _camera_size = 1.5; // means how many *Unit* from the center of the window to the top.
         FRect _view;
-        int _depth = 0;           // define the render order of cameras
+        unsigned int _depth = 0;  // define the render order of cameras
         unsigned int _layers = 0; // which layers the camera can see actors on
     public:
         Camera(Actor *actor) : Characteristic(actor) {}
@@ -107,8 +107,8 @@ namespace gamo
         float CameraSize() { return _camera_size; }
         void CameraSize(float size) { _camera_size = size; }
 
-        int Depth() { return _depth; }
-        void Depth(int depth) { _depth = depth; }
+        unsigned int Depth() { return _depth; }
+        void Depth(unsigned int depth) { _depth = depth; }
 
         unsigned int Layers() { return _layers; }
         void Layers(unsigned int layers) { _layers = layers; }
