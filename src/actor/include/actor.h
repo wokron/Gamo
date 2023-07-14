@@ -35,10 +35,17 @@ namespace gamo
         Actor(FPoint position, float rotate, FVect scale);
         ~Actor();
 
-        /// @brief get characteristic by type
+        /// @brief get characteristic by type, 
+        /// this function will only return the first characteristic with the type
         /// @param type a string value of the class name you want to get
         /// @return the characteristic with the type, null on not found
         Characteristic *GetCharacteristicByType(std::string type);
+        
+        /// @brief get characteristics by type,
+        /// this function will return all characteristics with the type in this actor
+        /// @param type a string value of the class name you want to get
+        /// @return the characteristic with the type, null on not found
+        std::vector<Characteristic *> GetCharacteristicsByType(std::string type);
 
         Actor *CreateSubActor(FPoint position, float rotate, FVect scale);
 
