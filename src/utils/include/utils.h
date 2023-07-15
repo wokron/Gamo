@@ -1,3 +1,5 @@
+#pragma once
+
 #include <SDL2/SDL.h>
 
 using FRect = SDL_FRect;
@@ -10,4 +12,3 @@ using Vect = Point;
 using FVect = FPoint;
 
 #define Assert SDL_assert
-#define Log SDL_Log

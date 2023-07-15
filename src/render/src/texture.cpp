@@ -1,4 +1,5 @@
 #include "render.h"
+#include "spdlog/spdlog.h"
 #include <SDL2/SDL_image.h>
 
 namespace gamo
@@ -14,7 +15,7 @@ namespace gamo
         SDL_Surface* source_img = IMG_Load(texture_path.c_str());
         if (source_img == nullptr)
         {
-            Log("fail to load image %s, %s", texture_path.c_str(), IMG_GetError());
+            spdlog::error("fail to load image {}, {}", texture_path, IMG_GetError());
             return nullptr;
         }
 
@@ -30,7 +31,7 @@ namespace gamo
         SDL_Texture *sdl_texture;
         if ((sdl_texture = SDL_CreateTextureFromSurface(g_renderer, source_img)) == nullptr)
         {
-            Log("fail to convert image surface to texture, %s", SDL_GetError());
+            spdlog::error("fail to convert image surface to texture, {}", SDL_GetError());
             SDL_FreeSurface(source_img); // don't forget to free surface
             return nullptr;
         }
@@ -38,7 +39,7 @@ namespace gamo
         int r;
         if ((r = SDL_SetTextureBlendMode(sdl_texture, SDL_BLENDMODE_BLEND)) < 0)
         {
-            Log("fail to set texture blend mode, %s. this may cause the invalid of transparency when render", SDL_GetError());
+            spdlog::warn("fail to set texture blend mode, {}. this may cause the invalid of transparency when render", SDL_GetError());
         }
 
         Texture *texture = new Texture(sdl_texture, source_img->w, source_img->w);
@@ -62,7 +63,7 @@ namespace gamo
         
         if (_sdl_texture == nullptr)
         {
-            Log("_sdl_texture is null, which may indicates that this texture failed to load from image");
+            spdlog::error("_sdl_texture is null, which may indicates that this texture failed to load from image");
             return -1;
         }
 
@@ -81,7 +82,7 @@ namespace gamo
 
         if (SDL_RenderCopyExF(g_renderer, _sdl_texture, srcrect, dstrect, angle, center, flip_stategy) < 0)
         {
-            Log("fail to render texture, %s", SDL_GetError());
+            spdlog::error("fail to render texture, {}", SDL_GetError());
             return -1;
         }
 
@@ -96,19 +97,19 @@ namespace gamo
 
         if (_sdl_texture == nullptr)
         {
-            Log("_sdl_texture is null, which may indicates that this texture failed to load from image");
+            spdlog::error("_sdl_texture is null, which may indicates that this texture failed to load from image");
             return -1;
         }
 
         if ((r = SDL_SetTextureColorMod(_sdl_texture, coloralpha->r, coloralpha->g, coloralpha->b)) < 0)
         {
-            Log("fail to set color modulation, %s", SDL_GetError());
+            spdlog::warn("fail to set color modulation, {}", SDL_GetError());
             return r;
         }
 
         if ((r = SDL_SetTextureAlphaMod(_sdl_texture, coloralpha->alpha)) < 0)
         {
-            Log("fail to set alpha modulation, %s", SDL_GetError());
+            spdlog::warn("fail to set alpha modulation, {}", SDL_GetError());
             return r;
         }
 

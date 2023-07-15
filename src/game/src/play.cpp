@@ -4,6 +4,7 @@
 #include <string>
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
+#include "spdlog/spdlog.h"
 
 namespace gamo
 {
@@ -34,13 +35,13 @@ namespace gamo
         int r;
         if ((r = SDL_Init(SDL_INIT_EVERYTHING)) < 0)
         {
-            Log("fail to init SDL, %s", SDL_GetError());
+            spdlog::error("fail to init SDL, {}", SDL_GetError());
             return r;
         }
 
         if (IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_WEBP) != (IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_WEBP))
         {
-            Log("fail to init SDL_Image, %s", IMG_GetError());
+            spdlog::error("fail to init SDL_Image, {}", IMG_GetError());
             return -1;
         }
 
@@ -52,7 +53,7 @@ namespace gamo
             SDL_WINDOW_SHOWN);
         if (_window == nullptr)
         {
-            Log("fail to create window, %s", SDL_GetError());
+            spdlog::error("fail to create window, {}", SDL_GetError());
             return -1;
         }
 
@@ -61,7 +62,7 @@ namespace gamo
             accelerate ? SDL_RENDERER_ACCELERATED : SDL_RENDERER_SOFTWARE);
         if (_renderer == nullptr)
         {
-            Log("fail to create renderer, %s", SDL_GetError());
+            spdlog::error("fail to create renderer, {}", SDL_GetError());
             return -1;
         }
 
