@@ -10,7 +10,7 @@ namespace gamo
 
     Texture *Texture::LoadTexture(std::string texture_path, Color *color_key)
     {
-        Assert(g_renderer != nullptr);
+        assert(g_renderer != nullptr);
 
         SDL_Surface* source_img = IMG_Load(texture_path.c_str());
         if (source_img == nullptr)
@@ -59,7 +59,7 @@ namespace gamo
 
     int Texture::Render(Rect *srcrect, FRect *dstrect, float angle, FPoint *center, FVect *flip)
     {
-        Assert(g_renderer != nullptr);
+        assert(g_renderer != nullptr);
         
         if (_sdl_texture == nullptr)
         {
@@ -91,7 +91,7 @@ namespace gamo
 
     int Texture::SetColorAlpha(ColorAlpha *coloralpha)
     {
-        Assert(coloralpha != nullptr);
+        assert(coloralpha != nullptr);
 
         int r;
 

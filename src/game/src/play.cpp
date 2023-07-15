@@ -12,7 +12,7 @@ namespace gamo
 
     void Play::TargetFrameRate(int target_frame_rate)
     {
-        Assert(target_frame_rate >= -1 && target_frame_rate != 0);
+        assert(target_frame_rate >= -1 && target_frame_rate != 0);
 
         if (target_frame_rate == -1) // default set fps = refresh rate
         {

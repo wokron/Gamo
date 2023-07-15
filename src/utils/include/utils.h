@@ -10,5 +10,3 @@ using Point = SDL_Point;
 
 using Vect = Point;
 using FVect = FPoint;
-
-#define Assert SDL_assert
