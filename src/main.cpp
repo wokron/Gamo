@@ -1,7 +1,7 @@
-#include "utils.h"
+#include "spdlog/spdlog.h"
 
 int main(int argc, char *argv[])
 {
-    Log("enter main\n");
+    spdlog::info("Hello, {}!", "World");
     return 0;
 }
