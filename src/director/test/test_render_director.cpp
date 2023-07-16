@@ -8,34 +8,25 @@ const char *SOURCE_PATH = "/home/wokron/Code/Projects/Gamo/src/render/test/examp
 
 using namespace gamo;
 
+SDL_Renderer *g_renderer;
+
+SDL_Window *g_window;    
+
 void Init()
 {
-    int r;
-    r = SDL_Init(SDL_INIT_EVERYTHING);
+    int r = RenderAsset::GetInstance()->Init("render test", 800, 600, true);
     ASSERT_EQ(r, 0);
 
-    r = IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_WEBP);
-    ASSERT_EQ(r, IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_WEBP);
-
-    g_window = SDL_CreateWindow(
-        "render test",
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
-        800, 600,
-        SDL_WINDOW_SHOWN);
+    g_window = RenderAsset::GetInstance()->Window();
+    g_renderer = RenderAsset::GetInstance()->Renderer();
 
     ASSERT_NE(g_window, nullptr);
-
-    g_renderer = SDL_CreateRenderer(g_window, -1, 0);
     ASSERT_NE(g_renderer, nullptr);
 }
 
 void Destroy()
 {
-    SDL_DestroyRenderer(g_renderer);
-    SDL_DestroyWindow(g_window);
-    g_renderer = nullptr;
-    g_window = nullptr;
+    RenderAsset::GetInstance()->Destroy();
 }
 
 Sprite *GetSprite()

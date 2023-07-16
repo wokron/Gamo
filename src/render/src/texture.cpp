@@ -4,13 +4,10 @@
 
 namespace gamo
 {
-    SDL_Renderer *g_renderer;
-
-    SDL_Window *g_window;    
-
     Texture *Texture::LoadTexture(std::string texture_path, Color *color_key)
     {
-        assert(g_renderer != nullptr);
+        auto renderer = RenderAsset::GetInstance()->Renderer();
+        assert(renderer != nullptr);
 
         SDL_Surface* source_img = IMG_Load(texture_path.c_str());
         if (source_img == nullptr)
@@ -29,7 +26,7 @@ namespace gamo
         }
 
         SDL_Texture *sdl_texture;
-        if ((sdl_texture = SDL_CreateTextureFromSurface(g_renderer, source_img)) == nullptr)
+        if ((sdl_texture = SDL_CreateTextureFromSurface(renderer, source_img)) == nullptr)
         {
             spdlog::error("fail to convert image surface to texture, {}", SDL_GetError());
             SDL_FreeSurface(source_img); // don't forget to free surface
@@ -59,7 +56,8 @@ namespace gamo
 
     int Texture::Render(Rect *srcrect, FRect *dstrect, float angle, FPoint *center, FVect *flip)
     {
-        assert(g_renderer != nullptr);
+        auto renderer = RenderAsset::GetInstance()->Renderer();
+        assert(renderer != nullptr);
         
         if (_sdl_texture == nullptr)
         {
@@ -80,7 +78,7 @@ namespace gamo
             }
         }
 
-        if (SDL_RenderCopyExF(g_renderer, _sdl_texture, srcrect, dstrect, angle, center, flip_stategy) < 0)
+        if (SDL_RenderCopyExF(renderer, _sdl_texture, srcrect, dstrect, angle, center, flip_stategy) < 0)
         {
             spdlog::error("fail to render texture, {}", SDL_GetError());
             return -1;

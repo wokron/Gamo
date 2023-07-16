@@ -1,5 +1,6 @@
 #include "render_director.h"
 #include "characteristic.h"
+#include "assert.h"
 
 namespace gamo
 {
@@ -31,7 +32,9 @@ namespace gamo
 
     int RenderDirector::Render()
     {
-        SDL_RenderClear(g_renderer);
+        auto renderer = RenderAsset::GetInstance()->Renderer();
+        assert(renderer != nullptr);
+        SDL_RenderClear(renderer);
 
         int r = 0;
         while (!_render_queue.empty())
@@ -45,7 +48,7 @@ namespace gamo
             }
         }
 
-        SDL_RenderPresent(g_renderer);
+        SDL_RenderPresent(renderer);
 
         return r;
     }
@@ -61,7 +64,9 @@ namespace gamo
         _renderer = renderer;
 
         int win_width, win_height;
-        SDL_GetWindowSize(g_window, &win_width, &win_height);
+        auto window = RenderAsset::GetInstance()->Window();
+        assert(window != nullptr);
+        SDL_GetWindowSize(window, &win_width, &win_height);
 
         float h_size = camera->CameraSize();
         float w_size = h_size / win_height * win_width;
