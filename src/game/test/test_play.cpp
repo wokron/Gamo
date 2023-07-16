@@ -4,9 +4,38 @@
 #include "render.h"
 #include "actor.h"
 #include "SDL2/SDL_image.h"
+#include <thread>
+
+const char *ANIMATE_PATH = "/home/wokron/Code/Projects/Gamo/src/render/test/walk_animate.png"; // this image come from Lazy Foo' Productions（http://lazyfoo.net/） 
 
 using namespace gamo;
 
+Sprite *GetAnimateSprite()
+{
+    Color colorkey = {0, 0xff, 0xff};
+    auto texture = Texture::LoadTexture(ANIMATE_PATH, &colorkey);
+    texture->PixelPerUnit(100);
+
+    SingleSprite *sprites[4];
+
+    int th = texture->PixelHeight(), tw = texture->PixelWidth();
+    int w = tw / 4, h = th;
+
+    for (int i = 0; i < 4; i++)
+    {
+        Rect cliprect = {w * i, 0, w, h};
+        sprites[i] = texture->ClipAndCreateSprite(&cliprect);
+    }
+
+    auto animation = new AnimateSprite();
+
+    for (int i = 0; i < 4; i++)
+    {
+        animation->AddFrame(5, sprites[i]);
+    }
+
+    return animation;
+}
 
 TEST(TestPlay, test_singleton)
 {
@@ -93,22 +122,43 @@ TEST(TestPlay, test_scene)
     ASSERT_EQ(play->CurrentScene(), scenes[3]);
 }
 
-// TEST(TestPlay, test_run)
-// {
-//     auto play = Play::GetInstance();
-//     play->Init("test play test run", 800, 600, true);
+TEST(TestPlay, test_run)
+{
+    auto play = Play::GetInstance();
+    play->Init("test play test run", 800, 600, true);
 
-//     auto scene = new Scene();
-//     play->AddScene(scene);
+    auto scene = new Scene();
+    play->AddScene(scene);
+
+    auto camera_actor = new Actor({0, 0}, 0, {1, 1});
+    scene->AddActor(camera_actor);
+    auto camera = new Camera(camera_actor);
+    camera->Layers(LAYER(0));
+    camera_actor->GetCharacteristics().push_back(camera);
     
-//     auto actor = new Actor({0, 0}, 0, {1, 1});
-//     scene->AddActor(actor);
-//     auto camera = new Camera(actor);
-//     actor->GetCharacteristics().push_back(camera);
-//     auto renderer = new Renderer(actor);
-//     renderer->TargetSprite()
-//     actor->GetCharacteristics().push_back(renderer);
+    auto actor = new Actor({0, 0}, 0, {1, 1});
+    actor->Layer(LAYER(0));
+    scene->AddActor(actor);
+    auto renderer = new Renderer(actor);
+    renderer->TargetSprite(GetAnimateSprite());
+    actor->GetCharacteristics().push_back(renderer);
 
+    SDL_SetRenderDrawColor(RenderAsset::GetInstance()->Renderer(), 255, 255, 255, 255);
 
-    
-// }
+    play->PushScene(5);
+
+    std::thread t_quit = std::thread([actor](){
+        for (float i = -2; i < 2; i += 0.1)
+        {
+            actor->GetTransform()->Position({-i, 0});
+            SDL_Delay(50);
+        }
+        Play::GetInstance()->Quit(true);
+    });
+
+    play->Perform();
+
+    t_quit.join();
+
+    play->Destroy();
+}
