@@ -18,8 +18,6 @@ namespace gamo
         std::vector<Scene *> _scenes = std::vector<Scene *>();
         std::stack<Scene *> _scene_stack = std::stack<Scene *>();
 
-        SDL_Window *_window = nullptr;
-        SDL_Renderer *_renderer = nullptr;
         unsigned int _target_frame_rate = 0;
         bool _quit = false;
 
@@ -35,9 +33,6 @@ namespace gamo
             }
             return _instance;
         }
-
-        SDL_Window *Window() { return _window; }
-        SDL_Renderer *Renderer() { return _renderer; }
 
         /// @brief target frame rate is the expected frame rate to refresh the game 
         unsigned int TargetFrameRate() { return _target_frame_rate; }

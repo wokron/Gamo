@@ -1,5 +1,6 @@
 #include "play.h"
 #include "director.h"
+#include "render.h"
 #include "scene.h"
 #include <string>
 #include "SDL2/SDL.h"
@@ -33,37 +34,9 @@ namespace gamo
     int Play::Init(std::string title, int w, int h, bool accelerate)
     {
         int r;
-        if ((r = SDL_Init(SDL_INIT_EVERYTHING)) < 0)
+        if ((r = RenderAsset::GetInstance()->Init(title, w, h, accelerate)) < 0)
         {
-            spdlog::error("fail to init SDL, {}", SDL_GetError());
             return r;
-        }
-
-        if (IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_WEBP) != (IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_WEBP))
-        {
-            spdlog::error("fail to init SDL_Image, {}", IMG_GetError());
-            return -1;
-        }
-
-        _window = SDL_CreateWindow(
-            title.c_str(),
-            SDL_WINDOWPOS_CENTERED,
-            SDL_WINDOWPOS_CENTERED,
-            w, h,
-            SDL_WINDOW_SHOWN);
-        if (_window == nullptr)
-        {
-            spdlog::error("fail to create window, {}", SDL_GetError());
-            return -1;
-        }
-
-        _renderer = SDL_CreateRenderer(
-            _window, -1,
-            accelerate ? SDL_RENDERER_ACCELERATED : SDL_RENDERER_SOFTWARE);
-        if (_renderer == nullptr)
-        {
-            spdlog::error("fail to create renderer, {}", SDL_GetError());
-            return -1;
         }
 
         TargetFrameRate(-1);
@@ -91,10 +64,7 @@ namespace gamo
 
     void Play::Destroy()
     {
-        SDL_DestroyRenderer(_renderer);
-        SDL_DestroyWindow(_window);
-        _renderer = nullptr;
-        _window = nullptr;
+        RenderAsset::GetInstance()->Destroy();
     }
 
     void Play::AddScene(Scene *scene)

@@ -23,15 +23,15 @@ TEST(TestPlay, test_init)
     auto play = Play::GetInstance();
     ASSERT_NE(play, nullptr);
 
-    ASSERT_EQ(play->Window(), nullptr);
-    ASSERT_EQ(play->Renderer(), nullptr);
+    ASSERT_EQ(RenderAsset::GetInstance()->Window(), nullptr);
+    ASSERT_EQ(RenderAsset::GetInstance()->Renderer(), nullptr);
     ASSERT_EQ(play->TargetFrameRate(), 0);
     
     int r = play->Init("test play init", 400, 300, true);
     ASSERT_EQ(r, 0);
 
-    ASSERT_NE(play->Window(), nullptr);
-    ASSERT_NE(play->Renderer(), nullptr);
+    ASSERT_NE(RenderAsset::GetInstance()->Window(), nullptr);
+    ASSERT_NE(RenderAsset::GetInstance()->Renderer(), nullptr);
 
     play->Destroy();
 }
