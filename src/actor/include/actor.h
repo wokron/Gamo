@@ -10,6 +10,9 @@
 
 namespace gamo
 {
+    class Characteristic;
+    class Transform;
+
     class Actor
     {
     private:

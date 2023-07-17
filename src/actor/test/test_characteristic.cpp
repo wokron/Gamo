@@ -29,7 +29,7 @@ void Destroy()
     RenderAsset::GetInstance()->Destroy();
 }
 
-Sprite *GetSprite()
+Sprite *GetAnimateSprite()
 {
     auto texture = Texture::LoadTexture(SOURCE_PATH, nullptr);
 
@@ -47,7 +47,7 @@ TEST(TestCharacteristic, test_render_basic)
 {
     Init();
 
-    auto sprite = GetSprite();
+    auto sprite = GetAnimateSprite();
 
     auto actor = new Actor({0, 0}, 0, {1, 1});
     auto renderer = new Renderer(actor);
@@ -110,7 +110,7 @@ TEST(TestCharacteristic, test_camera)
 {
     Init();
 
-    auto sprite = GetSprite();
+    auto sprite = GetAnimateSprite();
 
     auto camera_actor = new Actor({0, 0}, 0, {0.2, 0.2});
     camera_actor->GetCharacteristics().push_back(new Camera(camera_actor));
@@ -159,7 +159,7 @@ TEST(TestCharacteristic, test_render_area)
 {
     Init();
 
-    auto sprite = GetSprite();
+    auto sprite = GetAnimateSprite();
 
     auto actor = new Actor({0, 0}, 0, {1, 1});
     actor->GetCharacteristics().push_back(new Renderer(actor));
@@ -274,7 +274,7 @@ TEST(TestCharacteristic, test_detect_renders_in_camera_view)
         new Actor({1.5, -0.5}, 0, {1, 1}),
     };
 
-    auto sprite = GetSprite();
+    auto sprite = GetAnimateSprite();
     for (int i = 0; i < 7; i++)
     {
         auto renderer = new Renderer(actors[i]);
