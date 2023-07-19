@@ -67,51 +67,31 @@ namespace gamo
         RenderAsset::GetInstance()->Destroy();
     }
 
-    void Play::AddScene(Scene *scene)
+    void Play::ReplaceScene(Scene *scene)
     {
-        _scenes.push_back(scene);
+        assert(scene != nullptr);
+
+        PopScene();
+
+        PushScene(scene);
     }
 
-    int Play::ReplaceScene(int index)
+    void Play::PushScene(Scene *scene)
     {
-        if (index >= _scenes.size())
-        {
-            return -1;
-        }
-        Scene *scene = _scenes[index];
-
-        if (!_scene_stack.empty())
-        {
-            _scene_stack.pop();
-        }
+        assert(scene != nullptr);
 
         _scene_stack.push(scene);
         RenderDirector::GetInstance()->UnRegisterAllCameras();
         scene->RegisterCameras();
-
-        return 0;
-    }
-
-    int Play::PushScene(int index)
-    {
-        if (index >= _scenes.size())
-        {
-            return -1;
-        }
-        Scene *scene = _scenes[index];
-
-        _scene_stack.push(scene);
-        RenderDirector::GetInstance()->UnRegisterAllCameras();
-        scene->RegisterCameras();
-
-        return 0;
     }
 
     void Play::PopScene()
     {
         if (!_scene_stack.empty())
         {
+            auto scene = _scene_stack.top();
             _scene_stack.pop();
+            delete scene; // free the scene, todo: there may have some bug
         }
     }
 

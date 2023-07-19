@@ -15,7 +15,6 @@ namespace gamo
     class Play
     {
     private:
-        std::vector<Scene *> _scenes = std::vector<Scene *>();
         std::stack<Scene *> _scene_stack = std::stack<Scene *>();
 
         unsigned int _target_frame_rate = 0;
@@ -59,21 +58,17 @@ namespace gamo
         /// @brief free the resources in Play
         void Destroy();
 
-        /// @brief add a scene to the Play
-        /// @param scene 
-        void AddScene(Scene *scene);
-
         /// @brief this function will replace the currrent scene with another scene with the specific index
-        /// @param index the index of the scene, corresponding to the order in which the scene is added to the Play
-        /// @return 0 on success, < 0 on fail (index out of range)
-        int ReplaceScene(int index);
+        /// @param scene the scene to replace the current scene, and the current scene will be freed
+        void ReplaceScene(Scene *scene);
 
         /// @brief push another scene on the top of the scene stack
-        /// @param index the index of the scene, corresponding to the order in which the scene is added to the Play
-        /// @return 0 on success, < 0 on fail (index out of range)
-        int PushScene(int index);
+        /// @param scene the scene to cover the current scene, the scenes behind will not be freed
+        void PushScene(Scene *scene);
 
-        /// @brief pop the current scene from the scene stack
+        /// @brief pop the current scene from the scene stack, 
+        /// and free the resources of the scene, 
+        /// if there isn't any scenes now, just do nothing
         void PopScene();
 
         /// @brief the current scene is the scene on the top of the scene stack

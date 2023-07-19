@@ -92,21 +92,18 @@ TEST(TestPlay, test_scene)
     for (int i = 0; i < 5; i++)
     {
         scenes[i] = new Scene();
-        play->AddScene(scenes[i]);
     }
 
     // 0
-    play->PushScene(0);
+    play->PushScene(scenes[0]);
     ASSERT_EQ(play->CurrentScene(), scenes[0]);
 
     // 0 1
-    play->PushScene(1);
+    play->PushScene(scenes[1]);
     ASSERT_EQ(play->CurrentScene(), scenes[1]);
 
-    ASSERT_LT(play->PushScene(5), 0);
-
     // 0 4
-    play->ReplaceScene(4);
+    play->ReplaceScene(scenes[4]);
     ASSERT_EQ(play->CurrentScene(), scenes[4]);
 
     // 0
@@ -118,7 +115,7 @@ TEST(TestPlay, test_scene)
     ASSERT_EQ(play->CurrentScene(), nullptr);
 
     // 3
-    play->ReplaceScene(3);
+    play->ReplaceScene(scenes[3]);
     ASSERT_EQ(play->CurrentScene(), scenes[3]);
 }
 
@@ -128,7 +125,6 @@ TEST(TestPlay, test_run)
     play->Init("test play test run", 800, 600, true);
 
     auto scene = new Scene();
-    play->AddScene(scene);
 
     auto camera_actor = new Actor({0, 0}, 0, {1, 1});
     scene->AddActor(camera_actor);
@@ -145,7 +141,7 @@ TEST(TestPlay, test_run)
 
     SDL_SetRenderDrawColor(RenderAsset::GetInstance()->Renderer(), 255, 255, 255, 255);
 
-    play->PushScene(5);
+    play->PushScene(scene);
 
     std::thread t_quit = std::thread([actor](){
         for (float i = -2; i < 2; i += 0.1)
