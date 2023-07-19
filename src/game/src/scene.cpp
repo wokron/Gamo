@@ -34,6 +34,22 @@ namespace gamo
         }
     }
 
+    void Scene::RegisterSystemEvents()
+    {
+        for (auto actor : _actors)
+        {
+            actor->RegisterSystemEvents();
+        }
+    }
+
+    void Scene::UnregisterSystemEvents()
+    {
+        for (auto actor : _actors)
+        {
+            actor->UnregisterSystemEvents();
+        }
+    }
+
     std::vector<Camera *> Scene::GetCameras(Actor *actor)
     {
         std::vector<Camera *> result;

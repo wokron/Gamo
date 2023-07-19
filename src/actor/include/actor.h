@@ -50,6 +50,19 @@ namespace gamo
         /// @return the characteristic with the type, null on not found
         std::vector<Characteristic *> GetCharacteristicsByType(std::string type);
 
+        /// @brief register system events in this actor and its sub actors,
+        /// system events include events in behavior, in camera, etc.
+        void RegisterSystemEvents();
+
+        /// @brief unregister system events in this actor and its sub actors,
+        /// system events include events in behavior, in camera, etc.
+        void UnregisterSystemEvents();
+
+        /// @brief create a sub actor with the specific transform values
+        /// @param position the position of the actor, this is the position relative to the sup actor
+        /// @param rotate the rorate of the actor
+        /// @param scale the scale of the actor
+        /// @return the pointer to the new actor
         Actor *CreateSubActor(FPoint position, float rotate, FVect scale);
 
     private:

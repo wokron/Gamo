@@ -46,8 +46,48 @@ namespace gamo
             result.push_back(*it);
             it++;
         }
-        
+
         return result;
+    }
+
+    void Actor::RegisterSystemEvents()
+    {
+        // todo: add camera render event
+
+        auto behaviors = GetCharacteristicsByType("Behavior");
+        for (auto item : behaviors)
+        {
+            auto behavior = (Behavior *)item;
+            behavior->RegisterOnStart();
+            behavior->RegisterOnUpdate();
+            behavior->RegisterOnLateUpdate();
+        }
+
+        // recursively register events in sub actors
+        for (auto sub_actor : _sub_actors)
+        {
+            sub_actor->RegisterSystemEvents();
+        }
+    }
+
+    void Actor::UnregisterSystemEvents()
+    {
+        // todo: add camera render event
+
+        auto behaviors = GetCharacteristicsByType("Behavior");
+        for (auto item : behaviors)
+        {
+            auto behavior = (Behavior *)item;
+            behavior->UnregisterOnStart();
+            behavior->UnregisterOnUpdate();
+            behavior->UnregisterOnLateUpdate();
+        }
+
+        // recursively unregister events in sub actors
+        for (auto sub_actor : _sub_actors)
+        {
+            sub_actor->UnregisterSystemEvents();
+        }
     }
 
     Actor *Actor::CreateSubActor(FPoint position, float rotate, FVect scale)
