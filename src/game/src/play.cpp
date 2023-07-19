@@ -2,10 +2,9 @@
 #include "director.h"
 #include "render.h"
 #include "scene.h"
-#include <string>
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
 #include "spdlog/spdlog.h"
+#include <string>
+#include <algorithm>
 
 namespace gamo
 {
@@ -91,12 +90,25 @@ namespace gamo
         {
             auto scene = _scene_stack.top();
             _scene_stack.pop();
-            delete scene; // free the scene, todo: there may have some bug
+            // only free no-current scene when pop, since PopScene can be called in Behavior
+            if (_pre_scene != nullptr)
+            {
+                delete scene;
+            }
+            else
+            {
+                _pre_scene = scene;
+            }
         }
     }
 
     Scene *Play::CurrentScene()
     {
-        return _scene_stack.empty() ? nullptr : _scene_stack.top();
+        if (_pre_scene != nullptr)
+        {
+            delete _pre_scene;
+            _pre_scene = nullptr;
+        }
+        return _scene_stack.empty() ? nullptr : _scene_stack.top();;
     }
 } // namespace gamo

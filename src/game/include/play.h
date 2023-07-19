@@ -16,6 +16,7 @@ namespace gamo
     {
     private:
         std::stack<Scene *> _scene_stack = std::stack<Scene *>();
+        Scene *_pre_scene = nullptr; // the previous current scene, which will be freed on the next frame
 
         unsigned int _target_frame_rate = 0;
         bool _quit = false;
