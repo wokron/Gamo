@@ -4,3 +4,4 @@
 #include "transform.h"
 #include "renderer.h"
 #include "camera.h"
+#include "behavior.h"
