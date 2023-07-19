@@ -21,3 +21,7 @@ add_test(NAME test_actor COMMAND test_actor)
 add_executable(test_characteristic test/test_characteristic.cpp)
 target_link_libraries(test_characteristic gtest gtest_main SDL2 SDL2_image actor)
 add_test(NAME test_characteristic COMMAND test_characteristic)
+
+add_executable(test_behavior test/test_behavior.cpp)
+target_link_libraries(test_behavior gtest gtest_main SDL2 SDL2_image actor event)
+add_test(NAME test_behavior COMMAND test_behavior)
