@@ -97,3 +97,77 @@ TEST(TestScene, test_render)
 
     Destroy();
 }
+
+class EventBehavior : public Behavior
+{
+public:
+    EventBehavior(Actor *actor) : Behavior(actor) {}
+    bool start = false;
+    void OnStart()
+    {
+        start = true;
+    }
+
+    int update = 0;
+    void OnUpdate()
+    {
+        ASSERT_TRUE(start);
+        update++;
+    }
+
+    int late_update = 0;
+    void OnLateUpdate()
+    {
+        ASSERT_EQ(update - 1, late_update);
+        late_update++;
+    }
+};
+
+TEST(TestScene, test_event_register)
+{
+    auto actor = new Actor({0, 0}, 0, {1, 1});
+    auto b = new EventBehavior(actor);
+    actor->GetCharacteristics().push_back(b);
+
+    auto actor2 = new Actor({0, 0}, 0, {1, 1});
+    auto b2 = new EventBehavior(actor2);
+    actor2->GetCharacteristics().push_back(b2);
+
+    auto scene = new Scene();
+
+    scene->AddActor(actor);
+    scene->AddActor(actor2);
+
+    // now scene finish initialization, start to change scene in Play
+
+    // first, register system events is needed
+    scene->RegisterSystemEvents();
+
+    EventDispatcher::GetInstance()->Dispatch(EVENT_ON_START, nullptr);
+
+    // on main loop
+    ASSERT_TRUE(b->start);
+    ASSERT_TRUE(b2->start);
+    for (int i = 0; i < 10; i++)
+    {
+        EventDispatcher::GetInstance()->Dispatch(EVENT_ON_UPDATE, nullptr);
+        EventDispatcher::GetInstance()->Dispatch(EVENT_ON_LATE_UPDATE, nullptr);
+        ASSERT_EQ(b->update, i + 1);
+        ASSERT_EQ(b2->update, i + 1);
+        ASSERT_EQ(b->late_update, i + 1);
+        ASSERT_EQ(b2->late_update, i + 1);
+    }
+
+    // scene is replaced by other scene, unregister events before free the scene
+    scene->UnregisterSystemEvents();
+
+    for (int i = 0; i < 10; i++)
+    {
+        EventDispatcher::GetInstance()->Dispatch(EVENT_ON_UPDATE, nullptr);
+        EventDispatcher::GetInstance()->Dispatch(EVENT_ON_LATE_UPDATE, nullptr);
+        ASSERT_EQ(b->update, 10);
+        ASSERT_EQ(b2->update, 10);
+        ASSERT_EQ(b->late_update, 10);
+        ASSERT_EQ(b2->late_update, 10);
+    }
+}
