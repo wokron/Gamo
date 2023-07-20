@@ -2,6 +2,8 @@
 
 #include "characteristic_base.h"
 #include "render.h"
+#include "camera.h"
+#include "event.h"
 #include "utils.h"
 #include <string>
 
@@ -16,6 +18,8 @@ namespace gamo
         ColorAlpha _color_config = {255, 255, 255, 255};
         unsigned int _render_level = 0;
         bool _visiable = true;
+
+        EventHandle _renderer_event_handle;
 
     public:
         Renderer(Actor *actor) : Characteristic(actor) {}
@@ -42,10 +46,29 @@ namespace gamo
         /// @brief render area is an aabb rect area that encloses the sprite
         FRect RenderArea();
 
+        void CameraDetectListener(Event *e);
+        void RegisterCameraDetectEvent();
+        void UnregisterCameraDetectEvent();
+
         std::string Type() { return std::string("Renderer"); }
 
     private:
         FVect DoRotate(FVect vect, float angle);
         FVect DoScale(FVect vect, FVect scale);
+    };
+
+    class RendererEvent : public Event
+    {
+    private:
+        Camera *_camera;
+        FRect *_view;
+
+    public:
+        RendererEvent(Camera *camera, FRect *view) : _camera(camera), _view(view) {}
+
+        Camera *TargetCamera() { return _camera; }
+        FRect *CameraView() { return _view; }
+
+        int Type() const override { return EVENT_CAMERA_DETECT; }
     };
 } // namespace gamo

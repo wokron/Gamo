@@ -1,5 +1,6 @@
 #include "actor.h"
 #include "render.h"
+#include "director.h"
 
 namespace gamo
 {
@@ -55,6 +56,29 @@ namespace gamo
         }
 
         return {minx, miny, maxx - minx, maxy - miny};
+    }
+
+    void Renderer::CameraDetectListener(Event *e)
+    {
+        auto event = (RendererEvent *)e;
+        auto camera = event->TargetCamera();
+        auto camera_view = event->CameraView();
+        auto render_area = RenderArea();
+
+        if (((BelongActor()->Layer() & camera->Layers()) != 0) && Visiable() && SDL_HasIntersectionF(camera_view, &render_area))
+        {
+            RenderDirector::GetInstance()->PushRenderCall(this, camera);
+        }
+    }
+
+    void Renderer::RegisterCameraDetectEvent()
+    {
+        _renderer_event_handle = EventDispatcher::GetInstance()->Append(EVENT_CAMERA_DETECT, MEMBER_METHOD(this, &Renderer::CameraDetectListener));
+    }
+
+    void Renderer::UnregisterCameraDetectEvent()
+    {
+        EventDispatcher::GetInstance()->Remove(EVENT_CAMERA_DETECT, _renderer_event_handle);
     }
 
     FVect Renderer::DoRotate(FVect vect, float angle)

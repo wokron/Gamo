@@ -52,7 +52,19 @@ namespace gamo
 
     void Actor::RegisterSystemEvents()
     {
-        // todo: add camera render event
+        auto cameras = GetCharacteristicsByType("Camera");
+        for (auto item : cameras)
+        {
+            auto camera = (Camera *)item;
+            camera->RegisterRenderEvent();
+        }
+
+        auto renderers = GetCharacteristicsByType("Renderer");
+        for (auto item : renderers)
+        {
+            auto renderer = (Renderer *)item;
+            renderer->RegisterCameraDetectEvent();
+        }
 
         auto behaviors = GetCharacteristicsByType("Behavior");
         for (auto item : behaviors)
@@ -72,7 +84,19 @@ namespace gamo
 
     void Actor::UnregisterSystemEvents()
     {
-        // todo: add camera render event
+        auto cameras = GetCharacteristicsByType("Camera");
+        for (auto item : cameras)
+        {
+            auto camera = (Camera *)item;
+            camera->UnregisterRenderEvent();
+        }
+
+        auto renderers = GetCharacteristicsByType("Renderer");
+        for (auto item : renderers)
+        {
+            auto renderer = (Renderer *)item;
+            renderer->UnregisterCameraDetectEvent();
+        }
 
         auto behaviors = GetCharacteristicsByType("Behavior");
         for (auto item : behaviors)

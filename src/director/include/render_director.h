@@ -46,6 +46,11 @@ namespace gamo
         /// @param actors the actors to detect
         void DetectRenderer(std::vector<Actor *> actors);
 
+        /// @brief create a render-call and push it into the render queue
+        /// @param renderer the renderer to create a render-call
+        /// @param camera the camera to create a render-call
+        void PushRenderCall(Renderer *renderer, Camera *camera);
+
         /// @brief execute render-call in the render queue, 
         /// this function will clear the render queue
         /// Post-condition: function DetectRenderer() need to be called

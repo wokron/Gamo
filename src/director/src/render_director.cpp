@@ -30,6 +30,11 @@ namespace gamo
         }
     }
 
+    void RenderDirector::PushRenderCall(Renderer *renderer, Camera *camera)
+    {
+        _render_queue.emplace(renderer, camera);
+    }
+
     int RenderDirector::Render()
     {
         auto renderer = RenderAsset::GetInstance()->Renderer();

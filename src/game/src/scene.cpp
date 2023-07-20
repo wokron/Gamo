@@ -11,10 +11,8 @@ namespace gamo
 
     int Scene::RenderStep()
     {
-        auto rd = RenderDirector::GetInstance();
-        rd->DetectRenderer(_actors);
-
-        return rd->Render();
+        EventDispatcher::GetInstance()->Dispatch(EVENT_RENDER, nullptr);
+        return RenderDirector::GetInstance()->Render();
     }
 
     void Scene::PhysicsStep()

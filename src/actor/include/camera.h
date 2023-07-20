@@ -2,10 +2,13 @@
 
 #include "characteristic_base.h"
 #include "utils.h"
+#include "event.h"
 #include <string>
 
 namespace gamo
 {
+    class Renderer;
+    
     class Camera : public Characteristic
     {
     private:
@@ -13,6 +16,9 @@ namespace gamo
         FRect _view;
         unsigned int _depth = 0;  // define the render order of cameras
         unsigned int _layers = 0; // which layers the camera can see actors on
+
+        EventHandle _camera_event_handle;
+
     public:
         Camera(Actor *actor) : Characteristic(actor) {}
 
@@ -32,6 +38,10 @@ namespace gamo
         /// @param candidate_renderers the renderers to detect
         /// @return the visiable renderers
         std::vector<Renderer *> DetectRenderersInCameraView(std::vector<Actor *> candidate_actors);
+
+        void RenderEventListener(Event *e);
+        void RegisterRenderEvent();
+        void UnregisterRenderEvent();
 
         std::string Type() { return std::string("Camera"); }
     };

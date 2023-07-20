@@ -87,6 +87,7 @@ TEST(TestPlay, test_set_fps)
 TEST(TestPlay, test_scene)
 {
     auto play = Play::GetInstance();
+    play->Init("test play", 400, 300, true);
     ASSERT_EQ(play->CurrentScene(), nullptr);
 
     Scene *scenes[5];
@@ -119,6 +120,8 @@ TEST(TestPlay, test_scene)
     // 3
     play->ReplaceScene(scenes[3]);
     ASSERT_EQ(play->CurrentScene(), scenes[3]);
+
+    play->Destroy();
 }
 
 TEST(TestPlay, test_run)

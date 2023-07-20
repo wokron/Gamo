@@ -10,7 +10,7 @@ target_include_directories(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME}
-    utils render event
+    utils render event director
 )
 
 # for test

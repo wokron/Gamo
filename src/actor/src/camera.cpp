@@ -1,5 +1,6 @@
 #include "actor.h"
 #include "assert.h"
+#include "event.h"
 
 namespace gamo
 {
@@ -26,6 +27,23 @@ namespace gamo
         }
 
         return renderers_in_view;
+    }
+
+    void Camera::RenderEventListener(Event *e)
+    {
+        auto view = View();
+        auto camera_event = RendererEvent(this, &view);
+        EventDispatcher::GetInstance()->Dispatch(&camera_event);
+    }
+
+    void Camera::RegisterRenderEvent()
+    {
+        _camera_event_handle = EventDispatcher::GetInstance()->Append(EVENT_RENDER, MEMBER_METHOD(this, &Camera::RenderEventListener));
+    }
+
+    void Camera::UnregisterRenderEvent()
+    {
+        EventDispatcher::GetInstance()->Remove(EVENT_RENDER, _camera_event_handle);
     }
 
     FRect Camera::View()
