@@ -80,6 +80,8 @@ TEST(TestPlay, test_set_fps)
 
     play->TargetFrameRate(-1);
     ASSERT_EQ(play->TargetFrameRate(), tmp);
+
+    play->Destroy();
 }
 
 TEST(TestPlay, test_scene)
@@ -155,6 +157,117 @@ TEST(TestPlay, test_run)
     play->Perform();
 
     t_quit.join();
+
+    play->Destroy();
+}
+
+class MoveBehavior2 : public Behavior
+{
+public:
+    MoveBehavior2(Actor *actor) : Behavior(actor) {}
+    bool start = false;
+    void OnStart()
+    {
+        start = true;
+    }
+    
+    int update = 0;
+    float pos = -2;
+    void OnUpdate()
+    {
+        ASSERT_TRUE(start);
+        BelongActor()->GetTransform()->Position({-pos, 0});
+        pos += 0.05;
+        update++;
+        if (pos >= 2)
+        {
+            Play::GetInstance()->Quit(true);
+        }
+    }
+
+    int late_update = 0;
+    void OnLateUpdate()
+    {
+        ASSERT_EQ(update - 1, late_update);
+        late_update++;
+    }
+};
+
+class MoveBehavior : public Behavior
+{
+public:
+    MoveBehavior(Actor *actor) : Behavior(actor) {}
+    bool start = false;
+    void OnStart()
+    {
+        start = true;
+    }
+
+    int update = 0;
+    float pos = -2;
+    void OnUpdate()
+    {
+        ASSERT_TRUE(start);
+        BelongActor()->GetTransform()->Position({pos, 0});
+        pos += 0.05;
+        update++;
+        if (pos >= 2)
+        {
+            auto scene = new Scene();
+
+            auto camera_actor = new Actor({0, 0}, 0, {1, 1});
+            scene->AddActor(camera_actor);
+            auto camera = new Camera(camera_actor);
+            camera->Layers(LAYER(0));
+            camera_actor->GetCharacteristics().push_back(camera);
+            
+            auto actor = new Actor({0, 0}, 0, {1, 1});
+            actor->Layer(LAYER(0));
+            scene->AddActor(actor);
+            auto renderer = new Renderer(actor);
+            renderer->TargetSprite(GetAnimateSprite());
+            actor->GetCharacteristics().push_back(renderer);
+            actor->GetCharacteristics().push_back(new MoveBehavior2(actor));
+
+            Play::GetInstance()->ReplaceScene(scene);
+        }
+    }
+
+    int late_update = 0;
+    void OnLateUpdate()
+    {
+        ASSERT_EQ(update - 1, late_update);
+        late_update++;
+    }
+};
+
+TEST(TestPlay, test_behavior)
+{
+    auto play = Play::GetInstance();
+    play->Quit(false);
+    play->Init("test play test run", 800, 600, true);
+
+    auto scene = new Scene();
+
+    auto camera_actor = new Actor({0, 0}, 0, {1, 1});
+    scene->AddActor(camera_actor);
+    auto camera = new Camera(camera_actor);
+    camera->Layers(LAYER(0));
+    camera_actor->GetCharacteristics().push_back(camera);
+    
+    auto actor = new Actor({0, 0}, 0, {-1, 1});
+    actor->Layer(LAYER(0));
+    scene->AddActor(actor);
+    auto renderer = new Renderer(actor);
+    renderer->TargetSprite(GetAnimateSprite());
+    actor->GetCharacteristics().push_back(renderer);
+    actor->GetCharacteristics().push_back(new MoveBehavior(actor));
+
+    SDL_SetRenderDrawColor(RenderAsset::GetInstance()->Renderer(), 255, 255, 255, 255);
+
+    play->PushScene(scene);
+
+    play->Perform();
 
     play->Destroy();
 }
