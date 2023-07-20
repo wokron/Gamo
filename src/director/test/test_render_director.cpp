@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 #include "director.h"
 #include "render.h"
+#include "game.h"
 #include "actor.h"
 #include "SDL2/SDL_image.h"
 
@@ -100,27 +101,28 @@ TEST(TestRenderDirector, test_single_camera)
 
     actor_list.push_back(camera_actor);
 
-    rd->RegisterCamera(camera);
+    auto scene = new Scene();
+    for (auto actor : actor_list)
+    {
+        scene->AddActor(actor);
+    }
+
+    scene->RegisterSystemEvents();
+
+    // rd->RegisterCamera(camera);
 
     for (float i = 0; i < 3; i += 0.2)
     {
         camera_actor->GetTransform()->Position({i / 2, i});
-        rd->DetectRenderer(actor_list);
-        rd->Render();
+        scene->RenderStep();
+        // rd->DetectRenderer(actor_list);
+        // rd->Render();
 
         SDL_Delay(50);
     }
 
-    rd->UnRegisterAllCameras();
-
-    for (float i = 0; i < 3; i += 0.2)
-    {
-        camera_actor->GetTransform()->Position({i / 2, i});
-        rd->DetectRenderer(actor_list);
-        rd->Render();
-
-        SDL_Delay(50);
-    }
+    // rd->UnRegisterAllCameras();
+    scene->UnregisterSystemEvents();
 
     Destroy();
 }
@@ -161,9 +163,16 @@ TEST(TestRenderDirector, test_render_level)
     auto camera2 = new Camera(camera_actor);
     camera_actor->GetCharacteristics().push_back(camera2);
 
-    auto rd = RenderDirector::GetInstance();
-    rd->RegisterCamera(camera1);
-    rd->RegisterCamera(camera2);
+    auto scene = new Scene();
+    for (int i = 0; i < 3; i++)
+        scene->AddActor(actors[i]);
+    scene->AddActor(camera_actor);
+
+    scene->RegisterSystemEvents();
+
+    // auto rd = RenderDirector::GetInstance();
+    // rd->RegisterCamera(camera1);
+    // rd->RegisterCamera(camera2);
     
     // all in same layer
     actors[0]->Layer(LAYER(0));
@@ -171,9 +180,10 @@ TEST(TestRenderDirector, test_render_level)
     actors[2]->Layer(LAYER(0));
     camera1->Layers(LAYER(0));
     camera2->Layers(LAYER(0));
-    rd->DetectRenderer(actors);
-    rd->Render();
-    SDL_Delay(1000);
+    // rd->DetectRenderer(actors);
+    // rd->Render();
+    scene->RenderStep();
+    SDL_Delay(100);
 
     // blue in camera 2 and depth2 < depth1; red and green in camera 1 and level_red > level_green, so r-g-b
     actors[0]->Layer(LAYER(1));
@@ -185,31 +195,37 @@ TEST(TestRenderDirector, test_render_level)
     camera1->Depth(10);
     ((Renderer*)actors[0]->GetCharacteristicByType("Renderer"))->RenderLevel(10);
     ((Renderer*)actors[1]->GetCharacteristicByType("Renderer"))->RenderLevel(0);
-    rd->DetectRenderer(actors);
-    rd->Render();
-    SDL_Delay(1000);
+    // rd->DetectRenderer(actors);
+    // rd->Render();
+    scene->RenderStep();
+    SDL_Delay(100);
 
     // now depth2 > depth1, so b-r-g
     camera2->Depth(10);
     camera1->Depth(0);
-    rd->DetectRenderer(actors);
-    rd->Render();
-    SDL_Delay(1000);
+    // rd->DetectRenderer(actors);
+    // rd->Render();
+    scene->RenderStep();
+    SDL_Delay(100);
 
     // now level_red < level_green, so b-g-r
     ((Renderer*)actors[0]->GetCharacteristicByType("Renderer"))->RenderLevel(0);
     ((Renderer*)actors[1]->GetCharacteristicByType("Renderer"))->RenderLevel(10);
-    rd->DetectRenderer(actors);
-    rd->Render();
-    SDL_Delay(1000);
+    // rd->DetectRenderer(actors);
+    // rd->Render();
+    scene->RenderStep();
+    SDL_Delay(100);
 
     // change red to camera 2 and make level_red > level_blue, so r-b-g
     actors[0]->Layer(LAYER(2));
     ((Renderer*)actors[0]->GetCharacteristicByType("Renderer"))->RenderLevel(10);
     ((Renderer*)actors[2]->GetCharacteristicByType("Renderer"))->RenderLevel(0);
-    rd->DetectRenderer(actors);
-    rd->Render();
-    SDL_Delay(1000);
+    // rd->DetectRenderer(actors);
+    // rd->Render();
+    scene->RenderStep();
+    SDL_Delay(100);
+
+    scene->UnregisterSystemEvents();
 
     Destroy();
 }
@@ -263,32 +279,43 @@ TEST(TestRenderDirector, test_double_cameras)
     auto camera_actor2 = new Actor({0, 0}, 0, {0.2, 0.2});
     auto camera2 = new Camera(camera_actor2);
     camera2->Layers(LAYER(3) | LAYER(4) | LAYER(5));
-    camera_actor2->GetCharacteristics().push_back(camera);
+    camera_actor2->GetCharacteristics().push_back(camera2);
     auto renderer2 = new Renderer(camera_actor2);
     renderer2->TargetSprite(sprite);
     camera_actor2->GetCharacteristics().push_back(renderer2);
 
-    auto rd = RenderDirector::GetInstance();
+    auto scene = new Scene();
+
+    // auto rd = RenderDirector::GetInstance();
 
     std::vector<Actor *> actor_list;
     for (int i = 0; i < 7; i++)
         actor_list.push_back(actors[i]);
-
     actor_list.push_back(camera_actor);
     actor_list.push_back(camera_actor2);
+    
+    for (auto actor : actor_list)
+    {
+        scene->AddActor(actor);
+    }
 
-    rd->RegisterCamera(camera);
-    rd->RegisterCamera(camera2);
+    scene->RegisterSystemEvents();
+
+    // rd->RegisterCamera(camera);
+    // rd->RegisterCamera(camera2);
 
     for (float i = 0; i < 3; i += 0.2)
     {
         camera_actor->GetTransform()->Position({i / 2, i});
         camera_actor2->GetTransform()->Position({-i / 2, i});
-        rd->DetectRenderer(actor_list);
-        rd->Render();
+        // rd->DetectRenderer(actor_list);
+        // rd->Render();
+        scene->RenderStep();
 
-        SDL_Delay(100);
+        SDL_Delay(50);
     }
+
+    scene->UnregisterSystemEvents();
 
     Destroy();
 }

@@ -26,18 +26,6 @@ namespace gamo
         EventDispatcher::GetInstance()->Dispatch(EVENT_ON_LATE_UPDATE, nullptr);
     }
 
-    void Scene::RegisterCameras()
-    {
-        for (auto actor : _actors)
-        {
-            auto cameras = GetCameras(actor);
-            for (auto camera : cameras)
-            {
-                RenderDirector::GetInstance()->RegisterCamera(camera);
-            }
-        }
-    }
-
     void Scene::RegisterSystemEvents()
     {
         for (auto actor : _actors)
@@ -52,24 +40,6 @@ namespace gamo
         {
             actor->UnregisterSystemEvents();
         }
-    }
-
-    std::vector<Camera *> Scene::GetCameras(Actor *actor)
-    {
-        std::vector<Camera *> result;
-        auto rt = actor->GetCharacteristicsByType("Camera");
-        for (auto camera : rt)
-        {
-            result.push_back((Camera *)camera);
-        }
-
-        for (auto sub_actor : actor->SubActors())
-        {
-            auto sub_rt = GetCameras(sub_actor);
-            result.insert(result.end(), sub_rt.begin(), sub_rt.end());
-        }
-
-        return result;
     }
 
 } // namespace gamo

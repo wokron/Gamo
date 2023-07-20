@@ -4,31 +4,6 @@
 
 namespace gamo
 {
-    std::vector<Renderer *> Camera::DetectRenderersInCameraView(std::vector<Actor *> candidate_actors)
-    {
-        std::vector<Renderer *> renderers_in_view = std::vector<Renderer *>();
-
-        FRect camera_view = View();
-        for (auto actor : candidate_actors)
-        {
-            auto renderer = (Renderer *)actor->GetCharacteristicByType("Renderer");
-            // if the actor is not in camera's layers or doesn't have render or the render is invisiable
-            if ((actor->Layer() & _layers) == 0 || renderer == nullptr || !renderer->Visiable())
-            {
-                continue;
-            }
-
-            FRect render_area = renderer->RenderArea();
-
-            if (SDL_HasIntersectionF(&camera_view, &render_area))
-            {
-                renderers_in_view.push_back(renderer);
-            }
-        }
-
-        return renderers_in_view;
-    }
-
     void Camera::RenderEventListener(Event *e)
     {
         auto view = View();

@@ -89,8 +89,6 @@ namespace gamo
         assert(scene != nullptr);
 
         _scene_stack.push(scene);
-        RenderDirector::GetInstance()->UnRegisterAllCameras();
-        scene->RegisterCameras();
     }
 
     void Play::PopScene()

@@ -85,7 +85,7 @@ TEST(TestScene, test_render)
         scene->AddActor(actor);
     }
 
-    scene->RegisterCameras();
+    scene->RegisterSystemEvents();
 
     for (float i = -2; i < 2; i += 0.2)
     {
@@ -94,6 +94,8 @@ TEST(TestScene, test_render)
         ASSERT_EQ(scene->RenderStep(), 0);
         SDL_Delay(50);
     }
+
+    scene->UnregisterSystemEvents();
 
     Destroy();
 }

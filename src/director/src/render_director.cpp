@@ -5,30 +5,6 @@
 namespace gamo
 {
     RenderDirector *RenderDirector::_instance = nullptr; // init static member
-    
-    void RenderDirector::RegisterCamera(Camera *camera)
-    {
-        _cameras.push_back(camera);
-    }
-
-    void RenderDirector::UnRegisterAllCameras()
-    {
-        _cameras.clear();
-    }
-
-    void RenderDirector::DetectRenderer(std::vector<Actor *> actors)
-    {
-        QueueClear(_render_queue);
-
-        for (auto camera : _cameras)
-        {
-            auto renderers = camera->DetectRenderersInCameraView(actors);
-            for (auto renderer : renderers)
-            {
-                _render_queue.emplace(renderer, camera);
-            }
-        }
-    }
 
     void RenderDirector::PushRenderCall(Renderer *renderer, Camera *camera)
     {
@@ -56,12 +32,6 @@ namespace gamo
         SDL_RenderPresent(renderer);
 
         return r;
-    }
-
-    void RenderDirector::QueueClear(std::priority_queue<RenderCall> &q)
-    {
-        std::priority_queue<RenderCall> empty;
-        std::swap(empty, q);
     }
 
     RenderCall::RenderCall(Renderer *renderer, Camera *camera)

@@ -25,9 +25,6 @@ namespace gamo
         /// @brief handle game logic
         void LogicStep();
 
-        /// @brief register all the cameras in the scene to RenderDirector
-        void RegisterCameras();
-
         /// @brief register system events in this scene
         /// system events include events in behavior, in camera, etc.
         void RegisterSystemEvents();
@@ -35,9 +32,6 @@ namespace gamo
         /// @brief unregister system events in this scene
         /// system events include events in behavior, in camera, etc.
         void UnregisterSystemEvents();
-
-    private:
-        std::vector<Camera *> GetCameras(Actor *actor);
     };
 
 } // namespace gamo

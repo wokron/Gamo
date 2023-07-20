@@ -260,76 +260,76 @@ TEST(TestCharacteristic, test_camera_area)
     Destroy();
 }
 
-TEST(TestCharacteristic, test_detect_renders_in_camera_view)
-{
-    Init();
+// TEST(TestCharacteristic, test_detect_renders_in_camera_view)
+// {
+//     Init();
 
-    Actor *actors[] = {
-        new Actor({0, 0}, 0, {1, 1}),
-        new Actor({1, 1}, 0, {1, 1}),
-        new Actor({2, 1.5}, 0, {1, 1}),
-        new Actor({-1, 1.5}, 0, {1, 1}),
-        new Actor({1, 2.5}, 0, {1, 1}),
-        new Actor({-1, 2.5}, 0, {1, 1}),
-        new Actor({1.5, -0.5}, 0, {1, 1}),
-    };
+//     Actor *actors[] = {
+//         new Actor({0, 0}, 0, {1, 1}),
+//         new Actor({1, 1}, 0, {1, 1}),
+//         new Actor({2, 1.5}, 0, {1, 1}),
+//         new Actor({-1, 1.5}, 0, {1, 1}),
+//         new Actor({1, 2.5}, 0, {1, 1}),
+//         new Actor({-1, 2.5}, 0, {1, 1}),
+//         new Actor({1.5, -0.5}, 0, {1, 1}),
+//     };
 
-    auto sprite = GetAnimateSprite();
-    for (int i = 0; i < 7; i++)
-    {
-        auto renderer = new Renderer(actors[i]);
-        renderer->TargetSprite(sprite);
-        actors[i]->GetCharacteristics().push_back(renderer);
-    }
+//     auto sprite = GetAnimateSprite();
+//     for (int i = 0; i < 7; i++)
+//     {
+//         auto renderer = new Renderer(actors[i]);
+//         renderer->TargetSprite(sprite);
+//         actors[i]->GetCharacteristics().push_back(renderer);
+//     }
 
-    actors[0]->Layer(LAYER(1));
-    actors[1]->Layer(LAYER(3));
-    actors[2]->Layer(LAYER(3));
-    actors[3]->Layer(LAYER(2));
-    actors[4]->Layer(LAYER(3));
-    actors[5]->Layer(LAYER(4));
-    actors[6]->Layer(LAYER(5));
+//     actors[0]->Layer(LAYER(1));
+//     actors[1]->Layer(LAYER(3));
+//     actors[2]->Layer(LAYER(3));
+//     actors[3]->Layer(LAYER(2));
+//     actors[4]->Layer(LAYER(3));
+//     actors[5]->Layer(LAYER(4));
+//     actors[6]->Layer(LAYER(5));
 
-    auto camera_actor = new Actor({0, 0}, 0, {1, 1});
-    auto camera = new Camera(camera_actor);
-    camera_actor->GetCharacteristics().push_back(camera);
+//     auto camera_actor = new Actor({0, 0}, 0, {1, 1});
+//     auto camera = new Camera(camera_actor);
+//     camera_actor->GetCharacteristics().push_back(camera);
 
-    auto detect = camera->DetectRenderersInCameraView(std::vector<Actor *>(actors, actors + 7));
-    ASSERT_EQ(detect.size(), 0);
+//     auto detect = camera->DetectRenderersInCameraView(std::vector<Actor *>(actors, actors + 7));
+//     ASSERT_EQ(detect.size(), 0);
 
-    camera->Layers(LAYER(1));
-    detect = camera->DetectRenderersInCameraView(std::vector<Actor *>(actors, actors + 7));
-    ASSERT_EQ(detect.size(), 1);
-    ASSERT_NE(std::count(detect.begin(), detect.end(), actors[0]->GetCharacteristicByType("Renderer")), 0);
+//     camera->Layers(LAYER(1));
+//     detect = camera->DetectRenderersInCameraView(std::vector<Actor *>(actors, actors + 7));
+//     ASSERT_EQ(detect.size(), 1);
+//     ASSERT_NE(std::count(detect.begin(), detect.end(), actors[0]->GetCharacteristicByType("Renderer")), 0);
 
-    camera->Layers(LAYER(1) | LAYER(2));
-    detect = camera->DetectRenderersInCameraView(std::vector<Actor *>(actors, actors + 7));
-    ASSERT_EQ(detect.size(), 2);
-    ASSERT_NE(std::count(detect.begin(), detect.end(), actors[0]->GetCharacteristicByType("Renderer")), 0);
-    ASSERT_NE(std::count(detect.begin(), detect.end(), actors[3]->GetCharacteristicByType("Renderer")), 0);
+//     camera->Layers(LAYER(1) | LAYER(2));
+//     detect = camera->DetectRenderersInCameraView(std::vector<Actor *>(actors, actors + 7));
+//     ASSERT_EQ(detect.size(), 2);
+//     ASSERT_NE(std::count(detect.begin(), detect.end(), actors[0]->GetCharacteristicByType("Renderer")), 0);
+//     ASSERT_NE(std::count(detect.begin(), detect.end(), actors[3]->GetCharacteristicByType("Renderer")), 0);
 
-    ASSERT_EQ(std::count(detect.begin(), detect.end(), actors[1]->GetCharacteristicByType("Renderer")), 0);
-    ASSERT_EQ(std::count(detect.begin(), detect.end(), actors[2]->GetCharacteristicByType("Renderer")), 0);
-    ASSERT_EQ(std::count(detect.begin(), detect.end(), actors[4]->GetCharacteristicByType("Renderer")), 0);
-    ASSERT_EQ(std::count(detect.begin(), detect.end(), actors[5]->GetCharacteristicByType("Renderer")), 0);
-    ASSERT_EQ(std::count(detect.begin(), detect.end(), actors[6]->GetCharacteristicByType("Renderer")), 0);
+//     ASSERT_EQ(std::count(detect.begin(), detect.end(), actors[1]->GetCharacteristicByType("Renderer")), 0);
+//     ASSERT_EQ(std::count(detect.begin(), detect.end(), actors[2]->GetCharacteristicByType("Renderer")), 0);
+//     ASSERT_EQ(std::count(detect.begin(), detect.end(), actors[4]->GetCharacteristicByType("Renderer")), 0);
+//     ASSERT_EQ(std::count(detect.begin(), detect.end(), actors[5]->GetCharacteristicByType("Renderer")), 0);
+//     ASSERT_EQ(std::count(detect.begin(), detect.end(), actors[6]->GetCharacteristicByType("Renderer")), 0);
 
-    camera->Layers(LAYER(1) | LAYER(2) | LAYER(3));
-    detect = camera->DetectRenderersInCameraView(std::vector<Actor *>(actors, actors + 7));
-    ASSERT_EQ(detect.size(), 4);
-    ASSERT_NE(std::count(detect.begin(), detect.end(), actors[0]->GetCharacteristicByType("Renderer")), 0);
-    ASSERT_NE(std::count(detect.begin(), detect.end(), actors[1]->GetCharacteristicByType("Renderer")), 0);
-    ASSERT_NE(std::count(detect.begin(), detect.end(), actors[2]->GetCharacteristicByType("Renderer")), 0);
-    ASSERT_NE(std::count(detect.begin(), detect.end(), actors[3]->GetCharacteristicByType("Renderer")), 0);
+//     camera->Layers(LAYER(1) | LAYER(2) | LAYER(3));
+//     detect = camera->DetectRenderersInCameraView(std::vector<Actor *>(actors, actors + 7));
+//     ASSERT_EQ(detect.size(), 4);
+//     ASSERT_NE(std::count(detect.begin(), detect.end(), actors[0]->GetCharacteristicByType("Renderer")), 0);
+//     ASSERT_NE(std::count(detect.begin(), detect.end(), actors[1]->GetCharacteristicByType("Renderer")), 0);
+//     ASSERT_NE(std::count(detect.begin(), detect.end(), actors[2]->GetCharacteristicByType("Renderer")), 0);
+//     ASSERT_NE(std::count(detect.begin(), detect.end(), actors[3]->GetCharacteristicByType("Renderer")), 0);
 
-    ASSERT_EQ(std::count(detect.begin(), detect.end(), actors[4]->GetCharacteristicByType("Renderer")), 0);
-    ASSERT_EQ(std::count(detect.begin(), detect.end(), actors[5]->GetCharacteristicByType("Renderer")), 0);
-    ASSERT_EQ(std::count(detect.begin(), detect.end(), actors[6]->GetCharacteristicByType("Renderer")), 0);
+//     ASSERT_EQ(std::count(detect.begin(), detect.end(), actors[4]->GetCharacteristicByType("Renderer")), 0);
+//     ASSERT_EQ(std::count(detect.begin(), detect.end(), actors[5]->GetCharacteristicByType("Renderer")), 0);
+//     ASSERT_EQ(std::count(detect.begin(), detect.end(), actors[6]->GetCharacteristicByType("Renderer")), 0);
 
-    camera->GetTransform()->Position({0, 1});
-    detect = camera->DetectRenderersInCameraView(std::vector<Actor *>(actors, actors + 7));
-    ASSERT_NE(std::count(detect.begin(), detect.end(), actors[4]->GetCharacteristicByType("Renderer")), 0);
-    ASSERT_EQ(std::count(detect.begin(), detect.end(), actors[5]->GetCharacteristicByType("Renderer")), 0);
+//     camera->GetTransform()->Position({0, 1});
+//     detect = camera->DetectRenderersInCameraView(std::vector<Actor *>(actors, actors + 7));
+//     ASSERT_NE(std::count(detect.begin(), detect.end(), actors[4]->GetCharacteristicByType("Renderer")), 0);
+//     ASSERT_EQ(std::count(detect.begin(), detect.end(), actors[5]->GetCharacteristicByType("Renderer")), 0);
 
-    Destroy();
-}
+//     Destroy();
+// }

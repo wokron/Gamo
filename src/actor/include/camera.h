@@ -34,11 +34,6 @@ namespace gamo
         /// @brief view is a rect area that this camera can seen
         FRect View();
 
-        /// @brief detect all visible actor's renderers in camera's view
-        /// @param candidate_renderers the renderers to detect
-        /// @return the visiable renderers
-        std::vector<Renderer *> DetectRenderersInCameraView(std::vector<Actor *> candidate_actors);
-
         void RenderEventListener(Event *e);
         void RegisterRenderEvent();
         void UnregisterRenderEvent();
