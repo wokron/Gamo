@@ -22,6 +22,9 @@ namespace gamo
         /// @brief do physical simulation in the scene
         void PhysicsStep();
 
+        /// @brief handle game logic
+        void LogicStep();
+
         /// @brief register all the cameras in the scene to RenderDirector
         void RegisterCameras();
 

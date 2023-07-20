@@ -22,6 +22,12 @@ namespace gamo
         // todo: need to implement
     }
 
+    void Scene::LogicStep()
+    {
+        EventDispatcher::GetInstance()->Dispatch(EVENT_ON_UPDATE, nullptr);
+        EventDispatcher::GetInstance()->Dispatch(EVENT_ON_LATE_UPDATE, nullptr);
+    }
+
     void Scene::RegisterCameras()
     {
         for (auto actor : _actors)

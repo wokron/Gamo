@@ -3,6 +3,7 @@
 #include "render.h"
 #include "scene.h"
 #include "spdlog/spdlog.h"
+#include "event.h"
 #include <string>
 #include <algorithm>
 
@@ -51,7 +52,13 @@ namespace gamo
             auto target_ms = SDL_GetTicks64() + 1000u / _target_frame_rate;
 
             cur_scene->PhysicsStep();
-            cur_scene->RenderStep();
+
+            cur_scene->LogicStep();
+
+            if (cur_scene->RenderStep() < 0)
+            {
+                spdlog::error("fail to finish render step");
+            }
 
             auto finish_ms = SDL_GetTicks64();
             if (target_ms > finish_ms)
@@ -64,6 +71,8 @@ namespace gamo
     void Play::Destroy()
     {
         RenderAsset::GetInstance()->Destroy();
+        delete Play::_instance;
+        Play::_instance = nullptr;
     }
 
     void Play::ReplaceScene(Scene *scene)
@@ -104,11 +113,18 @@ namespace gamo
 
     Scene *Play::CurrentScene()
     {
-        if (_pre_scene != nullptr)
+        auto scene = _scene_stack.empty() ? nullptr : _scene_stack.top();
+        if (_pre_scene != nullptr) // when need to switch scene
         {
+            _pre_scene->UnregisterSystemEvents();
             delete _pre_scene;
             _pre_scene = nullptr;
+            if (scene != nullptr)
+            {
+                scene->RegisterSystemEvents();
+                EventDispatcher::GetInstance()->Dispatch(EVENT_ON_START, nullptr);
+            }
         }
-        return _scene_stack.empty() ? nullptr : _scene_stack.top();;
+        return scene;
     }
 } // namespace gamo

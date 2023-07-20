@@ -1,5 +1,6 @@
 #pragma once
 
+#include "scene.h"
 #include <stack>
 #include <vector>
 #include <string>
@@ -16,7 +17,8 @@ namespace gamo
     {
     private:
         std::stack<Scene *> _scene_stack = std::stack<Scene *>();
-        Scene *_pre_scene = nullptr; // the previous current scene, which will be freed on the next frame
+        // the previous current scene, which will be freed on the next frame (the initial Scene is a sentinel)
+        Scene *_pre_scene = new Scene();
 
         unsigned int _target_frame_rate = 0;
         bool _quit = false;
