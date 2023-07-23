@@ -29,7 +29,7 @@ void Destroy()
     RenderAsset::GetInstance()->Destroy();
 }
 
-Sprite *GetAnimateSprite()
+Sprite *GetSprite()
 {
     auto texture = Texture::LoadTexture(SOURCE_PATH, nullptr);
 
@@ -47,7 +47,7 @@ TEST(TestCharacteristic, test_render_basic)
 {
     Init();
 
-    auto sprite = GetAnimateSprite();
+    auto sprite = GetSprite();
 
     auto actor = new Actor({0, 0}, 0, {1, 1});
     auto renderer = new Renderer(actor);
@@ -110,7 +110,7 @@ TEST(TestCharacteristic, test_camera)
 {
     Init();
 
-    auto sprite = GetAnimateSprite();
+    auto sprite = GetSprite();
 
     auto camera_actor = new Actor({0, 0}, 0, {0.2, 0.2});
     camera_actor->GetCharacteristics().push_back(new Camera(camera_actor));
@@ -159,7 +159,7 @@ TEST(TestCharacteristic, test_render_area)
 {
     Init();
 
-    auto sprite = GetAnimateSprite();
+    auto sprite = GetSprite();
 
     auto actor = new Actor({0, 0}, 0, {1, 1});
     actor->GetCharacteristics().push_back(new Renderer(actor));
@@ -224,6 +224,34 @@ TEST(TestCharacteristic, test_render_area)
     ASSERT_GT(area.h, 2);
     ASSERT_GT(area.w, 1);
 
+    // now test sub actor's render area
+    ((SingleSprite *)sprite)->Pivot({0.5, 0.5});
+    auto actor1 = new Actor({0, 0}, 0, {1, 1});
+    auto actor2 = actor1->CreateSubActor({1, 1}, 0, {2, 1});
+    actor2->GetCharacteristics().push_back(new Renderer(actor2));
+    auto renderer2 = (Renderer *)actor2->GetCharacteristicByType("Renderer");
+    renderer2->TargetSprite(sprite);
+
+    area = renderer2->RenderArea();
+    ASSERT_FLOAT_EQ(area.x, 0);
+    ASSERT_FLOAT_EQ(area.y, 0.5);
+    ASSERT_FLOAT_EQ(area.h, 1);
+    ASSERT_FLOAT_EQ(area.w, 2);
+
+    actor1->GetTransform()->Position({1, 2});
+    area = renderer2->RenderArea();
+    ASSERT_FLOAT_EQ(area.x, 1);
+    ASSERT_FLOAT_EQ(area.y, 2.5);
+    ASSERT_FLOAT_EQ(area.h, 1);
+    ASSERT_FLOAT_EQ(area.w, 2);
+
+    actor1->GetTransform()->Scale({1, 2});
+    area = renderer2->RenderArea();
+    ASSERT_FLOAT_EQ(area.x, 1);
+    ASSERT_FLOAT_EQ(area.y, 2);
+    ASSERT_FLOAT_EQ(area.h, 2);
+    ASSERT_FLOAT_EQ(area.w, 2);
+
     Destroy();
 }
 
@@ -257,6 +285,24 @@ TEST(TestCharacteristic, test_camera_area)
     ASSERT_FLOAT_EQ(area.x, expect_x);
     ASSERT_FLOAT_EQ(area.y, 8);
 
+    auto actor1 = new Actor({0, 0}, 0, {1, 1});
+    auto actor2 = actor1->CreateSubActor({1, 1}, 0, {2, 1});
+    actor2->GetCharacteristics().push_back(new Camera(actor2));
+    auto camera2 = (Camera *)actor2->GetCharacteristicByType("Camera");
+
+    area = camera2->View();
+    ASSERT_FLOAT_EQ(area.h, 3);
+    ASSERT_FLOAT_EQ(area.w, 4);
+    ASSERT_FLOAT_EQ(area.x, -1);
+    ASSERT_FLOAT_EQ(area.y, -0.5);
+
+    actor1->GetTransform()->Position({-1, 2});
+    area = camera2->View();
+    ASSERT_FLOAT_EQ(area.h, 3);
+    ASSERT_FLOAT_EQ(area.w, 4);
+    ASSERT_FLOAT_EQ(area.x, -2);
+    ASSERT_FLOAT_EQ(area.y, 1.5);
+
     Destroy();
 }
 
@@ -274,7 +320,7 @@ TEST(TestCharacteristic, test_camera_area)
 //         new Actor({1.5, -0.5}, 0, {1, 1}),
 //     };
 
-//     auto sprite = GetAnimateSprite();
+//     auto sprite = GetSprite();
 //     for (int i = 0; i < 7; i++)
 //     {
 //         auto renderer = new Renderer(actors[i]);
