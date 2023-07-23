@@ -56,23 +56,23 @@ namespace gamo
         for (auto item : cameras)
         {
             auto camera = (Camera *)item;
-            camera->RegisterRenderEvent();
+            camera->RegisterHandleRender();
         }
 
         auto renderers = GetCharacteristicsByType("Renderer");
         for (auto item : renderers)
         {
             auto renderer = (Renderer *)item;
-            renderer->RegisterCameraDetectEvent();
+            renderer->RegisterHandleCameraDetect();
         }
 
         auto behaviors = GetCharacteristicsByType("Behavior");
         for (auto item : behaviors)
         {
             auto behavior = (Behavior *)item;
-            behavior->RegisterOnStart();
-            behavior->RegisterOnUpdate();
-            behavior->RegisterOnLateUpdate();
+            behavior->RegisterHandleOnStart();
+            behavior->RegisterHandleOnUpdate();
+            behavior->RegisterHandleOnLateUpdate();
         }
 
         // recursively register events in sub actors
@@ -88,23 +88,23 @@ namespace gamo
         for (auto item : cameras)
         {
             auto camera = (Camera *)item;
-            camera->UnregisterRenderEvent();
+            camera->UnregisterHandleRender();
         }
 
         auto renderers = GetCharacteristicsByType("Renderer");
         for (auto item : renderers)
         {
             auto renderer = (Renderer *)item;
-            renderer->UnregisterCameraDetectEvent();
+            renderer->UnregisterHandleCameraDetect();
         }
 
         auto behaviors = GetCharacteristicsByType("Behavior");
         for (auto item : behaviors)
         {
             auto behavior = (Behavior *)item;
-            behavior->UnregisterOnStart();
-            behavior->UnregisterOnUpdate();
-            behavior->UnregisterOnLateUpdate();
+            behavior->UnregisterHandleOnStart();
+            behavior->UnregisterHandleOnUpdate();
+            behavior->UnregisterHandleOnLateUpdate();
         }
 
         // recursively unregister events in sub actors

@@ -33,9 +33,9 @@ TEST(TestBehavior, test_event_register)
     auto b1 = new EventBehavior();
 
     // on scene push/replace
-    b1->RegisterOnStart();
-    b1->RegisterOnUpdate();
-    b1->RegisterOnLateUpdate();
+    b1->RegisterHandleOnStart();
+    b1->RegisterHandleOnUpdate();
+    b1->RegisterHandleOnLateUpdate();
     EventDispatcher::GetInstance()->Dispatch(EVENT_ON_START, nullptr);
 
     // on main loop
@@ -51,12 +51,12 @@ TEST(TestBehavior, test_event_register)
     auto b2 = new EventBehavior();
 
     // now another scene **cover/replace** the previous scene
-    b1->UnregisterOnStart();
-    b1->UnregisterOnUpdate();
-    b1->UnregisterOnLateUpdate();
-    b2->RegisterOnStart();
-    b2->RegisterOnUpdate();
-    b2->RegisterOnLateUpdate();
+    b1->UnregisterHandleOnStart();
+    b1->UnregisterHandleOnUpdate();
+    b1->UnregisterHandleOnLateUpdate();
+    b2->RegisterHandleOnStart();
+    b2->RegisterHandleOnUpdate();
+    b2->RegisterHandleOnLateUpdate();
     EventDispatcher::GetInstance()->Dispatch(EVENT_ON_START, nullptr);
 
     // on main loop

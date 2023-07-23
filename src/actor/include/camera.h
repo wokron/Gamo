@@ -17,8 +17,6 @@ namespace gamo
         unsigned int _depth = 0;  // define the render order of cameras
         unsigned int _layers = 0; // which layers the camera can see actors on
 
-        EventHandle _camera_event_handle;
-
     public:
         Camera(Actor *actor) : Characteristic(actor) {}
 
@@ -34,9 +32,7 @@ namespace gamo
         /// @brief view is a rect area that this camera can seen
         FRect View();
 
-        void RenderEventListener(Event *e);
-        void RegisterRenderEvent();
-        void UnregisterRenderEvent();
+        EVENT_DECALRE(Camera, HandleRender, EVENT_RENDER);
 
         std::string Type() { return std::string("Camera"); }
     };

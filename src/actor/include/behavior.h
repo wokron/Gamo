@@ -7,29 +7,19 @@ namespace gamo
 {
     class Behavior : public Characteristic
     {
-    private: 
-        EventHandle _onstart_handle;
-        EventHandle _onupdate_handle;
-        EventHandle _onlateupdate_handle;
-
+    private:
     public:
         Behavior(Actor *actor) : Characteristic(actor) {}
         ~Behavior() { OnDestroy(); }
-        void OnStartListener(Event *e) { OnStart(); }
-        void OnUpdateListener(Event *e) { OnUpdate(); }
-        void OnLateUpdateListener(Event *e) { OnLateUpdate(); }
-        
+
+        EVENT_DECALRE(Behavior, HandleOnStart, EVENT_ON_START) { OnStart(); }
+        EVENT_DECALRE(Behavior, HandleOnUpdate, EVENT_ON_UPDATE) { OnUpdate(); }
+        EVENT_DECALRE(Behavior, HandleOnLateUpdate, EVENT_ON_LATE_UPDATE) { OnLateUpdate(); }
+
         virtual void OnStart() {}
         virtual void OnUpdate() {}
         virtual void OnLateUpdate() {}
         virtual void OnDestroy() {}
-
-        void RegisterOnStart();
-        void UnregisterOnStart();
-        void RegisterOnUpdate();
-        void UnregisterOnUpdate();
-        void RegisterOnLateUpdate();
-        void UnregisterOnLateUpdate();
 
         std::string Type() { return std::string("Behavior"); }
     };

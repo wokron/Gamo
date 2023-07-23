@@ -19,8 +19,6 @@ namespace gamo
         unsigned int _render_level = 0;
         bool _visiable = true;
 
-        EventHandle _renderer_event_handle;
-
     public:
         Renderer(Actor *actor) : Characteristic(actor) {}
 
@@ -46,9 +44,7 @@ namespace gamo
         /// @brief render area is an aabb rect area that encloses the sprite
         FRect RenderArea();
 
-        void CameraDetectListener(Event *e);
-        void RegisterCameraDetectEvent();
-        void UnregisterCameraDetectEvent();
+        EVENT_DECALRE(Renderer, HandleCameraDetect, EVENT_CAMERA_DETECT);
 
         std::string Type() { return std::string("Renderer"); }
 
