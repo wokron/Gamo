@@ -13,8 +13,8 @@ namespace gamo
 
         Transform *transform = GetTransform();
 
-        auto scale = transform->Scale();
-        int r = _target_sprite->Render(position, transform->Rotate(), &scale, &_color_config, window_pixel_per_unit);
+        auto scale = transform->GlobalScale();
+        int r = _target_sprite->Render(position, transform->GlobalRotate(), &scale, &_color_config, window_pixel_per_unit);
         if (r < 0)
         {
             return r;
@@ -39,10 +39,10 @@ namespace gamo
             {sprite_width - pivot_w, -(sprite_height - pivot_h)}, // right-bottom
         };
 
-        auto pos = transform->Position();
+        auto pos = transform->GlobalPosition();
         for (int i = 0; i < 4; i++)
         {
-            corners[i] = DoRotate(DoScale(corners[i], transform->Scale()), transform->Rotate());
+            corners[i] = DoRotate(DoScale(corners[i], transform->GlobalScale()), transform->GlobalRotate());
             corners[i] = {pos.x + corners[i].x, pos.y + corners[i].y};
         }
 

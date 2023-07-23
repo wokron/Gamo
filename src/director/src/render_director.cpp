@@ -48,8 +48,8 @@ namespace gamo
 
         _wppu = win_height / (2 * h_size);
 
-        auto render_pos = renderer->GetTransform()->Position();
-        auto camera_pos = camera->GetTransform()->Position();
+        auto render_pos = renderer->GetTransform()->GlobalPosition();
+        auto camera_pos = camera->GetTransform()->GlobalPosition();
 
         // from world coordinate to window coordinate, y axies need to reverse.
         _position = {w_size + (render_pos.x - camera_pos.x), h_size - (render_pos.y - camera_pos.y)};

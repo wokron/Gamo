@@ -20,11 +20,11 @@ namespace gamo
 
         float half_height = _camera_size;
         float half_width = half_height / win_height * win_width;
-        auto transform = GetTransform();
+        auto pos = GetTransform()->GlobalPosition();
 
         FRect view = {
-            transform->Position().x - half_width,
-            transform->Position().y - half_height,
+            pos.x - half_width,
+            pos.y - half_height,
             2 * half_width,
             2 * half_height};
         return view;

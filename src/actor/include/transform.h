@@ -28,6 +28,10 @@ namespace gamo
         FVect Scale() { return _scale; }
         void Scale(FVect scale) { _scale = scale; }
 
+        FPoint GlobalPosition();
+        float GlobalRotate();
+        FPoint GlobalScale();
+
         std::string Type() { return std::string("Transform"); }
     };
 } // namespace gamo

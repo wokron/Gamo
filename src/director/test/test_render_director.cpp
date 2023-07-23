@@ -170,7 +170,9 @@ TEST(TestRenderDirector, test_sub_actor)
 
     for (float i = -2; i < 3; i += 0.2)
     {
-        actor1->GetTransform()->Position({-i / 2, i});
+        actor1->GetTransform()->Rotate(-5 * i * 3.14);
+        actor1->GetTransform()->Scale({(i + 3) / 2, 1});
+        actor1->GetTransform()->Position({-i / 3, i / 2});
         scene->RenderStep();
         // rd->DetectRenderer(actor_list);
         // rd->Render();
