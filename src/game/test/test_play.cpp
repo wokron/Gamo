@@ -171,6 +171,7 @@ public:
     bool start = false;
     void OnStart()
     {
+        ASSERT_FALSE(start);
         start = true;
     }
     
@@ -203,6 +204,7 @@ public:
     bool start = false;
     void OnStart()
     {
+        ASSERT_FALSE(start);
         start = true;
     }
 
