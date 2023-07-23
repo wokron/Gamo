@@ -12,7 +12,7 @@ namespace gamo
         Behavior(Actor *actor) : Characteristic(actor) {}
         ~Behavior() { OnDestroy(); }
 
-        EVENT_DECALRE(Behavior, HandleOnStart, EVENT_ON_START) { OnStart(); }
+        EVENT_DECALRE(Behavior, HandleOnStart, EVENT_ON_START) { OnStart(); UnregisterHandleOnStart(); }
         EVENT_DECALRE(Behavior, HandleOnUpdate, EVENT_ON_UPDATE) { OnUpdate(); }
         EVENT_DECALRE(Behavior, HandleOnLateUpdate, EVENT_ON_LATE_UPDATE) { OnLateUpdate(); }
 

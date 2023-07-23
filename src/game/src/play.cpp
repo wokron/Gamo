@@ -51,6 +51,8 @@ namespace gamo
         {
             auto target_ms = SDL_GetTicks64() + 1000u / _target_frame_rate;
 
+            EventDispatcher::GetInstance()->Dispatch(EVENT_ON_START, nullptr); // on start will be unregistered after called, so this is not a bug
+
             cur_scene->PhysicsStep();
 
             cur_scene->LogicStep();
@@ -120,7 +122,6 @@ namespace gamo
             if (scene != nullptr)
             {
                 scene->RegisterSystemEvents();
-                EventDispatcher::GetInstance()->Dispatch(EVENT_ON_START, nullptr);
             }
         }
         return scene;
