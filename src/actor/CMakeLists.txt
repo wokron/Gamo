@@ -10,7 +10,7 @@ target_include_directories(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME}
-    utils render event director
+    render event director physics utils game
 )
 
 # for test
@@ -25,3 +25,7 @@ add_test(NAME test_characteristic COMMAND test_characteristic)
 add_executable(test_behavior test/test_behavior.cpp)
 target_link_libraries(test_behavior gtest gtest_main SDL2 SDL2_image actor event)
 add_test(NAME test_behavior COMMAND test_behavior)
+
+add_executable(test_physics test/test_physics.cpp)
+target_link_libraries(test_physics gtest gtest_main SDL2 SDL2_image actor event game input)
+add_test(NAME test_physics COMMAND test_physics)
