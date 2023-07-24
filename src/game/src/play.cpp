@@ -4,6 +4,7 @@
 #include "scene.h"
 #include "spdlog/spdlog.h"
 #include "event.h"
+#include "input.h"
 #include <string>
 #include <algorithm>
 
@@ -51,9 +52,10 @@ namespace gamo
         {
             auto target_ms = SDL_GetTicks64() + 1000u / _target_frame_rate;
 
-            EventDispatcher::GetInstance()->Dispatch(EVENT_ON_START, nullptr); // on start will be unregistered after called, so this is not a bug
+            // init event will be unregistered after the first call, so this is not a bug
+            cur_scene->ApplyInit();
 
-            cur_scene->PhysicsStep();
+            cur_scene->PhysicsStep(_target_frame_rate);
 
             cur_scene->LogicStep();
 

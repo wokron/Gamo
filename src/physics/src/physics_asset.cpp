@@ -2,5 +2,5 @@
 
 namespace gamo
 {
-    PhysicsAsset *PhysicsAsset::_instance = nullptr; // init static member
+    PhysicsConfig *PhysicsConfig::_instance = nullptr; // init static member
 } // namespace gamo

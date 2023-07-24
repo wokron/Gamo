@@ -112,7 +112,7 @@ TEST(TestPhysics, test_simple)
     groundcollider->RegisterHandleBeforeStep();
     camera->RegisterHandleRender();
 
-    b2World world(PhysicsAsset::GetInstance()->Gravity());
+    b2World world(PhysicsConfig::GetInstance()->Gravity());
 
     RigidBodyEvent e(&world);
 

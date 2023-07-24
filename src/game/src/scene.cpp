@@ -9,15 +9,28 @@ namespace gamo
         _actors.push_back(actor);
     }
 
+    void Scene::ApplyInit()
+    {
+        EventDispatcher::GetInstance()->Dispatch(EVENT_ON_START, nullptr);
+        RigidBodyEvent e(&_physics_world);
+        EventDispatcher::GetInstance()->Dispatch(&e); // init rigidbody
+        EventDispatcher::GetInstance()->Dispatch(EVENT_COLLIDER_INIT, nullptr); // collider must initialed after rigidbody
+    }
+
     int Scene::RenderStep()
     {
         EventDispatcher::GetInstance()->Dispatch(EVENT_RENDER, nullptr);
         return RenderDirector::GetInstance()->Render();
     }
 
-    void Scene::PhysicsStep()
+    void Scene::PhysicsStep(unsigned int frames)
     {
-        // todo: need to implement
+        EventDispatcher::GetInstance()->Dispatch(EVENT_PHYSICS_BEFORE_STEP, nullptr);
+
+        auto config = PhysicsConfig::GetInstance();
+        _physics_world.Step(1.0f / frames, config->VelocityIter(), config->PositionIter()); // do physics simulation
+
+        EventDispatcher::GetInstance()->Dispatch(EVENT_PHYSICS_AFTER_STEP, nullptr);
     }
 
     void Scene::LogicStep()

@@ -12,17 +12,21 @@ namespace gamo
     {
     private:
         std::vector<Actor *> _actors = std::vector<Actor *>();
-        PhysicsWorld _physics_world = PhysicsWorld(PhysicsAsset::GetInstance()->Gravity());
+        PhysicsWorld _physics_world = PhysicsWorld(PhysicsConfig::GetInstance()->Gravity());
 
     public:
         void AddActor(Actor *actor);
+
+        /// @brief apply init events
+        void ApplyInit();
 
         /// @brief redraw the scene
         /// @return 0 on success, < 0 on fail
         int RenderStep();
 
         /// @brief do physical simulation in the scene
-        void PhysicsStep();
+        /// @param frames frames per second
+        void PhysicsStep(unsigned int frames);
 
         /// @brief handle game logic
         void LogicStep();
