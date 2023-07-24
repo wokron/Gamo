@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "physics.h"
 
 namespace gamo
 {
@@ -11,6 +12,7 @@ namespace gamo
     {
     private:
         std::vector<Actor *> _actors = std::vector<Actor *>();
+        PhysicsWorld _physics_world = PhysicsWorld(PhysicsAsset::GetInstance()->Gravity());
 
     public:
         void AddActor(Actor *actor);

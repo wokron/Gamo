@@ -5,3 +5,5 @@
 #include "renderer.h"
 #include "camera.h"
 #include "behavior.h"
+#include "rigidbody.h"
+#include "collider.h"
