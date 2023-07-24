@@ -52,6 +52,8 @@ namespace gamo
         {
             auto target_ms = SDL_GetTicks64() + 1000u / _target_frame_rate;
 
+            Input::GetInstance()->UpdateInputStates();
+
             // init event will be unregistered after the first call, so this is not a bug
             cur_scene->ApplyInit();
 
