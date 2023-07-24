@@ -23,6 +23,9 @@ namespace gamo
         EVENT_DECALRE(RigidBody, HandleBeforeStep, EVENT_PHYSICS_BEFORE_STEP);
         EVENT_DECALRE(RigidBody, HandleAfterStep, EVENT_PHYSICS_AFTER_STEP);
 
+        void RegisterEvents() override { RegisterHandleInit(); RegisterHandleBeforeStep(); RegisterHandleAfterStep(); }
+        void UnregisterEvents() override { UnregisterHandleInit(); UnregisterHandleBeforeStep(); UnregisterHandleAfterStep(); }
+
         std::string Type() override { return std::string("RigidBody"); }
     };
 

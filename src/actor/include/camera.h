@@ -34,6 +34,9 @@ namespace gamo
 
         EVENT_DECALRE(Camera, HandleRender, EVENT_RENDER);
 
+        void RegisterEvents() override { RegisterHandleRender(); }
+        void UnregisterEvents() override { UnregisterHandleRender(); }
+
         std::string Type() { return std::string("Camera"); }
     };
 } // namespace gamo

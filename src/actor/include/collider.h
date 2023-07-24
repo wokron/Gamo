@@ -21,6 +21,9 @@ namespace gamo
         EVENT_DECALRE(Collider, HandleInit, EVENT_COLLIDER_INIT);
         EVENT_DECALRE(Collider, HandleBeforeStep, EVENT_PHYSICS_BEFORE_STEP);
 
+        void RegisterEvents() override { RegisterHandleInit(); RegisterHandleBeforeStep(); }
+        void UnregisterEvents() override { UnregisterHandleInit(); UnregisterHandleBeforeStep(); }
+
         std::string Type() override { return std::string("Collider"); }
     };
 

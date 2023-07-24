@@ -46,6 +46,9 @@ namespace gamo
 
         EVENT_DECALRE(Renderer, HandleCameraDetect, EVENT_CAMERA_DETECT);
 
+        void RegisterEvents() override { RegisterHandleCameraDetect(); }
+        void UnregisterEvents() override { UnregisterHandleCameraDetect(); }
+
         std::string Type() { return std::string("Renderer"); }
 
     private:

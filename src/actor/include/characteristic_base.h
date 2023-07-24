@@ -22,6 +22,12 @@ namespace gamo
 
         Transform *GetTransform();
 
+        /// @brief register events in characteristic
+        virtual void RegisterEvents() {}
+
+        /// @brief unregister events in characteristic
+        virtual void UnregisterEvents() {}
+
         /// @brief get the type of the characteristic,
         /// this is used to solve the problem that there is no method like "instanceof" in c++
         /// @return the type of characteristic
