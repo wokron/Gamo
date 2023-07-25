@@ -42,7 +42,7 @@ TEST(TestSprite, sprite_clip)
     w = h = 100;
     int ph = texture->PixelHeight(), pw = texture->PixelWidth();
 
-    SDL_Rect cliprect = {pw / 2 - w / 2, ph / 2 - h / 2, w, h};
+    Rect cliprect = IRect{pw / 2 - w / 2, ph / 2 - h / 2, w, h};
     auto sprite = texture->ClipAndCreateSprite(&cliprect);
     ASSERT_NE(sprite, nullptr);
 
@@ -81,7 +81,7 @@ TEST(TestSprite, sprite_render)
     w = h = 100;
     int ph = texture->PixelHeight(), pw = texture->PixelWidth();
 
-    SDL_Rect cliprect = {pw / 2 - w / 2, ph / 2 - h / 2, w, h};
+    Rect cliprect = IRect{pw / 2 - w / 2, ph / 2 - h / 2, w, h};
     Sprite *s = texture->ClipAndCreateSprite(&cliprect);
     ASSERT_NE(s, nullptr);
 
@@ -171,7 +171,7 @@ TEST(TestSprite, sprite_render_color)
     w = h = 100;
     int ph = texture->PixelHeight(), pw = texture->PixelWidth();
 
-    SDL_Rect cliprect = {pw / 2 - w / 2, ph / 2 - h / 2, w, h};
+    Rect cliprect = IRect{pw / 2 - w / 2, ph / 2 - h / 2, w, h};
     Sprite *s = texture->ClipAndCreateSprite(&cliprect);
     ASSERT_NE(s, nullptr);
 
@@ -227,7 +227,7 @@ TEST(TestSprite, sprite_render_strong)
     w = h = 100;
     int ph = texture->PixelHeight(), pw = texture->PixelWidth();
 
-    SDL_Rect cliprect = {pw / 2 - w / 2, ph / 2 - h / 2, w, h};
+    Rect cliprect = IRect{pw / 2 - w / 2, ph / 2 - h / 2, w, h};
     Sprite *s = texture->ClipAndCreateSprite(&cliprect);
     ASSERT_NE(s, nullptr);
 
@@ -269,7 +269,7 @@ TEST(TestSprite, render_animation)
 
     for (int i = 0; i < 4; i++)
     {
-        SDL_Rect cliprect = {w * i, 0, w, h};
+        Rect cliprect = IRect{w * i, 0, w, h};
         sprites[i] = texture->ClipAndCreateSprite(&cliprect);
     }
 

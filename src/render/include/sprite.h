@@ -33,12 +33,12 @@ namespace gamo
     {
     private:
         Texture *_target_texture;
-        SDL_Rect _sprite_clip;
+        Rect _sprite_clip;
         Vect _pivot; // the unit of the _pivot is the ratio of the position of the pivot to the length or width of texture
     
     public:
-        SDL_Rect SpriteClip() { return _sprite_clip; }
-        void SpriteClip(SDL_Rect sprite_clip) { _sprite_clip = sprite_clip; }
+        Rect SpriteClip() { return _sprite_clip; }
+        void SpriteClip(Rect sprite_clip) { _sprite_clip = sprite_clip; }
         
         Vect Pivot() { return _pivot; }
         void Pivot(Vect pivot) { _pivot = pivot; }
@@ -49,7 +49,7 @@ namespace gamo
         /// @brief create a sprite, setting the pivot to the center of the sprite as default (unit is *Pixel*)
         /// @param target_texture the target texture to clip
         /// @param cliprect the clip area
-        SingleSprite(Texture *target_texture, SDL_Rect *cliprect);
+        SingleSprite(Texture *target_texture, Rect *cliprect);
 
         int Render(Vect *position, float rotate, Vect *scale, ColorAlpha *coloralpha, float window_pixel_per_unit);
 

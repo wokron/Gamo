@@ -2,7 +2,7 @@
 
 namespace gamo
 {
-    SingleSprite::SingleSprite(Texture *target_texture, SDL_Rect *cliprect)
+    SingleSprite::SingleSprite(Texture *target_texture, Rect *cliprect)
     {
         _target_texture = target_texture;
         _sprite_clip = *cliprect;

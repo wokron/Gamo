@@ -102,4 +102,14 @@ namespace gamo
         }
     };
 
+    struct IRect
+    {
+        int x, y, w, h;
+
+        operator Rect()
+        {
+            return {(float)x, (float)y, (float)w, (float)h};
+        }
+    };
+
 } // namespace gamo

@@ -140,7 +140,7 @@ TEST(TestTexture, set_color_alpha)
     Destroy();
 }
 
-void RenderFrame(Texture *texture, SDL_Rect *srcrect, Rect *dstrect, float angle, Vect *center, Vect *flip)
+void RenderFrame(Texture *texture, Rect *srcrect, Rect *dstrect, float angle, Vect *center, Vect *flip)
 {
     SDL_RenderClear(g_renderer);
 
@@ -173,11 +173,11 @@ TEST(TestTexture, texture_render)
     RenderFrame(texture, nullptr, &dstrect2, 0, nullptr, &flip1);
 
     // texture top-left to window center
-    SDL_Rect srcrect1 = {0, 0, texture->PixelWidth() / 2, texture->PixelHeight() / 2};
+    Rect srcrect1 = IRect{0, 0, texture->PixelWidth() / 2, texture->PixelHeight() / 2};
     RenderFrame(texture, &srcrect1, &dstrect2, 0, nullptr, nullptr);
 
     // texture left half
-    SDL_Rect srcrect2 = {0, 0, texture->PixelWidth() / 2, texture->PixelHeight()};
+    Rect srcrect2 = IRect{0, 0, texture->PixelWidth() / 2, texture->PixelHeight()};
     Rect dstrect3 = {200, 100, (float)texture->PixelWidth() / 2, (float)texture->PixelHeight()};
     RenderFrame(texture, &srcrect2, &dstrect2, 0, nullptr, nullptr);
 
