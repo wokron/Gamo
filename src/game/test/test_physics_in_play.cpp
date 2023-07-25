@@ -5,6 +5,7 @@
 #include "actor.h"
 #include "SDL2/SDL_image.h"
 #include "input.h"
+#include <set>
 
 const char *SOURCE_PATH = "/home/wokron/Code/Projects/Gamo/src/render/test/example.jpeg";
 
@@ -47,6 +48,30 @@ public:
     }
 };
 
+class CollisionBehavior : public Behavior
+{
+public:
+    CollisionBehavior(Actor *actor) : Behavior(actor) {}
+
+    bool triggered_begin = false;
+    bool triggered_end = false;
+    std::set<Collider *> colliding;
+    void OnCollisionBegin(Collider *other)
+    {
+        triggered_begin = true;
+        SDL_SetRenderDrawColor(RenderAsset::GetInstance()->Renderer(), 255, 0, 0, 255);
+        colliding.insert(other);
+        ASSERT_TRUE(colliding.count(other) > 0);
+    }
+
+    void OnCollisionEnd(Collider *other)
+    {
+        triggered_end = true;
+        ASSERT_TRUE(colliding.count(other) > 0);
+        colliding.erase(other);
+    }
+};
+
 TEST(TestPlay, test_physics)
 {
     auto play = Play::GetInstance();
@@ -83,6 +108,9 @@ TEST(TestPlay, test_physics)
     collider->Define().restitution = 0.2f;
     actor->GetCharacteristics().push_back(collider);
     SDL_SetRenderDrawColor(RenderAsset::GetInstance()->Renderer(), 255, 255, 255, 255);
+    // add collition detect behavior
+    auto b = new CollisionBehavior(actor);
+    actor->GetCharacteristics().push_back(b);
 
     auto actor2 = new Actor({0.5, 3}, 10, {1, 0.5});
     actor2->Layer(LAYER(0));
@@ -128,6 +156,9 @@ TEST(TestPlay, test_physics)
     play->PushScene(scene);
 
     play->Perform();
+
+    ASSERT_TRUE(b->triggered_begin);
+    ASSERT_TRUE(b->triggered_end);
 
     play->Destroy();
 }
