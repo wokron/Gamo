@@ -5,6 +5,8 @@
 
 namespace gamo
 {
+    class Collider;
+    
     class Behavior : public Characteristic
     {
     private:
@@ -23,6 +25,9 @@ namespace gamo
         virtual void OnUpdate() {}
         virtual void OnLateUpdate() {}
         virtual void OnDestroy() {}
+
+        virtual void OnCollisionBegin(Collider *other) {}
+        virtual void OnCollisionEnd(Collider *other) {}
 
         std::string Type() { return std::string("Behavior"); }
     };

@@ -14,7 +14,6 @@ namespace gamo
 
     public:
         Collider(Actor *actor) : Characteristic(actor) {}
-        ~Collider();
         FixtureDef &Define() { return _fixturedef; }
         b2Fixture *Fixture() { return _fixture; }
 
@@ -23,6 +22,9 @@ namespace gamo
 
         void RegisterEvents() override { RegisterHandleInit(); RegisterHandleBeforeStep(); }
         void UnregisterEvents() override { UnregisterHandleInit(); UnregisterHandleBeforeStep(); }
+
+        void DispatchCollisionBegin(std::vector<Collider *> &others);
+        void DispatchCollisionEnd(std::vector<Collider *> &others);
 
         std::string Type() override { return std::string("Collider"); }
     };

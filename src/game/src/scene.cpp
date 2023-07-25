@@ -4,6 +4,11 @@
 
 namespace gamo
 {
+    Scene::Scene()
+    {
+        _physics_world.SetContactListener(&_contact_listener);
+    }
+
     void Scene::AddActor(Actor *actor)
     {
         _actors.push_back(actor);
@@ -31,6 +36,18 @@ namespace gamo
         _physics_world.Step(1.0f / frames, config->VelocityIter(), config->PositionIter()); // do physics simulation
 
         EventDispatcher::GetInstance()->Dispatch(EVENT_PHYSICS_AFTER_STEP, nullptr);
+
+        // now dispatch collision events
+        for (auto& pair : _contact_listener.BeginContactBuffer())
+        {
+            pair.first->DispatchCollisionBegin(pair.second);
+            assert(pair.second.empty());
+        }
+        for (auto& pair : _contact_listener.EndContactBuffer())
+        {
+            pair.first->DispatchCollisionEnd(pair.second);
+            assert(pair.second.empty());
+        }
     }
 
     void Scene::LogicStep()

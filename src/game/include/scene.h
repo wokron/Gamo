@@ -13,8 +13,11 @@ namespace gamo
     private:
         std::vector<Actor *> _actors = std::vector<Actor *>();
         PhysicsWorld _physics_world = PhysicsWorld(PhysicsConfig::GetInstance()->Gravity());
+        ContactListener _contact_listener;
 
     public:
+        Scene();
+        
         void AddActor(Actor *actor);
 
         /// @brief apply init events
