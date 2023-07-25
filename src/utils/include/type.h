@@ -42,12 +42,12 @@ namespace gamo
             return {x / k, y / k};
         }
 
-        SDL_FPoint ToSDL()
+        operator SDL_FPoint()
         {
             return {x, y};
         }
 
-        b2Vec2 ToBox2d()
+        operator b2Vec2()
         {
             return {x, y};
         }
@@ -89,17 +89,16 @@ namespace gamo
 
     struct Rect
     {
-        Vect xy;
-        Vect wh;
+        float x, y, w, h;
 
-        SDL_FRect ToSDL_F()
+        operator SDL_FRect()
         {
-            return {xy.x, xy.y, wh.x, wh.y};
+            return {x, y, w, h};
         }
 
-        SDL_Rect ToSDL()
+        operator SDL_Rect()
         {
-            return {(int)roundf(xy.x), (int)roundf(xy.y), (int)roundf(wh.x), (int)roundf(wh.y)};
+            return {(int)roundf(x), (int)roundf(y), (int)roundf(w), (int)roundf(h)};
         }
     };
 

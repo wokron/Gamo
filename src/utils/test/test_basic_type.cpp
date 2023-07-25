@@ -29,14 +29,6 @@ TEST(TestType, test_vector)
     auto v7 = v6 / -18;
     ASSERT_FLOAT_EQ(v7.x, 1);
     ASSERT_FLOAT_EQ(v7.y, 1);
-
-    auto sdl = v7.ToSDL();
-    ASSERT_FLOAT_EQ(sdl.x, 1);
-    ASSERT_FLOAT_EQ(sdl.y, 1);
-
-    auto b2 = v7.ToBox2d();
-    ASSERT_FLOAT_EQ(b2.x, 1);
-    ASSERT_FLOAT_EQ(b2.y, 1);
 }
 
 TEST(TestType, test_matrix)
@@ -84,20 +76,34 @@ TEST(TestType, test_matrix)
 TEST(TestType, test_rect)
 {
     Rect r1{1, 2, 3, 4};
-    ASSERT_FLOAT_EQ(r1.xy.x, 1);
-    ASSERT_FLOAT_EQ(r1.xy.y, 2);
-    ASSERT_FLOAT_EQ(r1.wh.x, 3);
-    ASSERT_FLOAT_EQ(r1.wh.y, 4);
+    ASSERT_FLOAT_EQ(r1.x, 1);
+    ASSERT_FLOAT_EQ(r1.y, 2);
+    ASSERT_FLOAT_EQ(r1.w, 3);
+    ASSERT_FLOAT_EQ(r1.h, 4);
+}
 
-    auto i = r1.ToSDL();
-    ASSERT_EQ(i.x, 1);
-    ASSERT_EQ(i.y, 2);
-    ASSERT_EQ(i.w, 3);
-    ASSERT_EQ(i.h, 4);
+TEST(TestType, test_cast)
+{
+    Vect v1{1, 1};
 
-    auto f = r1.ToSDL_F();
-    ASSERT_FLOAT_EQ(f.x, 1);
-    ASSERT_FLOAT_EQ(f.y, 2);
-    ASSERT_FLOAT_EQ(f.w, 3);
-    ASSERT_FLOAT_EQ(f.h, 4);
+    SDL_FPoint p = v1;
+    ASSERT_FLOAT_EQ(p.x, v1.x);
+    ASSERT_FLOAT_EQ(p.y, v1.y);
+
+    b2Vec2 q = v1;
+    ASSERT_FLOAT_EQ(q.x, v1.x);
+    ASSERT_FLOAT_EQ(q.y, v1.y);
+
+    Rect r1{1, 2, 3, 4};
+    SDL_FRect r2 = r1;
+    ASSERT_FLOAT_EQ(r2.x, 1);
+    ASSERT_FLOAT_EQ(r2.y, 2);
+    ASSERT_FLOAT_EQ(r2.w, 3);
+    ASSERT_FLOAT_EQ(r2.h, 4);
+
+    SDL_Rect r3 = r1;
+    ASSERT_EQ(r3.x, 1);
+    ASSERT_EQ(r3.y, 2);
+    ASSERT_EQ(r3.w, 3);
+    ASSERT_EQ(r3.h, 4);
 }
