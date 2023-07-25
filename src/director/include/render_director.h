@@ -54,7 +54,7 @@ namespace gamo
     {
     private:
         Renderer *_renderer;
-        SDL_FPoint _position;
+        Vect _position;
         float _wppu;
         unsigned long long _order;
 

@@ -86,7 +86,7 @@ TEST(TestType, test_cast)
 {
     Vect v1{1, 1};
 
-    SDL_FPoint p = v1;
+    Vect p = v1;
     ASSERT_FLOAT_EQ(p.x, v1.x);
     ASSERT_FLOAT_EQ(p.y, v1.y);
 

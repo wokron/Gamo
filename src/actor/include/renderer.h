@@ -39,7 +39,7 @@ namespace gamo
         /// note that this should be the relative position with camera, differ from the position of the actor
         /// @param window_pixel_per_unit relation between window's *Pixel* and *Unit*, this is for camera
         /// @return 0 on success, or < 0 on faliure
-        int Render(SDL_FPoint *position, float window_pixel_per_unit);
+        int Render(Vect *position, float window_pixel_per_unit);
 
         /// @brief render area is an aabb rect area that encloses the sprite
         SDL_FRect RenderArea();
@@ -52,8 +52,8 @@ namespace gamo
         std::string Type() { return std::string("Renderer"); }
 
     private:
-        SDL_FPoint DoRotate(SDL_FPoint vect, float angle);
-        SDL_FPoint DoScale(SDL_FPoint vect, SDL_FPoint scale);
+        Vect DoRotate(Vect vect, float angle);
+        Vect DoScale(Vect vect, Vect scale);
     };
 
     class RendererEvent : public Event

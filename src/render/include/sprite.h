@@ -18,7 +18,7 @@ namespace gamo
         /// @param window_pixel_per_unit relation between window's *Pixel* and *Unit*, this is for camera setting
         /// @return 0 on success, or < 0 on faliure
         /// @return 
-        virtual int Render(SDL_FPoint *position, float rotate, SDL_FPoint *scale, ColorAlpha *coloralpha, float window_pixel_per_unit) = 0;
+        virtual int Render(Vect *position, float rotate, Vect *scale, ColorAlpha *coloralpha, float window_pixel_per_unit) = 0;
 
         /// @brief the width of the sprite, the unit is *Unit*
         virtual float UnitWidth() = 0;
@@ -26,7 +26,7 @@ namespace gamo
         /// @brief the height of the sprite, the unit is *Unit*
         virtual float UnitHeight() = 0;
 
-        virtual SDL_FPoint Pivot() = 0;
+        virtual Vect Pivot() = 0;
     };
 
     class SingleSprite : public Sprite
@@ -34,14 +34,14 @@ namespace gamo
     private:
         Texture *_target_texture;
         SDL_Rect _sprite_clip;
-        SDL_FPoint _pivot; // the unit of the _pivot is the ratio of the position of the pivot to the length or width of texture
+        Vect _pivot; // the unit of the _pivot is the ratio of the position of the pivot to the length or width of texture
     
     public:
         SDL_Rect SpriteClip() { return _sprite_clip; }
         void SpriteClip(SDL_Rect sprite_clip) { _sprite_clip = sprite_clip; }
         
-        SDL_FPoint Pivot() { return _pivot; }
-        void Pivot(SDL_FPoint pivot) { _pivot = pivot; }
+        Vect Pivot() { return _pivot; }
+        void Pivot(Vect pivot) { _pivot = pivot; }
 
         float UnitWidth();
         float UnitHeight();
@@ -51,10 +51,10 @@ namespace gamo
         /// @param cliprect the clip area
         SingleSprite(Texture *target_texture, SDL_Rect *cliprect);
 
-        int Render(SDL_FPoint *position, float rotate, SDL_FPoint *scale, ColorAlpha *coloralpha, float window_pixel_per_unit);
+        int Render(Vect *position, float rotate, Vect *scale, ColorAlpha *coloralpha, float window_pixel_per_unit);
 
     private:
-        void DoScale(SDL_FPoint *scale, float &unit_left_pad, float &unit_top_pad, float &unit_right_pad, float &unit_bottom_pad);
+        void DoScale(Vect *scale, float &unit_left_pad, float &unit_top_pad, float &unit_right_pad, float &unit_bottom_pad);
     };
 
     class AnimateSprite : public Sprite
@@ -66,7 +66,7 @@ namespace gamo
         float UnitWidth();
         float UnitHeight();
 
-        SDL_FPoint Pivot();
+        Vect Pivot();
 
         /// @brief add a sprite as a frame
         /// @param sprite the sprite as frame image
@@ -77,6 +77,6 @@ namespace gamo
         /// @param sprite the sprite as frame image
         void AddFrame(uint continue_frames, SingleSprite *sprite);
         
-        int Render(SDL_FPoint *position, float rotate, SDL_FPoint *scale, ColorAlpha *coloralpha, float window_pixel_per_unit);
+        int Render(Vect *position, float rotate, Vect *scale, ColorAlpha *coloralpha, float window_pixel_per_unit);
     };
 } // namespace gamo

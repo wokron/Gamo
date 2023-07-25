@@ -3,7 +3,7 @@
 
 namespace gamo
 {
-    SDL_FPoint Transform::GlobalPosition()
+    Vect Transform::GlobalPosition()
     {
         auto sup_actor = BelongActor()->SupActor();
         if (sup_actor == nullptr)
@@ -36,7 +36,7 @@ namespace gamo
         }
     }
 
-    SDL_FPoint Transform::GlobalScale()
+    Vect Transform::GlobalScale()
     {
         auto sup_actor = BelongActor()->SupActor();
         if (sup_actor == nullptr)

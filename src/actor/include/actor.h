@@ -35,7 +35,7 @@ namespace gamo
         unsigned int Layer() { return _layer; }
         void Layer(unsigned int layer) { _layer = layer; }
 
-        Actor(SDL_FPoint position, float rotate, SDL_FPoint scale);
+        Actor(Vect position, float rotate, Vect scale);
         ~Actor();
 
         /// @brief get characteristic by type, 
@@ -63,9 +63,9 @@ namespace gamo
         /// @param rotate the rorate of the actor
         /// @param scale the scale of the actor
         /// @return the pointer to the new actor
-        Actor *CreateSubActor(SDL_FPoint position, float rotate, SDL_FPoint scale);
+        Actor *CreateSubActor(Vect position, float rotate, Vect scale);
 
     private:
-        Actor(Actor *sup_actor, SDL_FPoint position, float rotate, SDL_FPoint scale) : Actor(position, rotate, scale) { _sup_actor = sup_actor; }
+        Actor(Actor *sup_actor, Vect position, float rotate, Vect scale) : Actor(position, rotate, scale) { _sup_actor = sup_actor; }
     };
 } // namespace gamo

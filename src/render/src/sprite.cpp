@@ -21,7 +21,7 @@ namespace gamo
         return _sprite_clip.h / tppu;
     }
 
-    int SingleSprite::Render(SDL_FPoint *position, float rotate, SDL_FPoint *scale, ColorAlpha* coloralpha, float window_pixel_per_unit)
+    int SingleSprite::Render(Vect *position, float rotate, Vect *scale, ColorAlpha* coloralpha, float window_pixel_per_unit)
     {
         float tppu = _target_texture->PixelPerUnit();
         float wppu = window_pixel_per_unit;
@@ -45,7 +45,7 @@ namespace gamo
         float unit_h = unit_top_pad + unit_bottom_pad;
 
         SDL_FRect dstrect = {unit_x * wppu, unit_y * wppu, unit_w * wppu, unit_h * wppu};
-        SDL_FPoint center = {unit_left_pad * wppu, unit_top_pad * wppu};
+        Vect center = {unit_left_pad * wppu, unit_top_pad * wppu};
 
         int r;
         if ((r = _target_texture->SetColorAlpha(coloralpha)) < 0)
@@ -61,7 +61,7 @@ namespace gamo
         return 0;
     }
 
-    void inline SingleSprite::DoScale(SDL_FPoint *scale, float &unit_left_pad, float &unit_top_pad, float &unit_right_pad, float &unit_bottom_pad)
+    void inline SingleSprite::DoScale(Vect *scale, float &unit_left_pad, float &unit_top_pad, float &unit_right_pad, float &unit_bottom_pad)
     {
         if (scale == nullptr)
         {
@@ -103,7 +103,7 @@ namespace gamo
         return _sprite_frames[_current_frame]->UnitHeight();
     }
 
-    SDL_FPoint AnimateSprite::Pivot()
+    Vect AnimateSprite::Pivot()
     {
         return _sprite_frames[_current_frame]->Pivot();
     }
@@ -121,7 +121,7 @@ namespace gamo
         }
     }
 
-    int AnimateSprite::Render(SDL_FPoint *position, float rotate, SDL_FPoint *scale, ColorAlpha* coloralpha, float window_pixel_per_unit)
+    int AnimateSprite::Render(Vect *position, float rotate, Vect *scale, ColorAlpha* coloralpha, float window_pixel_per_unit)
     {
         int r = _sprite_frames[_current_frame]->Render(position, rotate, scale, coloralpha, window_pixel_per_unit);
         _current_frame = (_current_frame + 1) % _sprite_frames.size(); // the animation will loop after reaching the end, just like gif

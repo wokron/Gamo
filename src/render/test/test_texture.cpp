@@ -61,7 +61,7 @@ TEST(TestTexture, show_image)
     auto texture = Texture::LoadTexture(SOURCE_PATH, nullptr);
     ASSERT_NE(texture, nullptr);
 
-    SDL_FPoint flip = {1, 1};
+    Vect flip = {1, 1};
 
     int r = texture->Render(nullptr, nullptr, 0, nullptr, &flip);
     ASSERT_EQ(r, 0);
@@ -82,7 +82,7 @@ TEST(TestTexture, set_color_key)
     auto texture = Texture::LoadTexture(SOURCE_PATH, &colorkey);
     ASSERT_NE(texture, nullptr);
 
-    SDL_FPoint flip = {1, 1};
+    Vect flip = {1, 1};
 
     int r = texture->Render(nullptr, nullptr, 0, nullptr, &flip);
     ASSERT_EQ(r, 0);
@@ -103,7 +103,7 @@ TEST(TestTexture, set_color_alpha)
     auto texture = Texture::LoadTexture(SOURCE_PATH, nullptr);
     ASSERT_NE(texture, nullptr);
 
-    SDL_FPoint flip = {1, 1};
+    Vect flip = {1, 1};
 
     for (int i = 0; i <= 255; i += 50)
     {
@@ -140,7 +140,7 @@ TEST(TestTexture, set_color_alpha)
     Destroy();
 }
 
-void RenderFrame(Texture *texture, SDL_Rect *srcrect, SDL_FRect *dstrect, float angle, SDL_FPoint *center, SDL_FPoint *flip)
+void RenderFrame(Texture *texture, SDL_Rect *srcrect, SDL_FRect *dstrect, float angle, Vect *center, Vect *flip)
 {
     SDL_RenderClear(g_renderer);
 
@@ -159,7 +159,7 @@ TEST(TestTexture, texture_render)
     auto texture = Texture::LoadTexture(SOURCE_PATH, nullptr);
     ASSERT_NE(texture, nullptr);
 
-    SDL_FPoint flip1 = {1, 1};
+    Vect flip1 = {1, 1};
 
     // normal
     RenderFrame(texture, nullptr, nullptr, 0, nullptr, &flip1);
@@ -185,11 +185,11 @@ TEST(TestTexture, texture_render)
     RenderFrame(texture, &srcrect2, &dstrect2, 30, nullptr, nullptr);
 
     // corner rotate 30 degrees
-    SDL_FPoint center1 = {0, 0};
+    Vect center1 = {0, 0};
     RenderFrame(texture, &srcrect2, &dstrect2, 30, &center1, nullptr);
 
     // flip horizantial
-    SDL_FPoint flip2 = {-1, 1};
+    Vect flip2 = {-1, 1};
     RenderFrame(texture, &srcrect2, &dstrect2, 0, nullptr, &flip2);
 
     // center rotate 30 degrees, again

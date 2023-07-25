@@ -71,7 +71,7 @@ TEST(TestCharacteristic, test_render_basic)
         auto render_pos = renderer->GetTransform()->Position();
         auto camera_pos = camera->GetTransform()->Position();
         // from world coordinate to window coordinate, y axies need to reverse.
-        SDL_FPoint pos = {w_size + (render_pos.x - camera_pos.x), h_size - (render_pos.y - camera_pos.y)};
+        Vect pos = {w_size + (render_pos.x - camera_pos.x), h_size - (render_pos.y - camera_pos.y)};
         renderer->Render(&pos, wppu);
     };
 
@@ -102,7 +102,7 @@ void Render(Camera *camera, Renderer *renderer)
     auto render_pos = renderer->GetTransform()->Position();
     auto camera_pos = camera->GetTransform()->Position();
     // from world coordinate to window coordinate, y axies need to reverse.
-    SDL_FPoint pos = {w_size + (render_pos.x - camera_pos.x), h_size - (render_pos.y - camera_pos.y)};
+    Vect pos = {w_size + (render_pos.x - camera_pos.x), h_size - (render_pos.y - camera_pos.y)};
     renderer->Render(&pos, wppu);
 }
 
@@ -137,7 +137,7 @@ TEST(TestCharacteristic, test_camera)
         auto render_pos = renderer->GetTransform()->Position();
         auto camera_pos = camera->GetTransform()->Position();
         // from world coordinate to window coordinate, y axies need to reverse.
-        SDL_FPoint pos = {w_size + (render_pos.x - camera_pos.x), h_size - (render_pos.y - camera_pos.y)};
+        Vect pos = {w_size + (render_pos.x - camera_pos.x), h_size - (render_pos.y - camera_pos.y)};
         renderer->Render(&pos, wppu);
     };
 

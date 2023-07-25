@@ -3,7 +3,7 @@
 
 namespace gamo
 {
-    Actor::Actor(SDL_FPoint position, float rotate, SDL_FPoint scale)
+    Actor::Actor(Vect position, float rotate, Vect scale)
     {
         _transform = new Transform(this, position, rotate, scale);
         _characteristics.push_back(_transform);
@@ -78,7 +78,7 @@ namespace gamo
         }
     }
 
-    Actor *Actor::CreateSubActor(SDL_FPoint position, float rotate, SDL_FPoint scale)
+    Actor *Actor::CreateSubActor(Vect position, float rotate, Vect scale)
     {
         Actor *sub_actor = new Actor(this, position, rotate, scale);
         _sub_actors.push_back(sub_actor);
