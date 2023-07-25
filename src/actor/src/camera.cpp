@@ -11,7 +11,7 @@ namespace gamo
         EventDispatcher::GetInstance()->Dispatch(&camera_event);
     }
 
-    FRect Camera::View()
+    SDL_FRect Camera::View()
     {
         int win_width, win_height;
         auto window = RenderAsset::GetInstance()->Window();
@@ -22,7 +22,7 @@ namespace gamo
         float half_width = half_height / win_height * win_width;
         auto pos = GetTransform()->GlobalPosition();
 
-        FRect view = {
+        SDL_FRect view = {
             pos.x - half_width,
             pos.y - half_height,
             2 * half_width,

@@ -11,31 +11,31 @@ namespace gamo
     class Transform : public Characteristic
     {
     private:
-        FPoint _position;
+        SDL_FPoint _position;
         float _rotate;
-        FVect _scale;
+        SDL_FPoint _scale;
         bool _is_pos_rotate_modified = false;
         bool _is_scale_modified = true;
 
     public:
-        Transform(Actor *actor, FPoint position, float rotate, FVect scale)
+        Transform(Actor *actor, SDL_FPoint position, float rotate, SDL_FPoint scale)
             : Characteristic(actor), _position(position), _rotate(rotate), _scale(scale) {}
 
-        FPoint Position() { return _position; }
-        void Position(FPoint position) { _position = position; _is_pos_rotate_modified = true; }
+        SDL_FPoint Position() { return _position; }
+        void Position(SDL_FPoint position) { _position = position; _is_pos_rotate_modified = true; }
 
         float Rotate() { return _rotate; }
         void Rotate(float rotate) { _rotate = rotate; _is_pos_rotate_modified = true; }
 
-        FVect Scale() { return _scale; }
-        void Scale(FVect scale) { _scale = scale; _is_scale_modified = true; }
+        SDL_FPoint Scale() { return _scale; }
+        void Scale(SDL_FPoint scale) { _scale = scale; _is_scale_modified = true; }
 
         bool IsPositionOrRotateModified() { auto tmp = _is_pos_rotate_modified; _is_pos_rotate_modified = false; return tmp; }
         bool IsScaleModified() { auto tmp = _is_scale_modified; _is_scale_modified = false; return tmp; }
 
-        FPoint GlobalPosition();
+        SDL_FPoint GlobalPosition();
         float GlobalRotate();
-        FPoint GlobalScale();
+        SDL_FPoint GlobalScale();
 
         std::string Type() { return std::string("Transform"); }
     };

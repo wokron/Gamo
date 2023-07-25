@@ -13,7 +13,7 @@ namespace gamo
     {
     private:
         float _camera_size = 1.5; // means how many *Unit* from the center of the window to the top.
-        FRect _view;
+        SDL_FRect _view;
         unsigned int _depth = 0;  // define the render order of cameras
         unsigned int _layers = 0; // which layers the camera can see actors on
 
@@ -30,7 +30,7 @@ namespace gamo
         void Layers(unsigned int layers) { _layers = layers; }
 
         /// @brief view is a rect area that this camera can seen
-        FRect View();
+        SDL_FRect View();
 
         EVENT_DECALRE(Camera, HandleRender, EVENT_RENDER);
 

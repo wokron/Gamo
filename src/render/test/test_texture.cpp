@@ -61,7 +61,7 @@ TEST(TestTexture, show_image)
     auto texture = Texture::LoadTexture(SOURCE_PATH, nullptr);
     ASSERT_NE(texture, nullptr);
 
-    FVect flip = {1, 1};
+    SDL_FPoint flip = {1, 1};
 
     int r = texture->Render(nullptr, nullptr, 0, nullptr, &flip);
     ASSERT_EQ(r, 0);
@@ -82,7 +82,7 @@ TEST(TestTexture, set_color_key)
     auto texture = Texture::LoadTexture(SOURCE_PATH, &colorkey);
     ASSERT_NE(texture, nullptr);
 
-    FVect flip = {1, 1};
+    SDL_FPoint flip = {1, 1};
 
     int r = texture->Render(nullptr, nullptr, 0, nullptr, &flip);
     ASSERT_EQ(r, 0);
@@ -103,7 +103,7 @@ TEST(TestTexture, set_color_alpha)
     auto texture = Texture::LoadTexture(SOURCE_PATH, nullptr);
     ASSERT_NE(texture, nullptr);
 
-    FVect flip = {1, 1};
+    SDL_FPoint flip = {1, 1};
 
     for (int i = 0; i <= 255; i += 50)
     {
@@ -140,7 +140,7 @@ TEST(TestTexture, set_color_alpha)
     Destroy();
 }
 
-void RenderFrame(Texture *texture, Rect *srcrect, FRect *dstrect, float angle, FPoint *center, FVect *flip)
+void RenderFrame(Texture *texture, SDL_Rect *srcrect, SDL_FRect *dstrect, float angle, SDL_FPoint *center, SDL_FPoint *flip)
 {
     SDL_RenderClear(g_renderer);
 
@@ -159,37 +159,37 @@ TEST(TestTexture, texture_render)
     auto texture = Texture::LoadTexture(SOURCE_PATH, nullptr);
     ASSERT_NE(texture, nullptr);
 
-    FVect flip1 = {1, 1};
+    SDL_FPoint flip1 = {1, 1};
 
     // normal
     RenderFrame(texture, nullptr, nullptr, 0, nullptr, &flip1);
 
     // window right part
-    FRect dstrect1 = {400, 0, 400, 600};
+    SDL_FRect dstrect1 = {400, 0, 400, 600};
     RenderFrame(texture, nullptr, &dstrect1, 0, nullptr, &flip1);
 
     // window center
-    FRect dstrect2 = {300, 200, 200, 200};
+    SDL_FRect dstrect2 = {300, 200, 200, 200};
     RenderFrame(texture, nullptr, &dstrect2, 0, nullptr, &flip1);
 
     // texture top-left to window center
-    Rect srcrect1 = {0, 0, texture->PixelWidth() / 2, texture->PixelHeight() / 2};
+    SDL_Rect srcrect1 = {0, 0, texture->PixelWidth() / 2, texture->PixelHeight() / 2};
     RenderFrame(texture, &srcrect1, &dstrect2, 0, nullptr, nullptr);
 
     // texture left half
-    Rect srcrect2 = {0, 0, texture->PixelWidth() / 2, texture->PixelHeight()};
-    FRect dstrect3 = {200, 100, (float)texture->PixelWidth() / 2, (float)texture->PixelHeight()};
+    SDL_Rect srcrect2 = {0, 0, texture->PixelWidth() / 2, texture->PixelHeight()};
+    SDL_FRect dstrect3 = {200, 100, (float)texture->PixelWidth() / 2, (float)texture->PixelHeight()};
     RenderFrame(texture, &srcrect2, &dstrect2, 0, nullptr, nullptr);
 
     // center rotate 30 degrees
     RenderFrame(texture, &srcrect2, &dstrect2, 30, nullptr, nullptr);
 
     // corner rotate 30 degrees
-    FPoint center1 = {0, 0};
+    SDL_FPoint center1 = {0, 0};
     RenderFrame(texture, &srcrect2, &dstrect2, 30, &center1, nullptr);
 
     // flip horizantial
-    FVect flip2 = {-1, 1};
+    SDL_FPoint flip2 = {-1, 1};
     RenderFrame(texture, &srcrect2, &dstrect2, 0, nullptr, &flip2);
 
     // center rotate 30 degrees, again

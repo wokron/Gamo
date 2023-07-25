@@ -23,7 +23,7 @@ Sprite *GetAnimateSprite()
 
     for (int i = 0; i < 4; i++)
     {
-        Rect cliprect = {w * i, 0, w, h};
+        SDL_Rect cliprect = {w * i, 0, w, h};
         sprites[i] = texture->ClipAndCreateSprite(&cliprect);
     }
 

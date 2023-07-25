@@ -5,8 +5,8 @@ using namespace gamo;
 
 TEST(TestActor, create_actor)
 {
-    FPoint position = {0, 0};
-    FVect scale = {1, 1};
+    SDL_FPoint position = {0, 0};
+    SDL_FPoint scale = {1, 1};
     auto actor = new Actor({0, 0}, 0, {1, 1});
     ASSERT_NE(actor, nullptr);
     ASSERT_EQ(actor->SupActor(), nullptr);
@@ -18,8 +18,8 @@ TEST(TestActor, create_actor)
 
 TEST(TestActor, sub_actors)
 {
-    FPoint position = {0, 0};
-    FVect scale = {1, 1};
+    SDL_FPoint position = {0, 0};
+    SDL_FPoint scale = {1, 1};
     auto actor = new Actor({0, 0}, 0, {1, 1});
 
     Actor *subs[10];

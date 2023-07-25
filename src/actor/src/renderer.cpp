@@ -4,7 +4,7 @@
 
 namespace gamo
 {
-    int Renderer::Render(FPoint *position, float window_pixel_per_unit)
+    int Renderer::Render(SDL_FPoint *position, float window_pixel_per_unit)
     {
         if (_target_sprite == nullptr || !_visiable)
         {
@@ -23,16 +23,16 @@ namespace gamo
         return 0;
     }
 
-    FRect Renderer::RenderArea()
+    SDL_FRect Renderer::RenderArea()
     {
         float sprite_width = _target_sprite->UnitWidth();
         float sprite_height = _target_sprite->UnitHeight();
         auto transform = GetTransform();
-        FPoint pivot = _target_sprite->Pivot();
+        SDL_FPoint pivot = _target_sprite->Pivot();
         float pivot_w = pivot.x * sprite_width;
         float pivot_h = pivot.y * sprite_height;
 
-        FVect corners[4] = {
+        SDL_FPoint corners[4] = {
             {-pivot_w, pivot_h},                                  // left-top
             {sprite_width - pivot_w, pivot_h},                    // right-top
             {-pivot_w, -(sprite_height - pivot_h)},               // left-bottom
@@ -71,7 +71,7 @@ namespace gamo
         }
     }
 
-    FVect Renderer::DoRotate(FVect vect, float angle)
+    SDL_FPoint Renderer::DoRotate(SDL_FPoint vect, float angle)
     {
         float theta = angle * M_PI / 180;
         float x = vect.x * cosf(theta) - vect.y * sinf(theta);
@@ -79,7 +79,7 @@ namespace gamo
         return {x, y};
     }
 
-    FVect Renderer::DoScale(FVect vect, FVect scale)
+    SDL_FPoint Renderer::DoScale(SDL_FPoint vect, SDL_FPoint scale)
     {
         float x = vect.x * scale.x;
         float y = vect.y * scale.y;

@@ -38,7 +38,7 @@ Sprite *GetSprite()
     w = h = 100;
     int ph = texture->PixelHeight(), pw = texture->PixelWidth();
 
-    Rect cliprect = {pw / 2 - w / 2, ph / 2 - h / 2, w, h};
+    SDL_Rect cliprect = {pw / 2 - w / 2, ph / 2 - h / 2, w, h};
     auto sprite = texture->ClipAndCreateSprite(&cliprect);
 
     return sprite;

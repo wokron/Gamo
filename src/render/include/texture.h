@@ -59,7 +59,7 @@ namespace gamo
         /// (if NULL, rotation will be done around dstrect.w/2, dstrect.h/2), the unit is *Pixel*
         /// @param flip A pointer to a vector indicating the flip position 
         /// @return 0 on success and -1 on error
-        int Render(Rect *srcrect, FRect *dstrect, float angle, FPoint *center, FVect *flip);
+        int Render(SDL_Rect *srcrect, SDL_FRect *dstrect, float angle, SDL_FPoint *center, SDL_FPoint *flip);
 
         /// @brief set the rgb and alpha values of the texture, which can change the color and the transparency of the texture in render
         /// Post-condition: coloralpha is not null
@@ -72,6 +72,6 @@ namespace gamo
         /// or if the texture is actually loaded.
         /// @param cliprect the rect area to clip
         /// @return the sprite created
-        SingleSprite *ClipAndCreateSprite(Rect *cliprect);
+        SingleSprite *ClipAndCreateSprite(SDL_Rect *cliprect);
     };
 } // namespace gamo

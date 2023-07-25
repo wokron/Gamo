@@ -37,7 +37,7 @@ Sprite *GetSprite()
     w = h = 100;
     int ph = texture->PixelHeight(), pw = texture->PixelWidth();
 
-    Rect cliprect = {pw / 2 - w / 2, ph / 2 - h / 2, w, h};
+    SDL_Rect cliprect = {pw / 2 - w / 2, ph / 2 - h / 2, w, h};
     auto sprite = texture->ClipAndCreateSprite(&cliprect);
 
     return sprite;
@@ -71,7 +71,7 @@ TEST(TestCharacteristic, test_render_basic)
         auto render_pos = renderer->GetTransform()->Position();
         auto camera_pos = camera->GetTransform()->Position();
         // from world coordinate to window coordinate, y axies need to reverse.
-        FPoint pos = {w_size + (render_pos.x - camera_pos.x), h_size - (render_pos.y - camera_pos.y)};
+        SDL_FPoint pos = {w_size + (render_pos.x - camera_pos.x), h_size - (render_pos.y - camera_pos.y)};
         renderer->Render(&pos, wppu);
     };
 
@@ -102,7 +102,7 @@ void Render(Camera *camera, Renderer *renderer)
     auto render_pos = renderer->GetTransform()->Position();
     auto camera_pos = camera->GetTransform()->Position();
     // from world coordinate to window coordinate, y axies need to reverse.
-    FPoint pos = {w_size + (render_pos.x - camera_pos.x), h_size - (render_pos.y - camera_pos.y)};
+    SDL_FPoint pos = {w_size + (render_pos.x - camera_pos.x), h_size - (render_pos.y - camera_pos.y)};
     renderer->Render(&pos, wppu);
 }
 
@@ -137,7 +137,7 @@ TEST(TestCharacteristic, test_camera)
         auto render_pos = renderer->GetTransform()->Position();
         auto camera_pos = camera->GetTransform()->Position();
         // from world coordinate to window coordinate, y axies need to reverse.
-        FPoint pos = {w_size + (render_pos.x - camera_pos.x), h_size - (render_pos.y - camera_pos.y)};
+        SDL_FPoint pos = {w_size + (render_pos.x - camera_pos.x), h_size - (render_pos.y - camera_pos.y)};
         renderer->Render(&pos, wppu);
     };
 

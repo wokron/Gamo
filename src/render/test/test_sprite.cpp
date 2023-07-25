@@ -42,7 +42,7 @@ TEST(TestSprite, sprite_clip)
     w = h = 100;
     int ph = texture->PixelHeight(), pw = texture->PixelWidth();
 
-    Rect cliprect = {pw / 2 - w / 2, ph / 2 - h / 2, w, h};
+    SDL_Rect cliprect = {pw / 2 - w / 2, ph / 2 - h / 2, w, h};
     auto sprite = texture->ClipAndCreateSprite(&cliprect);
     ASSERT_NE(sprite, nullptr);
 
@@ -53,7 +53,7 @@ TEST(TestSprite, sprite_clip)
     Destroy();
 }
 
-void SpriteRender(Sprite *s, FPoint *position, float rotate, FPoint *scale, float window_pixel_per_unit)
+void SpriteRender(Sprite *s, SDL_FPoint *position, float rotate, SDL_FPoint *scale, float window_pixel_per_unit)
 {
     SDL_RenderClear(g_renderer);
 
@@ -81,37 +81,37 @@ TEST(TestSprite, sprite_render)
     w = h = 100;
     int ph = texture->PixelHeight(), pw = texture->PixelWidth();
 
-    Rect cliprect = {pw / 2 - w / 2, ph / 2 - h / 2, w, h};
+    SDL_Rect cliprect = {pw / 2 - w / 2, ph / 2 - h / 2, w, h};
     Sprite *s = texture->ClipAndCreateSprite(&cliprect);
     ASSERT_NE(s, nullptr);
 
     // center
-    FPoint pos1 = {2, 1.5}; // the unit is *Unit*
+    SDL_FPoint pos1 = {2, 1.5}; // the unit is *Unit*
     SpriteRender(s, &pos1, 0, nullptr, wppu);
 
     // rotate
     SpriteRender(s, &pos1, 30, nullptr, wppu);
 
     // scale
-    FVect scale1 = {2, 1};
+    SDL_FPoint scale1 = {2, 1};
     SpriteRender(s, &pos1, 0, &scale1, wppu);
 
     // rotate and scale
     SpriteRender(s, &pos1, 30, &scale1, wppu);
 
     // rotate and flip scale
-    FVect scale2 = {-2, 1};
+    SDL_FPoint scale2 = {-2, 1};
     SpriteRender(s, &pos1, 30, &scale2, wppu);
 
     // rotate and flip scale in both horizontal and vertical
-    FVect scale3 = {-2, -1};
+    SDL_FPoint scale3 = {-2, -1};
     SpriteRender(s, &pos1, 30, &scale3, wppu);
 
     // center again
     SpriteRender(s, &pos1, 0, nullptr, wppu);
     
     // change the pivot so the center will change
-    FPoint pivot = {0.3, 0.3};
+    SDL_FPoint pivot = {0.3, 0.3};
     SingleSprite *ss = (SingleSprite *)s;
     ss->Pivot(pivot);
     SpriteRender(s, &pos1, 0, nullptr, wppu);
@@ -132,7 +132,7 @@ TEST(TestSprite, sprite_render)
     SpriteRender(s, &pos1, 30, &scale3, wppu);
 
     // change the pivot so the center will change, this time pivot value will be out of [0, 1]
-    FPoint pivot2 = {-0.5, 0.5};
+    SDL_FPoint pivot2 = {-0.5, 0.5};
     ss->Pivot(pivot2);
     SpriteRender(s, &pos1, 0, nullptr, wppu);
 
@@ -171,11 +171,11 @@ TEST(TestSprite, sprite_render_color)
     w = h = 100;
     int ph = texture->PixelHeight(), pw = texture->PixelWidth();
 
-    Rect cliprect = {pw / 2 - w / 2, ph / 2 - h / 2, w, h};
+    SDL_Rect cliprect = {pw / 2 - w / 2, ph / 2 - h / 2, w, h};
     Sprite *s = texture->ClipAndCreateSprite(&cliprect);
     ASSERT_NE(s, nullptr);
 
-    FVect flip = {1, 1};
+    SDL_FPoint flip = {1, 1};
 
     for (int i = 0; i <= 255; i += 50)
     {
@@ -183,8 +183,8 @@ TEST(TestSprite, sprite_render_color)
 
         ColorAlpha coloralpha = {255, 255, (u_char)i, 255};
         
-        FPoint pos = {2, 1.5};
-        FVect scale = {1, 1};
+        SDL_FPoint pos = {2, 1.5};
+        SDL_FPoint scale = {1, 1};
         r = s->Render(&pos, 30, &scale, &coloralpha, wppu);
         ASSERT_EQ(r, 0);
 
@@ -199,8 +199,8 @@ TEST(TestSprite, sprite_render_color)
 
         ColorAlpha coloralpha = {255, 255, 255, (u_char)i};
         
-        FPoint pos = {2, 1.5};
-        FVect scale = {1, 1};
+        SDL_FPoint pos = {2, 1.5};
+        SDL_FPoint scale = {1, 1};
         r = s->Render(&pos, 30, &scale, &coloralpha, wppu);
         ASSERT_EQ(r, 0);
 
@@ -227,22 +227,22 @@ TEST(TestSprite, sprite_render_strong)
     w = h = 100;
     int ph = texture->PixelHeight(), pw = texture->PixelWidth();
 
-    Rect cliprect = {pw / 2 - w / 2, ph / 2 - h / 2, w, h};
+    SDL_Rect cliprect = {pw / 2 - w / 2, ph / 2 - h / 2, w, h};
     Sprite *s = texture->ClipAndCreateSprite(&cliprect);
     ASSERT_NE(s, nullptr);
 
-    FPoint pivot = {0.3, 0.7};
+    SDL_FPoint pivot = {0.3, 0.7};
     SingleSprite *ss = (SingleSprite *)s;
     ss->Pivot(pivot);
 
     for (int i = 0; i < 30; i++)
     {
         // x in [0, 4], y in [0, 3]
-        FPoint pos = {2 * (sinf(0.05f * i - 5) + 1), 1.5f * (cosf(0.017f * i) + 1)};
+        SDL_FPoint pos = {2 * (sinf(0.05f * i - 5) + 1), 1.5f * (cosf(0.017f * i) + 1)};
         // angle in [0, 360]
         float rotate = 180 * (sinf(0.03 * i + 3) + 1);
         // scale can be in [-2, 2]
-        FVect scale = {2 * (cosf(0.07 * i)), 2 * (sinf(0.06 * i + 10))};
+        SDL_FPoint scale = {2 * (cosf(0.07 * i)), 2 * (sinf(0.06 * i + 10))};
 
         SpriteRender(s, &pos, rotate, &scale, wppu);
     }
@@ -269,7 +269,7 @@ TEST(TestSprite, render_animation)
 
     for (int i = 0; i < 4; i++)
     {
-        Rect cliprect = {w * i, 0, w, h};
+        SDL_Rect cliprect = {w * i, 0, w, h};
         sprites[i] = texture->ClipAndCreateSprite(&cliprect);
     }
 
@@ -280,7 +280,7 @@ TEST(TestSprite, render_animation)
         animation->AddFrame(1, sprites[i]);
     }
 
-    FPoint pos = {2, 1.5}; // the unit is *Unit*
+    SDL_FPoint pos = {2, 1.5}; // the unit is *Unit*
     for (int i = 0; i < 30; i++)
     {
         SDL_SetRenderDrawColor(g_renderer, 255, 255, 255, 255);

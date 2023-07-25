@@ -54,7 +54,7 @@ namespace gamo
         }
     }
 
-    int Texture::Render(Rect *srcrect, FRect *dstrect, float angle, FPoint *center, FVect *flip)
+    int Texture::Render(SDL_Rect *srcrect, SDL_FRect *dstrect, float angle, SDL_FPoint *center, SDL_FPoint *flip)
     {
         auto renderer = RenderAsset::GetInstance()->Renderer();
         assert(renderer != nullptr);
@@ -114,7 +114,7 @@ namespace gamo
         return 0;
     }
 
-    SingleSprite *Texture::ClipAndCreateSprite(Rect *cliprect)
+    SingleSprite *Texture::ClipAndCreateSprite(SDL_Rect *cliprect)
     {
         auto *sprite = new SingleSprite(this, cliprect);
         return sprite;
