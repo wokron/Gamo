@@ -44,7 +44,7 @@ namespace gamo
         float unit_w = unit_left_pad + unit_right_pad;
         float unit_h = unit_top_pad + unit_bottom_pad;
 
-        SDL_FRect dstrect = {unit_x * wppu, unit_y * wppu, unit_w * wppu, unit_h * wppu};
+        Rect dstrect = {unit_x * wppu, unit_y * wppu, unit_w * wppu, unit_h * wppu};
         Vect center = {unit_left_pad * wppu, unit_top_pad * wppu};
 
         int r;

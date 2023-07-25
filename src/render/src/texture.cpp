@@ -54,7 +54,7 @@ namespace gamo
         }
     }
 
-    int Texture::Render(SDL_Rect *srcrect, SDL_FRect *dstrect, float angle, Vect *center, Vect *flip)
+    int Texture::Render(SDL_Rect *srcrect, Rect *dstrect, float angle, Vect *center, Vect *flip)
     {
         auto renderer = RenderAsset::GetInstance()->Renderer();
         assert(renderer != nullptr);
@@ -66,6 +66,7 @@ namespace gamo
         }
 
         SDL_RendererFlip flip_stategy = SDL_FLIP_NONE;
+        SDL_FRect sdl_dstrect;
         SDL_FPoint sdl_center;
         if (flip != nullptr)
         {
@@ -78,12 +79,16 @@ namespace gamo
                 flip_stategy = (SDL_RendererFlip)(flip_stategy | SDL_FLIP_VERTICAL);
             }
         }
+        if (dstrect != nullptr)
+        {
+            sdl_dstrect = *dstrect;
+        }
         if (center != nullptr)
         {
             sdl_center = *center;
         }
 
-        if (SDL_RenderCopyExF(renderer, _sdl_texture, srcrect, dstrect, angle, &sdl_center, flip_stategy) < 0)
+        if (SDL_RenderCopyExF(renderer, _sdl_texture, srcrect, (dstrect ? &sdl_dstrect : nullptr), angle, (center ? &sdl_center : nullptr), flip_stategy) < 0)
         {
             spdlog::error("fail to render texture, {}", SDL_GetError());
             return -1;

@@ -42,7 +42,7 @@ namespace gamo
         int Render(Vect *position, float window_pixel_per_unit);
 
         /// @brief render area is an aabb rect area that encloses the sprite
-        SDL_FRect RenderArea();
+        Rect RenderArea();
 
         EVENT_DECALRE(Renderer, HandleCameraDetect, EVENT_CAMERA_DETECT);
 
@@ -60,13 +60,13 @@ namespace gamo
     {
     private:
         Camera *_camera;
-        SDL_FRect *_view;
+        Rect *_view;
 
     public:
-        RendererEvent(Camera *camera, SDL_FRect *view) : _camera(camera), _view(view) {}
+        RendererEvent(Camera *camera, Rect *view) : _camera(camera), _view(view) {}
 
         Camera *TargetCamera() { return _camera; }
-        SDL_FRect *CameraView() { return _view; }
+        Rect *CameraView() { return _view; }
 
         int Type() const override { return EVENT_CAMERA_DETECT; }
     };

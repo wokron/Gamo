@@ -23,7 +23,7 @@ namespace gamo
         return 0;
     }
 
-    SDL_FRect Renderer::RenderArea()
+    Rect Renderer::RenderArea()
     {
         float sprite_width = _target_sprite->UnitWidth();
         float sprite_height = _target_sprite->UnitHeight();
@@ -62,10 +62,10 @@ namespace gamo
     {
         auto event = (RendererEvent *)e;
         auto camera = event->TargetCamera();
-        auto camera_view = event->CameraView();
-        auto render_area = RenderArea();
+        SDL_FRect camera_view = *(event->CameraView());
+        SDL_FRect render_area = RenderArea();
 
-        if (((BelongActor()->Layer() & camera->Layers()) != 0) && Visiable() && SDL_HasIntersectionF(camera_view, &render_area))
+        if (((BelongActor()->Layer() & camera->Layers()) != 0) && Visiable() && SDL_HasIntersectionF(&camera_view, &render_area))
         {
             RenderDirector::GetInstance()->PushRenderCall(this, camera);
         }
