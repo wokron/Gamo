@@ -71,6 +71,15 @@ TEST(TestType, test_matrix)
     y = sinf(M_PI / 6);
     ASSERT_FLOAT_EQ(v8.x, x);
     ASSERT_FLOAT_EQ(v8.y, y);
+
+    Matrix m2, m3;
+    m2.AsScale({1, 1});
+    m3.AsScale({1, 1});
+    auto m4 = m2 * m3;
+    ASSERT_FLOAT_EQ(m4._11, 1);
+    ASSERT_FLOAT_EQ(m4._12, 0);
+    ASSERT_FLOAT_EQ(m4._21, 0);
+    ASSERT_FLOAT_EQ(m4._22, 1);
 }
 
 TEST(TestType, test_rect)
