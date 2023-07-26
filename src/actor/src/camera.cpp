@@ -20,13 +20,10 @@ namespace gamo
 
         float half_height = _camera_size;
         float half_width = half_height / win_height * win_width;
+        Vect halfwh = {half_width, half_height};
         auto pos = GetTransform()->GlobalPosition();
 
-        Rect view = {
-            pos.x - half_width,
-            pos.y - half_height,
-            2 * half_width,
-            2 * half_height};
+        Rect view = Rect::FromVect(pos - halfwh, halfwh * 2);
         return view;
     }
 } // namespace gamo

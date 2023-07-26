@@ -15,10 +15,8 @@ namespace gamo
             auto sup_pos = sup_actor->GetTransform()->GlobalPosition();
             auto sup_angle = sup_actor->GetTransform()->Rotate();
             auto relative_pos = Position();
-            float theta = sup_angle * M_PI / 180;
-            float relative_pos_x_rotated = relative_pos.x * cosf(theta) - relative_pos.y * sinf(theta);
-            float relative_pos_y_rotated = relative_pos.x * sinf(theta) + relative_pos.y * cosf(theta);
-            return {sup_pos.x + relative_pos_y_rotated, sup_pos.y + relative_pos_x_rotated};
+            Matrix rotate_m; rotate_m.AsRotate(-(sup_angle * M_PI / 180)); // todo: reverse the different rotate direction in sdl, and negative can be removed
+            return rotate_m * relative_pos + sup_pos;
         }
     }
 
@@ -47,7 +45,7 @@ namespace gamo
         {
             auto sup_scale = sup_actor->GetTransform()->GlobalScale();
             auto relative_scale = Scale();
-            return {sup_scale.x * relative_scale.x, sup_scale.y * relative_scale.y};
+            return relative_scale * sup_scale;
         }
     }
 

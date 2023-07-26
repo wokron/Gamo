@@ -22,8 +22,8 @@ namespace gamo
         _body = world->CreateBody(&_bodydef);
         auto pos = GetTransform()->Position();
         // sdl and box2d use diff rotation direction, so negative is needed
-        auto angle = -GetTransform()->Rotate() * M_PI / 180;
-        _body->SetTransform({pos.x, pos.y}, angle);
+        auto angle = -(GetTransform()->Rotate() * M_PI / 180);
+        _body->SetTransform(pos, angle);
         UnregisterHandleInit();
     }
 
@@ -32,10 +32,9 @@ namespace gamo
         auto transform = GetTransform();
         if (transform->IsPositionOrRotateModified())
         {
-            auto tmp = transform->Position();
-            Vec2 pos(tmp.x, tmp.y);
+            auto pos = transform->Position();
             // sdl and box2d use diff rotation direction, so negative is needed
-            float angle = -transform->Rotate() * M_PI / 180; 
+            float angle = -(transform->Rotate() * M_PI / 180); 
             _body->SetTransform(pos, angle);
         }
     }
@@ -47,7 +46,7 @@ namespace gamo
         auto transform = GetTransform();
         transform->Position({pos.x, pos.y});
         // sdl and box2d use diff rotation direction, so negative is needed
-        transform->Rotate(-angle / M_PI * 180);
+        transform->Rotate(-(angle / M_PI * 180));
         transform->IsPositionOrRotateModified(); // reset flag
     }
 } // namespace gamo

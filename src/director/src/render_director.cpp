@@ -45,14 +45,16 @@ namespace gamo
 
         float h_size = camera->CameraSize();
         float w_size = h_size / win_height * win_width;
+        Vect center_pos = {w_size, h_size};
 
         _wppu = win_height / (2 * h_size);
 
         auto render_pos = renderer->GetTransform()->GlobalPosition();
         auto camera_pos = camera->GetTransform()->GlobalPosition();
+        auto relative_pos = render_pos - camera_pos;
+        relative_pos.y = -relative_pos.y; // from world coordinate to window coordinate, y axies need to reverse.
 
-        // from world coordinate to window coordinate, y axies need to reverse.
-        _position = {w_size + (render_pos.x - camera_pos.x), h_size - (render_pos.y - camera_pos.y)};
+        _position = center_pos + relative_pos;
 
         _order = (((unsigned long long)camera->Depth()) << 32) | ((unsigned long long)renderer->RenderLevel());
     }
