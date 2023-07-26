@@ -52,9 +52,6 @@ namespace gamo
         SingleSprite(Texture *target_texture, Rect *cliprect);
 
         int Render(Vect *position, float rotate, Vect *scale, ColorAlpha *coloralpha, float window_pixel_per_unit);
-
-    private:
-        void DoScale(Vect *scale, float &unit_left_pad, float &unit_top_pad, float &unit_right_pad, float &unit_bottom_pad);
     };
 
     class AnimateSprite : public Sprite

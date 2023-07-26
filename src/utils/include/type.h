@@ -91,6 +91,21 @@ namespace gamo
     {
         float x, y, w, h;
 
+        static Rect FromVect(const Vect &xy, const Vect &wh)
+        {
+            return {xy.x, xy.y, wh.x, wh.y};
+        }
+
+        Vect VectXY()
+        {
+            return {x, y};
+        }
+
+        Vect VectWH()
+        {
+            return {w, h};
+        }
+
         operator SDL_FRect()
         {
             return {x, y, w, h};
