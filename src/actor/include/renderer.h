@@ -50,10 +50,6 @@ namespace gamo
         void UnregisterEvents() override { UnregisterHandleCameraDetect(); }
 
         std::string Type() { return std::string("Renderer"); }
-
-    private:
-        Vect DoRotate(Vect vect, float angle);
-        Vect DoScale(Vect vect, Vect scale);
     };
 
     class RendererEvent : public Event

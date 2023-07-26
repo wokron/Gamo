@@ -29,8 +29,9 @@ namespace gamo
         float sprite_height = _target_sprite->UnitHeight();
         auto transform = GetTransform();
         Vect pivot = _target_sprite->Pivot();
-        float pivot_w = pivot.x * sprite_width;
-        float pivot_h = pivot.y * sprite_height;
+        Vect pivot_wh = pivot * Vect{sprite_width, sprite_height};
+        float pivot_w = pivot_wh.x;
+        float pivot_h = pivot_wh.y;
 
         Vect corners[4] = {
             {-pivot_w, pivot_h},                                  // left-top
@@ -40,19 +41,23 @@ namespace gamo
         };
 
         auto pos = transform->GlobalPosition();
-        for (int i = 0; i < 4; i++)
+        auto scale = transform->GlobalScale();
+        auto angle = transform->GlobalRotate();
+        Matrix scale_m, rotate_m;
+        scale_m.AsScale(scale), rotate_m.AsRotate(angle * M_PI / 180);
+
+        for (auto &corner : corners)
         {
-            corners[i] = DoRotate(DoScale(corners[i], transform->GlobalScale()), transform->GlobalRotate());
-            corners[i] = {pos.x + corners[i].x, pos.y + corners[i].y};
+            corner = rotate_m * (scale_m * corner) + pos;
         }
 
         float minx = INFINITY, miny = INFINITY, maxx = -INFINITY, maxy = -INFINITY;
-        for (int i = 0; i < 4; i++)
+        for (auto corner : corners)
         {
-            minx = std::min(minx, corners[i].x);
-            miny = std::min(miny, corners[i].y);
-            maxx = std::max(maxx, corners[i].x);
-            maxy = std::max(maxy, corners[i].y);
+            minx = std::min(minx, corner.x);
+            miny = std::min(miny, corner.y);
+            maxx = std::max(maxx, corner.x);
+            maxy = std::max(maxy, corner.y);
         }
 
         return {minx, miny, maxx - minx, maxy - miny};
@@ -69,20 +74,5 @@ namespace gamo
         {
             RenderDirector::GetInstance()->PushRenderCall(this, camera);
         }
-    }
-
-    Vect Renderer::DoRotate(Vect vect, float angle)
-    {
-        float theta = angle * M_PI / 180;
-        float x = vect.x * cosf(theta) - vect.y * sinf(theta);
-        float y = vect.x * sinf(theta) + vect.y * cosf(theta);
-        return {x, y};
-    }
-
-    Vect Renderer::DoScale(Vect vect, Vect scale)
-    {
-        float x = vect.x * scale.x;
-        float y = vect.y * scale.y;
-        return {x, y};
     }
 } // namespace gamo
