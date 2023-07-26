@@ -13,7 +13,7 @@ namespace gamo
     public:
         /// @brief render the sprite to the window
         /// @param position the position of the sprite, or more accurately, the position of the pivot of the sprite. the unit is *Unit*
-        /// @param rotate the rotate angle of the sprite
+        /// @param rotate the rotate angle of the sprite, > 0 for clockwise
         /// @param scale the scale size of the sprite, < 0 for flip, null for no scale
         /// @param window_pixel_per_unit relation between window's *Pixel* and *Unit*, this is for camera setting
         /// @return 0 on success, or < 0 on faliure

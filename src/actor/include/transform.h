@@ -24,6 +24,7 @@ namespace gamo
         Vect Position() { return _position; }
         void Position(Vect position) { _position = position; _is_pos_rotate_modified = true; }
 
+        /// @brief rotate for the actor, > 0 for counterclockwise
         float Rotate() { return _rotate; }
         void Rotate(float rotate) { _rotate = rotate; _is_pos_rotate_modified = true; }
 

@@ -14,7 +14,8 @@ namespace gamo
         Transform *transform = GetTransform();
 
         auto scale = transform->GlobalScale();
-        int r = _target_sprite->Render(position, transform->GlobalRotate(), &scale, &_color_config, window_pixel_per_unit);
+        auto rotate = -transform->GlobalRotate(); // > 0 for counterclockwise in transform, but for clockwise in Sprite::Render, so negative is needed
+        int r = _target_sprite->Render(position, rotate, &scale, &_color_config, window_pixel_per_unit);
         if (r < 0)
         {
             return r;

@@ -54,7 +54,7 @@ namespace gamo
         /// Post-condition: the global renderer must be initialized
         /// @param srcrect the rect area in texture to rendered to window, the unit is *Pixel*
         /// @param dstrect the rect area in window to render, the unit is *Pixel*
-        /// @param angle An angle in degrees that indicates the rotation that will be applied to dstrect
+        /// @param angle An angle in degrees that indicates the rotation that will be applied to dstrect, > 0 for clockwise
         /// @param center A pointer to a point indicating the point around which dstrect will be rotated
         /// (if NULL, rotation will be done around dstrect.w/2, dstrect.h/2), the unit is *Pixel*
         /// @param flip A pointer to a vector indicating the flip position 

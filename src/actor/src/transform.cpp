@@ -15,7 +15,7 @@ namespace gamo
             auto sup_pos = sup_actor->GetTransform()->GlobalPosition();
             auto sup_angle = sup_actor->GetTransform()->Rotate();
             auto relative_pos = Position();
-            Matrix rotate_m; rotate_m.AsRotate(-(sup_angle * M_PI / 180)); // todo: reverse the different rotate direction in sdl, and negative can be removed
+            Matrix rotate_m; rotate_m.AsRotate((sup_angle * M_PI / 180));
             return rotate_m * relative_pos + sup_pos;
         }
     }
