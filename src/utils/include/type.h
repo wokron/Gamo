@@ -11,6 +11,11 @@ namespace gamo
     {
         float x, y;
 
+        static Vect FromVec2(b2Vec2 v)
+        {
+            return {v.x, v.y};
+        }
+
         Vect operator+(const Vect &b)
         {
             return {x + b.x, y + b.y};

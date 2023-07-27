@@ -56,6 +56,22 @@ public:
     bool triggered_begin = false;
     bool triggered_end = false;
     std::set<Collider *> colliding;
+
+    RigidBody *rigidbody;
+
+    void OnStart()
+    {
+        rigidbody = (RigidBody *)BelongActor()->GetCharacteristicByType("RigidBody");
+    }
+
+    void OnUpdate()
+    {
+        if (Input::GetInstance()->GetKey(SDL_SCANCODE_A))
+        {
+            rigidbody->LinearVelocity({0, 1});
+        }
+    }
+
     void OnCollisionBegin(Collider *other)
     {
         triggered_begin = true;
@@ -96,7 +112,7 @@ TEST(TestPlay, test_physics)
     actor->GetCharacteristics().push_back(renderer);
     // add rigidbody
     auto rigidbody = new RigidBody(actor);
-    rigidbody->Define().type = b2_dynamicBody;
+    rigidbody->BodyType(b2_dynamicBody);
     actor->GetCharacteristics().push_back(rigidbody);
     // add collider
     auto collider = new Collider(actor);
@@ -120,7 +136,7 @@ TEST(TestPlay, test_physics)
     actor2->GetCharacteristics().push_back(renderer2);
     // add rigidbody
     auto rigidbody2 = new RigidBody(actor2);
-    rigidbody2->Define().type = b2_dynamicBody;
+    rigidbody2->BodyType(b2_dynamicBody);
     actor2->GetCharacteristics().push_back(rigidbody2);
     // add collider
     auto collider2 = new Collider(actor2);

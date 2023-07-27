@@ -36,7 +36,7 @@ TEST(TestPhysics, test_simple)
     actor->GetCharacteristics().push_back(renderer);
     // add rigidbody
     auto rigidbody = new RigidBody(actor);
-    rigidbody->Define().type = b2_dynamicBody;
+    rigidbody->BodyType(b2_dynamicBody);
     actor->GetCharacteristics().push_back(rigidbody);
     // add collider
     auto collider = new Collider(actor);
@@ -56,7 +56,7 @@ TEST(TestPhysics, test_simple)
     actor2->GetCharacteristics().push_back(renderer2);
     // add rigidbody
     auto rigidbody2 = new RigidBody(actor2);
-    rigidbody2->Define().type = b2_dynamicBody;
+    rigidbody2->BodyType(b2_dynamicBody);
     actor2->GetCharacteristics().push_back(rigidbody2);
     // add collider
     auto collider2 = new Collider(actor2);
