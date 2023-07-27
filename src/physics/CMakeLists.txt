@@ -10,7 +10,7 @@ target_include_directories(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME}
-    box2d
+    box2d utils
 )
 
 # for test

@@ -9,12 +9,12 @@ namespace gamo
     class Collider : public Characteristic
     {
     private:
-        FixtureDef _fixturedef;
+        b2FixtureDef _fixturedef;
         b2Fixture *_fixture = nullptr;
 
     public:
         Collider(Actor *actor) : Characteristic(actor) {}
-        FixtureDef &Define() { return _fixturedef; }
+        b2FixtureDef &Define() { return _fixturedef; }
         b2Fixture *Fixture() { return _fixture; }
 
         EVENT_DECALRE(Collider, HandleInit, EVENT_COLLIDER_INIT);

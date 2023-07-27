@@ -10,14 +10,14 @@ namespace gamo
     class RigidBody : public Characteristic
     {
     private:
-        BodyDef _bodydef;
-        PhysicsBody *_body = nullptr;
+        b2BodyDef _bodydef;
+        b2Body *_body = nullptr;
 
     public:
         RigidBody(Actor *actor) : Characteristic(actor) {}
         ~RigidBody();
-        BodyDef &Define() { return _bodydef; }
-        PhysicsBody *Body() { return _body; }
+        b2BodyDef &Define() { return _bodydef; }
+        b2Body *Body() { return _body; }
 
         EVENT_DECALRE(RigidBody, HandleInit, EVENT_RIGIDBODY_INIT);
         EVENT_DECALRE(RigidBody, HandleBeforeStep, EVENT_PHYSICS_BEFORE_STEP);
@@ -32,10 +32,10 @@ namespace gamo
     class RigidBodyEvent : public Event
     {
     private:
-        PhysicsWorld *_world;
+        b2World *_world;
     public:
-        RigidBodyEvent(PhysicsWorld *world) : _world(world) {}
-        PhysicsWorld *World() { return _world; }
+        RigidBodyEvent(b2World *world) : _world(world) {}
+        b2World *World() { return _world; }
 
         virtual int Type() const override { return EVENT_RIGIDBODY_INIT; }
     };

@@ -12,7 +12,7 @@ namespace gamo
     {
     private:
         std::vector<Actor *> _actors = std::vector<Actor *>();
-        PhysicsWorld _physics_world = PhysicsWorld(PhysicsConfig::GetInstance()->Gravity());
+        b2World _physics_world = b2World(PhysicsConfig::GetInstance()->Gravity());
         ContactListener _contact_listener;
 
     public:

@@ -1,15 +1,15 @@
 #pragma once
 
-#include "physics_types.h"
 #include <vector>
 #include <assert.h>
+#include "utils.h"
 
 namespace gamo
 {
     class PhysicsConfig
     {
     private:
-        Vec2 _gravity = Vec2(0.0f, -10.0f);
+        Vect _gravity{0.0f, -10.0f};
         int _velocity_iterations = 8; // recommend number
         int _position_iterations = 3; // recommend number
 
@@ -26,8 +26,8 @@ namespace gamo
             return _instance;
         }
 
-        Vec2 Gravity() { return _gravity; }
-        void Gravity(Vec2 gravity) { _gravity = gravity; }
+        Vect Gravity() { return _gravity; }
+        void Gravity(Vect gravity) { _gravity = gravity; }
 
         int VelocityIter() { return _velocity_iterations; }
         void VelocityIter(int v_iter)
