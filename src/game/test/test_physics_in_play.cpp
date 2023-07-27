@@ -118,10 +118,10 @@ TEST(TestPlay, test_physics)
     auto collider = new Collider(actor);
     b2PolygonShape shape;
     shape.SetAsBox(0.5, 0.5);
-    collider->Define().shape = &shape;
-    collider->Define().density = 10.0f;
-    collider->Define().friction = 0.6f;
-    collider->Define().restitution = 0.2f;
+    collider->Shape(&shape);
+    collider->Density(10.0f);
+    collider->Friction(0.6f);
+    collider->Restitution(0.2f);
     actor->GetCharacteristics().push_back(collider);
     SDL_SetRenderDrawColor(RenderAsset::GetInstance()->Renderer(), 255, 255, 255, 255);
     // add collition detect behavior
@@ -142,10 +142,10 @@ TEST(TestPlay, test_physics)
     auto collider2 = new Collider(actor2);
     b2PolygonShape shape2;
     shape2.SetAsBox(0.5, 0.25);
-    collider2->Define().shape = &shape2;
-    collider2->Define().density = 20.0f;
-    collider2->Define().friction = 0.6f;
-    collider2->Define().restitution = 0.2f;
+    collider2->Shape(&shape2);
+    collider2->Density(20.0f);
+    collider2->Friction(0.6f);
+    collider2->Restitution(0.2f);
     actor2->GetCharacteristics().push_back(collider2);
 
     auto ground_actor = new Actor({0, -1}, 0, {20, 1});
@@ -161,7 +161,7 @@ TEST(TestPlay, test_physics)
     auto groundcollider = new Collider(ground_actor);
     b2PolygonShape groundshape;
     groundshape.SetAsBox(10, 0.5);
-    groundcollider->Define().shape = &groundshape;
+    groundcollider->Shape(&groundshape);
     ground_actor->GetCharacteristics().push_back(groundcollider);
 
     scene->AddActor(actor);

@@ -42,10 +42,12 @@ TEST(TestPhysics, test_simple)
     auto collider = new Collider(actor);
     b2PolygonShape shape;
     shape.SetAsBox(0.5, 0.5);
-    collider->Define().shape = &shape;
-    collider->Define().density = 10.0f;
-    collider->Define().friction = 0.6f;
-    collider->Define().restitution = 0.2f;
+    collider->Shape(&shape);
+    collider->Density(10.0f);
+    collider->Friction(0.6f);
+    collider->Restitution(0.2f);
+    collider->Category(COLLISION_CATEGORY(1));
+    collider->CollideWith(COLLISION_CATEGORY(1) | COLLISION_CATEGORY(2) | COLLISION_CATEGORY(3));
     actor->GetCharacteristics().push_back(collider);
 
     auto actor2 = new Actor({0.5, 3}, -10, {0.5, 0.5});
@@ -62,10 +64,12 @@ TEST(TestPhysics, test_simple)
     auto collider2 = new Collider(actor2);
     b2PolygonShape shape2;
     shape2.SetAsBox(0.25, 0.25);
-    collider2->Define().shape = &shape2;
-    collider2->Define().density = 20.0f;
-    collider2->Define().friction = 0.6f;
-    collider2->Define().restitution = 0.2f;
+    collider2->Shape(&shape2);
+    collider2->Density(20.0f);
+    collider2->Friction(0.6f);
+    collider2->Restitution(0.2f);
+    collider2->Category(COLLISION_CATEGORY(2));
+    collider2->CollideWith(COLLISION_CATEGORY(1) | COLLISION_CATEGORY(2));
     actor2->GetCharacteristics().push_back(collider2);
 
     auto ground_actor = new Actor({0, -1}, 0, {20, 1});
@@ -81,7 +85,8 @@ TEST(TestPhysics, test_simple)
     auto groundcollider = new Collider(ground_actor);
     b2PolygonShape groundshape;
     groundshape.SetAsBox(10, 0.5);
-    groundcollider->Define().shape = &groundshape;
+    groundcollider->Shape(&groundshape);
+    groundcollider->Category(COLLISION_CATEGORY(3));
     ground_actor->GetCharacteristics().push_back(groundcollider);
 
     auto camera_actor = new Actor({0, 0}, 0, {1, 1});
