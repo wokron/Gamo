@@ -1,19 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
-
-project(gamo)
-
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-enable_testing()
-
-# third party libs
-add_subdirectory(third_party/googletest-1.13.0)
-include_directories(third_party/googletest-1.13.0/googletest/include)
-include_directories(third_party/spdlog/include)
-include_directories(third_party/eventpp/include)
-add_subdirectory(third_party/box2d-2.4.1)
-include_directories(third_party/box2d-2.4.1/include)
+project(gamo_core)
 
 # sub modules
 add_subdirectory(render)
