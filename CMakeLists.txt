@@ -18,7 +18,7 @@ add_subdirectory(third_party/pybind11)
 include_directories(third_party/pybind11/include)
 
 # cpp core
-add_subdirectory(src)
+add_subdirectory(core)
 
 # python bind target
 # add_subdirectory(script/gamo/core)
