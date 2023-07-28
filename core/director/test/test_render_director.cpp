@@ -4,8 +4,9 @@
 #include "game.h"
 #include "actor.h"
 #include "SDL2/SDL_image.h"
+#include "config.h"
 
-const char *SOURCE_PATH = "/home/wokron/Code/Projects/Gamo/src/render/test/example.jpeg";
+const char *SOURCE_PATH =  RESOURCE_DIR "/example.jpeg";
 
 using namespace gamo;
 

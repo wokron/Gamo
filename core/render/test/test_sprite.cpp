@@ -3,11 +3,12 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 #include "render.h"
+#include "config.h"
 
 using namespace gamo;
 
-const char *SOURCE_PATH = "/home/wokron/Code/Projects/Gamo/src/render/test/example.jpeg";
-const char *ANIMATE_PATH = "/home/wokron/Code/Projects/Gamo/src/render/test/walk_animate.png"; // this image come from Lazy Foo' Productions（http://lazyfoo.net/） 
+const char *SOURCE_PATH =  RESOURCE_DIR "/example.jpeg";
+const char *ANIMATE_PATH = RESOURCE_DIR "/walk_animate.png"; // this image come from Lazy Foo' Productions（http://lazyfoo.net/） 
 const int FRAME_DELAY = 50;
 
 SDL_Renderer *g_renderer;

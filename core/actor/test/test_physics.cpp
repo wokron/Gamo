@@ -3,10 +3,11 @@
 #include "game.h"
 #include "actor.h"
 #include "director.h"
+#include "config.h"
 
 using namespace gamo;
 
-const char *SOURCE_PATH = "/home/wokron/Code/Projects/Gamo/src/render/test/example.jpeg";
+const char *SOURCE_PATH =  RESOURCE_DIR "/example.jpeg";
 
 Sprite *GetSprite()
 {

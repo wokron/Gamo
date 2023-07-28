@@ -3,10 +3,11 @@
 #include "render.h"
 #include <SDL2/SDL_image.h>
 #include <algorithm>
+#include "config.h"
 
 using namespace gamo;
 
-const char *SOURCE_PATH = "/home/wokron/Code/Projects/Gamo/src/render/test/example.jpeg";
+const char *SOURCE_PATH =  RESOURCE_DIR "/example.jpeg";
 
 SDL_Renderer *g_renderer;
 

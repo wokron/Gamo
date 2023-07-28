@@ -5,8 +5,9 @@
 #include "actor.h"
 #include "SDL2/SDL_image.h"
 #include <thread>
+#include "config.h"
 
-const char *ANIMATE_PATH = "/home/wokron/Code/Projects/Gamo/src/render/test/walk_animate.png"; // this image come from Lazy Foo' Productions（http://lazyfoo.net/） 
+const char *ANIMATE_PATH = RESOURCE_DIR "/walk_animate.png"; // this image come from Lazy Foo' Productions（http://lazyfoo.net/） 
 
 using namespace gamo;
 

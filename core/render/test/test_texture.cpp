@@ -2,10 +2,11 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 #include "render.h"
+#include "config.h"
 
 using namespace gamo;
 
-const char *SOURCE_PATH = "/home/wokron/Code/Projects/Gamo/src/render/test/example.jpeg";
+const char *SOURCE_PATH =  RESOURCE_DIR "/example.jpeg";
 const int FRAME_DELAY = 50;
 
 SDL_Renderer *g_renderer;

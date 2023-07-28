@@ -5,6 +5,10 @@ project(gamo)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# config.h.in is used to define macros related to project
+configure_file(config.h.in ${CMAKE_BINARY_DIR}/config.h)
+include_directories(${CMAKE_BINARY_DIR})
+
 enable_testing()
 
 # third party libs
