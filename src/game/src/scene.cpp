@@ -6,7 +6,8 @@ namespace gamo
 {
     Scene::Scene()
     {
-        _physics_world.SetContactListener(&_contact_listener);
+        _physics_world = new b2World(PhysicsConfig::GetInstance()->Gravity());
+        _physics_world->SetContactListener(&_contact_listener);
     }
 
     void Scene::AddActor(Actor *actor)
@@ -17,7 +18,7 @@ namespace gamo
     void Scene::ApplyInit()
     {
         EventDispatcher::GetInstance()->Dispatch(EVENT_ON_START, nullptr);
-        RigidBodyEvent e(&_physics_world);
+        RigidBodyEvent e(_physics_world);
         EventDispatcher::GetInstance()->Dispatch(&e); // init rigidbody
         EventDispatcher::GetInstance()->Dispatch(EVENT_COLLIDER_INIT, nullptr); // collider must initialed after rigidbody
     }
@@ -33,7 +34,7 @@ namespace gamo
         EventDispatcher::GetInstance()->Dispatch(EVENT_PHYSICS_BEFORE_STEP, nullptr);
 
         auto config = PhysicsConfig::GetInstance();
-        _physics_world.Step(1.0f / frames, config->VelocityIter(), config->PositionIter()); // do physics simulation
+        _physics_world->Step(1.0f / frames, config->VelocityIter(), config->PositionIter()); // do physics simulation
 
         EventDispatcher::GetInstance()->Dispatch(EVENT_PHYSICS_AFTER_STEP, nullptr);
 
