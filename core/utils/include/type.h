@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <math.h>
 #include <SDL2/SDL.h>
+#include <string>
 #include "box2d/box2d.h"
 
 namespace gamo
@@ -16,32 +17,32 @@ namespace gamo
             return {v.x, v.y};
         }
 
-        Vect operator+(const Vect &b)
+        Vect operator+(const Vect &b) const
         {
             return {x + b.x, y + b.y};
         }
 
-        Vect operator-(const Vect &b)
+        Vect operator-(const Vect &b) const
         {
             return {x - b.x, y - b.y};
         }
 
-        Vect operator-()
+        Vect operator-() const
         {
             return {-x, -y};
         }
 
-        Vect operator*(const Vect &b)
+        Vect operator*(const Vect &b) const
         {
             return {x * b.x, y * b.y};
         }
 
-        Vect operator*(float k)
+        Vect operator*(float k) const
         {
             return {x * k, y * k};
         }
 
-        Vect operator/(float k)
+        Vect operator/(float k) const
         {
             assert(fabs(k) > 1e-6f);
             return {x / k, y / k};
@@ -56,6 +57,11 @@ namespace gamo
         {
             return {x, y};
         }
+
+        std::string ToString()
+        {
+            return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+        }
     };
 
     struct Matrix
@@ -63,13 +69,13 @@ namespace gamo
         float _11, _12;
         float _21, _22;
 
-        Vect operator*(const Vect &v)
+        Vect operator*(const Vect &v) const
         {
             return {_11 * v.x + _12 * v.y,
                     _21 * v.x + _22 * v.y};
         }
 
-        Matrix operator*(const Matrix &m)
+        Matrix operator*(const Matrix &m) const
         {
             return {
                 (_11 * m._11 + _12 * m._21),
@@ -89,6 +95,13 @@ namespace gamo
         {
             _11 = scale.x, _12 = 0.0f;
             _21 = 0.0f, _22 = scale.y;
+        }
+
+        std::string ToString()
+        {
+            auto line1 = "|" + std::to_string(_11) + ", " + std::to_string(_12) + "|\n";
+            auto line2 = "|" + std::to_string(_21) + ", " + std::to_string(_21) + "|";
+            return line1 + line2;
         }
     };
 
@@ -119,6 +132,15 @@ namespace gamo
         operator SDL_Rect()
         {
             return {(int)roundf(x), (int)roundf(y), (int)roundf(w), (int)roundf(h)};
+        }
+
+        std::string ToString()
+        {
+            auto x_str = "x: " + std::to_string(x) + ", ";
+            auto y_str = "y: " + std::to_string(y) + ", ";
+            auto w_str = "w: " + std::to_string(w) + ", ";
+            auto h_str = "h: " + std::to_string(h);
+            return "<" + x_str + y_str + w_str + h_str + ">";
         }
     };
 
