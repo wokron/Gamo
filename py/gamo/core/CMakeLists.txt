@@ -1,6 +1,18 @@
 project(gamo_core_py)
 
-include_directories("${CMAKE_SOURCE_DIR}/core/utils/include")
+include_directories("${CMAKE_SOURCE_DIR}/core")
 
-pybind11_add_module(core_example core_example.cpp)
-target_link_libraries(core_example PUBLIC utils)
+aux_source_directory(. DIR_SRCS)
+
+pybind11_add_module(${PROJECT_NAME} ${DIR_SRCS})
+target_include_directories(${PROJECT_NAME} PUBLIC .)
+target_link_libraries(${PROJECT_NAME} PUBLIC
+    actor
+    director
+    event
+    game
+    input
+    physics
+    render
+    utils
+)
