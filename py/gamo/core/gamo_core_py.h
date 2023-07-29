@@ -1,3 +1,5 @@
+#pragma once
+
 #include "pybind11/pybind11.h"
 #include "gamo.h"
 
@@ -6,3 +8,4 @@ using namespace pybind11::literals;
 using namespace gamo;
 
 void bind_type(py::module_ &m);
+void bind_render(py::module_ &m);
