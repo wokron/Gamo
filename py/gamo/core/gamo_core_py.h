@@ -9,3 +9,5 @@ using namespace gamo;
 
 void bind_type(py::module_ &m);
 void bind_render(py::module_ &m);
+void bind_game(py::module_ &m);
+void bind_actor(py::module_ &m);

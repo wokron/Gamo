@@ -38,6 +38,11 @@ namespace gamo
         float GlobalRotate();
         Vect GlobalScale();
 
+        std::string ToString()
+        {
+            return "<pos: " + _position.ToString() + ", rotate: " + std::to_string(_rotate) + ", scale: " + _scale.ToString() + ">";
+        }
+
         std::string Type() { return std::string("Transform"); }
     };
 } // namespace gamo
