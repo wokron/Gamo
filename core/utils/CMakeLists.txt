@@ -9,3 +9,7 @@ target_include_directories(${PROJECT_NAME}
 add_executable(test_basic_type test/test_basic_type.cpp)
 target_link_libraries(test_basic_type gtest gtest_main utils)
 add_test(NAME test_basic_type COMMAND test_basic_type)
+
+add_executable(test_singleton_template test/test_singleton_template.cpp)
+target_link_libraries(test_singleton_template gtest gtest_main utils)
+add_test(NAME test_singleton_template COMMAND test_singleton_template)
