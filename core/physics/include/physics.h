@@ -1,4 +1,4 @@
 #pragma once
 
-#include "physics_asset.h"
+#include "physics_config.h"
 #include "contact_listener.h"
