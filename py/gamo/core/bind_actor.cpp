@@ -13,7 +13,8 @@ void bind_actor(py::module_ &m)
         .def_property("layer", py::overload_cast<>(&Actor::Layer), py::overload_cast<unsigned int>(&Actor::Layer))
         .def("get_characteristic", &Actor::GetCharacteristicByType, "type"_a)
         .def("get_characteristics", &Actor::GetCharacteristicsByType, "type"_a)
-        .def("create_sub_actor", &Actor::CreateSubActor, "position"_a, "rotate"_a, "scale"_a);
+        .def("create_sub_actor", &Actor::CreateSubActor, "position"_a, "rotate"_a, "scale"_a)
+        .def("add_characteristic", &Actor::AddCharacteristic, "ch"_a);
 
     py::class_<Characteristic>(m, "Characteristic")
         .def_property_readonly("actor", &Characteristic::BelongActor);

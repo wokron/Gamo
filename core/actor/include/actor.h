@@ -26,6 +26,8 @@ namespace gamo
     public:
         std::vector<Characteristic *> &GetCharacteristics() { return _characteristics; }
 
+        void AddCharacteristic(Characteristic *ch) { _characteristics.push_back(ch); }
+
         Transform *GetTransform() { return _transform; }
 
         std::vector<Actor *> SubActors() { return _sub_actors; }
