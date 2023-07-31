@@ -7,4 +7,5 @@ PYBIND11_MODULE(gamo_core_py, m)
     bind_game(m);
     bind_actor(m);
     bind_input(m);
+    bind_physics(m);
 }
