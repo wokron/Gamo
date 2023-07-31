@@ -12,25 +12,11 @@ namespace gamo
     class Actor;
 
     /// @brief RenderDirector is a singleton class which manage the render procedure of the game
-    class RenderDirector
-    {
+    SINGLETON_BEGIN(RenderDirector)
     private:
         std::priority_queue<RenderCall> _render_queue = std::priority_queue<RenderCall>();
 
-        static RenderDirector *_instance;
-
     public:
-        /// @brief get the singleton instance of RenderDirector
-        /// @param camera
-        static RenderDirector *GetInstance()
-        {
-            if (_instance == nullptr)
-            {
-                _instance = new RenderDirector();
-            }
-            return _instance;
-        }
-
         /// @brief create a render-call and push it into the render queue
         /// @param renderer the renderer to create a render-call
         /// @param camera the camera to create a render-call
@@ -45,10 +31,7 @@ namespace gamo
 
     private:
         RenderDirector() {}
-        ~RenderDirector() {}
-        RenderDirector(const RenderDirector &);
-        RenderDirector &operator=(const RenderDirector &);
-    };
+    SINGLETON_END
 
     class RenderCall
     {

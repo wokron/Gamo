@@ -6,26 +6,13 @@
 
 namespace gamo
 {
-    class PhysicsConfig
-    {
+    SINGLETON_BEGIN(PhysicsConfig)
     private:
         Vect _gravity{0.0f, -10.0f};
         int _velocity_iterations = 8; // recommend number
         int _position_iterations = 3; // recommend number
 
-        static PhysicsConfig *_instance;
-
     public:
-        /// @brief get the singleton instance of PhysicsConfig
-        static PhysicsConfig *GetInstance()
-        {
-            if (_instance == nullptr)
-            {
-                _instance = new PhysicsConfig();
-            }
-            return _instance;
-        }
-
         Vect Gravity() { return _gravity; }
         void Gravity(Vect gravity) { _gravity = gravity; }
 
@@ -41,5 +28,8 @@ namespace gamo
             assert(p_iter > 0);
             _position_iterations = p_iter;
         }
-    };
+
+    private:
+        PhysicsConfig() {}
+    SINGLETON_END
 } // namespace gamo

@@ -5,8 +5,6 @@
 
 namespace gamo
 {
-    RenderAsset *RenderAsset::_instance = nullptr; // init static member
-
     int RenderAsset::Init(std::string title, int w, int h, bool accelerate)
     {
         int r;

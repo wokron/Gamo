@@ -2,6 +2,7 @@
 
 #include "eventpp/eventdispatcher.h"
 #include "event_base.h"
+#include "utils.h"
 
 /// @brief this macro is used to represent a member function (such as "object.func()")
 /// as a parameter of the Append function of EventDispatcher,
@@ -24,24 +25,11 @@ namespace gamo
     using BareDispatcher = eventpp::EventDispatcher<int, CallBack, EventPolicies>;
     using EventHandle = BareDispatcher::Handle;
 
-    class EventDispatcher
-    {
+    SINGLETON_BEGIN(EventDispatcher)
     private:
         BareDispatcher _dispatcher;
 
-        static EventDispatcher *_instance;
-
     public:
-        /// @brief get the singleton instance of EventDispatcher
-        static EventDispatcher *GetInstance()
-        {
-            if (_instance == nullptr)
-            {
-                _instance = new EventDispatcher();
-            }
-            return _instance;
-        }
-
         /// @brief add a new listener to the specified event
         /// @param event_type the event type of the specified event (the type can be int or EventType)
         /// @param callback the callback function as listener
@@ -67,9 +55,6 @@ namespace gamo
 
     private:
         EventDispatcher() {}
-        ~EventDispatcher() {}
-        EventDispatcher(const EventDispatcher &);
-        EventDispatcher &operator=(const EventDispatcher &);
-    };
+    SINGLETON_END
 
 } // namespace gamo

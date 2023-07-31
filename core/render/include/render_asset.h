@@ -1,27 +1,15 @@
 #include <SDL2/SDL.h>
 #include <string>
+#include "utils.h"
 
 namespace gamo
 {
-    class RenderAsset
-    {
+    SINGLETON_BEGIN(RenderAsset)
     private:
         SDL_Window *_window;
         SDL_Renderer *_renderer;
-
-        static RenderAsset *_instance;
         
     public:
-        /// @brief get the singleton instance of RenderAsset
-        static RenderAsset *GetInstance()
-        {
-            if (_instance == nullptr)
-            {
-                _instance = new RenderAsset();
-            }
-            return _instance;
-        }
-
         /// @brief initial the RenderAsset
         /// @param title the title of the window
         /// @param w the initial width of the window
@@ -38,9 +26,6 @@ namespace gamo
 
     private:
         RenderAsset() {}
-        ~RenderAsset() {}
-        RenderAsset(const RenderAsset &);
-        RenderAsset &operator=(const RenderAsset &);
-    };
+    SINGLETON_END
 
 } // namespace gamo

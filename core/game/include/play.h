@@ -1,6 +1,7 @@
 #pragma once
 
 #include "scene.h"
+#include "singleton.h"
 #include <stack>
 #include <vector>
 #include <string>
@@ -13,8 +14,7 @@ namespace gamo
     class Scene;
 
     /// @brief Play is a singleton class which manage all the resources in game
-    class Play
-    {
+    SINGLETON_BEGIN(Play)
     private:
         std::stack<Scene *> _scene_stack = std::stack<Scene *>();
         // the previous current scene, which will be freed on the next frame (the initial Scene is a sentinel)
@@ -23,19 +23,7 @@ namespace gamo
         unsigned int _target_frame_rate = 0;
         bool _quit = false;
 
-        static Play *_instance;
-
     public:
-        /// @brief get the singleton instance of Play
-        static Play *GetInstance()
-        {
-            if (_instance == nullptr)
-            {
-                _instance = new Play();
-            }
-            return _instance;
-        }
-
         /// @brief target frame rate is the expected frame rate to refresh the game 
         unsigned int TargetFrameRate() { return _target_frame_rate; }
 
@@ -80,8 +68,5 @@ namespace gamo
 
     private:
         Play() {}
-        ~Play() {}
-        Play(const Play &);
-        Play &operator=(const Play &);
-    };
+    SINGLETON_END
 } // namespace gamo

@@ -25,10 +25,7 @@ public:
 #define SINGLETON_BEGIN(cls)          \
     class cls : public Singleton<cls> \
     {                                 \
-        friend class Singleton<cls>;  \
-                                      \
-    private:                          \
-        cls() {}
+        friend class Singleton<cls>;
 
 #define SINGLETON_END \
     }                 \

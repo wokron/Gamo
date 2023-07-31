@@ -3,8 +3,6 @@
 
 namespace gamo
 {
-    Input *Input::_instance = nullptr; // init static member
-
     Input::Input()
     {
         int num_keys;

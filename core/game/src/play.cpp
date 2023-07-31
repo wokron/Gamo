@@ -10,8 +10,6 @@
 
 namespace gamo
 {
-    Play *Play::_instance = nullptr; // init static member
-
     void Play::TargetFrameRate(int target_frame_rate)
     {
         assert(target_frame_rate >= -1 && target_frame_rate != 0);
@@ -77,8 +75,9 @@ namespace gamo
     void Play::Destroy()
     {
         RenderAsset::GetInstance()->Destroy();
-        delete Play::_instance;
-        Play::_instance = nullptr;
+        _pre_scene = new Scene();
+        while (!_scene_stack.empty())
+            _scene_stack.pop();
     }
 
     void Play::ReplaceScene(Scene *scene)

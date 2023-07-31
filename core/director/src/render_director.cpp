@@ -4,8 +4,6 @@
 
 namespace gamo
 {
-    RenderDirector *RenderDirector::_instance = nullptr; // init static member
-
     void RenderDirector::PushRenderCall(Renderer *renderer, Camera *camera)
     {
         _render_queue.emplace(renderer, camera);

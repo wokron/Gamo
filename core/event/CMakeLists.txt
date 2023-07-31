@@ -9,6 +9,10 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC ${PROJECT_SOURCE_DIR}/include
 )
 
+target_link_libraries(${PROJECT_NAME}
+    utils
+)
+
 # for test
 add_executable(test_event_dispatcher test/test_event_dispatcher.cpp)
 target_link_libraries(test_event_dispatcher gtest gtest_main event)

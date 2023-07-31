@@ -4,8 +4,7 @@
 
 namespace gamo
 {
-    class Input
-    {
+    SINGLETON_BEGIN(Input)
     private:
         bool _quit = false;
         uint8_t *_keyboard_down = nullptr;
@@ -16,18 +15,7 @@ namespace gamo
         uint32_t _mouse_up;
         int _mouse_x, _mouse_y;
 
-        static Input *_instance;
-
     public:
-        static Input *GetInstance()
-        {
-            if (_instance == nullptr)
-            {
-                _instance = new Input();
-            }
-            return _instance;
-        }
-
         bool Quit() { return _quit; }
 
         /// @brief update the input states of keyboard and mouse,
@@ -73,8 +61,6 @@ namespace gamo
     private:
         Input();
         ~Input();
-        Input(const Input &);
-        Input &operator=(const Input &);
-    };
+    SINGLETON_END
 
 } // namespace gamo

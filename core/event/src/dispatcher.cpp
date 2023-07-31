@@ -2,8 +2,6 @@
 
 namespace gamo
 {
-    EventDispatcher *EventDispatcher::_instance = nullptr; // init static member
-
     EventHandle EventDispatcher::Append(int event_type, const std::function<CallBack> &callback)
     {
         return _dispatcher.appendListener(event_type, callback);
