@@ -44,7 +44,7 @@ namespace gamo
         /// @brief render area is an aabb rect area that encloses the sprite
         Rect RenderArea();
 
-        EVENT_DECALRE(Renderer, HandleCameraDetect, EVENT_CAMERA_DETECT);
+        EVENT_DECLARE(Renderer, HandleCameraDetect, EVENT_CAMERA_DETECT);
 
         void RegisterEvents() override { RegisterHandleCameraDetect(); }
         void UnregisterEvents() override { UnregisterHandleCameraDetect(); }

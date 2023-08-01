@@ -48,8 +48,8 @@ namespace gamo
         unsigned short CollideWith();
         void CollideWith(unsigned short c);
 
-        EVENT_DECALRE(Collider, HandleInit, EVENT_COLLIDER_INIT);
-        EVENT_DECALRE(Collider, HandleBeforeStep, EVENT_PHYSICS_BEFORE_STEP);
+        EVENT_DECLARE(Collider, HandleInit, EVENT_COLLIDER_INIT);
+        EVENT_DECLARE(Collider, HandleBeforeStep, EVENT_PHYSICS_BEFORE_STEP);
 
         void RegisterEvents() override { RegisterHandleInit(); RegisterHandleBeforeStep(); }
         void UnregisterEvents() override { UnregisterHandleInit(); UnregisterHandleBeforeStep(); }

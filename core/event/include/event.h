@@ -10,7 +10,7 @@
 /// @param class which class this declare in, because there is't macro like __class__ in c/c++
 /// @param func_name the exact function to declare
 /// @param event_type the event type bind to the function, type is int or EventType
-#define EVENT_DECALRE(class, func_name, event_type)                                                        \
+#define EVENT_DECLARE(class, func_name, event_type)                                                        \
 private:                                                                                                   \
     EventHandle _##func_name##_handle;                                                                     \
                                                                                                            \

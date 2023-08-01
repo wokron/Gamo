@@ -32,7 +32,7 @@ namespace gamo
         /// @brief view is a rect area that this camera can seen
         Rect View();
 
-        EVENT_DECALRE(Camera, HandleRender, EVENT_RENDER);
+        EVENT_DECLARE(Camera, HandleRender, EVENT_RENDER);
 
         void RegisterEvents() override { RegisterHandleRender(); }
         void UnregisterEvents() override { UnregisterHandleRender(); }
