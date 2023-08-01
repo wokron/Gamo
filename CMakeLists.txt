@@ -27,4 +27,4 @@ include_directories(third_party/pybind11/include)
 add_subdirectory(core)
 
 # python bind target
-add_subdirectory(py/gamo/core)
+add_subdirectory(py/gamo/core/_core)
