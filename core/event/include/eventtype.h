@@ -14,5 +14,6 @@ namespace gamo
         EVENT_COLLIDER_INIT,
         EVENT_PHYSICS_BEFORE_STEP,
         EVENT_PHYSICS_AFTER_STEP,
+        EVENT_MEM_FREE,
     };
 } // namespace gamo
