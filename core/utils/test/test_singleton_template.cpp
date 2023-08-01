@@ -1,6 +1,8 @@
 #include "gtest/gtest.h"
 #include "singleton.h"
 
+using namespace gamo;
+
 SINGLETON_BEGIN(MySingleton)
 public:
     int value = 0;
