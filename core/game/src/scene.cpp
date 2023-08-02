@@ -100,9 +100,11 @@ namespace gamo
     void Scene::Deref()
     {
         RegisterHandleMemFree();
-        for (auto item : _actors)
+        while (!_actors.empty())
         {
-            RemoveResource(item);
+            auto item = _actors.back();
+            _actors.pop_back();
+            item->Deref();
         }
     }
 

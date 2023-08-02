@@ -101,13 +101,17 @@ namespace gamo
     void Actor::Deref()
     {
         RegisterHandleMemFree();
-        for (auto item : _sub_actors)
+        while (!_sub_actors.empty())
         {
-            RemoveResource(item);
+            auto item = _sub_actors.back();
+            _sub_actors.pop_back();
+            item->Deref();
         }
-        for (auto item : _characteristics)
+        while (!_characteristics.empty())
         {
-            RemoveResource(item);
+            auto item = _characteristics.back();
+            _characteristics.pop_back();
+            item->Deref();
         }
     }
 
