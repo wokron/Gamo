@@ -15,9 +15,10 @@ TEST(TestMemFree, test_actor_destroy)
     auto s2 = new Scene();
     auto a3 = s2->CreateActor({0, 0}, 0, {1, 1});
 
+    spdlog::info("call destroy");
+    spdlog::info("expect event unregister for {}, {}", fmt::ptr(a1->GetTransform()), fmt::ptr(a2->GetTransform()));
     a1->Destroy();
     a2->Destroy();
-    spdlog::info("call destroy");
 
     spdlog::info("dispatching mem free event, expect {}, {}", fmt::ptr(a1), fmt::ptr(a2));
     EventDispatcher::GetInstance()->Dispatch(EVENT_MEM_FREE, nullptr);
@@ -31,8 +32,9 @@ TEST(TestMemFree, test_subactor_destroy)
     auto s2 = new Scene();
     auto a3 = s2->CreateActor({0, 0}, 0, {1, 1});
 
-    a1->Destroy();
     spdlog::info("call destroy");
+    spdlog::info("expect event unregister for {}, {}", fmt::ptr(a1->GetTransform()), fmt::ptr(a2->GetTransform()));
+    a1->Destroy();
 
     spdlog::info("dispatching mem free event, expect {}, {}", fmt::ptr(a1), fmt::ptr(a2));
     EventDispatcher::GetInstance()->Dispatch(EVENT_MEM_FREE, nullptr);
@@ -51,8 +53,9 @@ TEST(TestMemFree, test_characteristic_destroy)
     auto s2 = new Scene();
     auto a3 = s2->CreateActor({0, 0}, 0, {1, 1});
 
-    a1->Destroy();
     spdlog::info("call destroy");
+    spdlog::info("expect event unregister for {}, {}, {}, {}", fmt::ptr(a1->GetTransform()), fmt::ptr(a2->GetTransform()), fmt::ptr(b1), fmt::ptr(b2));
+    a1->Destroy();
 
     spdlog::info("dispatching mem free event, expect {}, {}, {}, {} and two transform characteristic", fmt::ptr(a1), fmt::ptr(a2), fmt::ptr(b1), fmt::ptr(b2));
     EventDispatcher::GetInstance()->Dispatch(EVENT_MEM_FREE, nullptr);
@@ -71,6 +74,7 @@ TEST(TestMemFree, test_scene_destroy)
     auto s2 = new Scene();
     auto a3 = s2->CreateActor({0, 0}, 0, {1, 1});
 
+    spdlog::info("expect event unregister for, {}, {}, {}, {}", fmt::ptr(a1->GetTransform()), fmt::ptr(a2->GetTransform()), fmt::ptr(b1), fmt::ptr(b2));
     Play::GetInstance()->PushScene(s1);
     Play::GetInstance()->ReplaceScene(s2);
 
