@@ -51,8 +51,8 @@ namespace gamo
         EVENT_DECLARE(Collider, HandleInit, EVENT_COLLIDER_INIT);
         EVENT_DECLARE(Collider, HandleBeforeStep, EVENT_PHYSICS_BEFORE_STEP);
 
-        void RegisterEvents() override { RegisterHandleInit(); RegisterHandleBeforeStep(); }
-        void UnregisterEvents() override { UnregisterHandleInit(); UnregisterHandleBeforeStep(); }
+        void RegisterEvents() override { RegisterHandleInit(); RegisterHandleBeforeStep(); Characteristic::RegisterEvents(); }
+        void UnregisterEvents() override { UnregisterHandleInit(); UnregisterHandleBeforeStep(); Characteristic::UnregisterEvents(); }
 
         void DispatchCollisionBegin(std::vector<Collider *> &others);
         void DispatchCollisionEnd(std::vector<Collider *> &others);

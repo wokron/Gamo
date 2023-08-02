@@ -58,8 +58,8 @@ namespace gamo
         EVENT_DECLARE(RigidBody, HandleBeforeStep, EVENT_PHYSICS_BEFORE_STEP);
         EVENT_DECLARE(RigidBody, HandleAfterStep, EVENT_PHYSICS_AFTER_STEP);
 
-        void RegisterEvents() override { RegisterHandleInit(); RegisterHandleBeforeStep(); RegisterHandleAfterStep(); }
-        void UnregisterEvents() override { UnregisterHandleInit(); UnregisterHandleBeforeStep(); UnregisterHandleAfterStep(); }
+        void RegisterEvents() override { RegisterHandleInit(); RegisterHandleBeforeStep(); RegisterHandleAfterStep(); Characteristic::RegisterEvents(); }
+        void UnregisterEvents() override { UnregisterHandleInit(); UnregisterHandleBeforeStep(); UnregisterHandleAfterStep(); Characteristic::UnregisterEvents(); }
 
         std::string Type() override { return std::string("RigidBody"); }
     };

@@ -46,8 +46,8 @@ namespace gamo
 
         EVENT_DECLARE(Renderer, HandleCameraDetect, EVENT_CAMERA_DETECT);
 
-        void RegisterEvents() override { RegisterHandleCameraDetect(); }
-        void UnregisterEvents() override { UnregisterHandleCameraDetect(); }
+        void RegisterEvents() override { RegisterHandleCameraDetect(); Characteristic::RegisterEvents(); }
+        void UnregisterEvents() override { UnregisterHandleCameraDetect(); Characteristic::UnregisterEvents(); }
 
         std::string Type() { return std::string("Renderer"); }
     };

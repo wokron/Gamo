@@ -94,7 +94,7 @@ namespace gamo
 
     void Scene::Destroy()
     {
-        spdlog::warn("scene cannot be destroyed through Destroy()");
+        spdlog::warn("Scene cannot be destroyed through Destroy()");
     }
 
     void Scene::Deref()

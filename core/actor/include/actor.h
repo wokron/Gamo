@@ -80,7 +80,7 @@ namespace gamo
         OVERRIDE_HANDLE_MEM_FREE(Actor)
         {
             UnregisterHandleMemFree();
-            spdlog::info("actor[{}] is destroying...", fmt::ptr(this));
+            spdlog::info("Actor[{}] is destroying...", fmt::ptr(this));
             delete this;
         }
 

@@ -54,7 +54,7 @@ namespace gamo
         OVERRIDE_HANDLE_MEM_FREE(Scene)
         {
             UnregisterHandleMemFree();
-            spdlog::info("scene[{}] is destroying...", fmt::ptr(this));
+            spdlog::info("Scene[{}] is destroying...", fmt::ptr(this));
             delete this;
         }
     };

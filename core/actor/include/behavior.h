@@ -18,8 +18,8 @@ namespace gamo
         EVENT_DECLARE(Behavior, HandleOnUpdate, EVENT_ON_UPDATE) { OnUpdate(); }
         EVENT_DECLARE(Behavior, HandleOnLateUpdate, EVENT_ON_LATE_UPDATE) { OnLateUpdate(); }
 
-        void RegisterEvents() override { RegisterHandleOnStart(); RegisterHandleOnUpdate(); RegisterHandleOnLateUpdate(); }
-        void UnregisterEvents() override { UnregisterHandleOnStart(); UnregisterHandleOnUpdate(); UnregisterHandleOnLateUpdate(); }
+        void RegisterEvents() override { RegisterHandleOnStart(); RegisterHandleOnUpdate(); RegisterHandleOnLateUpdate(); Characteristic::RegisterEvents(); }
+        void UnregisterEvents() override { UnregisterHandleOnStart(); UnregisterHandleOnUpdate(); UnregisterHandleOnLateUpdate(); Characteristic::UnregisterEvents(); }
 
         virtual void OnStart() {}
         virtual void OnUpdate() {}
