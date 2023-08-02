@@ -16,7 +16,7 @@ namespace gamo
     class Transform;
     class Scene;
 
-    class Actor : public IResource
+    class Actor : public IResource, public IResourceSet<Actor>
     {
     private:
         std::vector<Characteristic *> _characteristics = std::vector<Characteristic *>();
@@ -80,9 +80,11 @@ namespace gamo
         OVERRIDE_HANDLE_MEM_FREE(Actor)
         {
             UnregisterHandleMemFree();
-            spdlog::info("an actor is destroying...");
+            spdlog::info("actor[{}] is destroying...", fmt::ptr(this));
             delete this;
         }
+
+        void RemoveResource(Actor *item);
 
     private:
         Actor(Actor *sup_actor, Vect position, float rotate, Vect scale) : Actor(position, rotate, scale) { _sup_actor = sup_actor; }

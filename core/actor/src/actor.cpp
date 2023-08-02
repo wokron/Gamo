@@ -88,7 +88,11 @@ namespace gamo
 
     void Actor::Destroy()
     {
-        if (_belong_scene != nullptr)
+        if (_sup_actor != nullptr)
+        {
+            _sup_actor->RemoveResource(this);
+        }
+        else if (_belong_scene != nullptr)
         {
             _belong_scene->RemoveResource(this);
         }
@@ -97,6 +101,20 @@ namespace gamo
     void Actor::Deref()
     {
         RegisterHandleMemFree();
+        for (auto item : _sub_actors)
+        {
+            RemoveResource(item);
+        }
+    }
+
+    void Actor::RemoveResource(Actor *item)
+    {
+        auto find = std::find(_sub_actors.begin(), _sub_actors.end(), item);
+        if (find == _sub_actors.end())
+            return;
+
+        _sub_actors.erase(find);
+        item->Deref();
     }
 
 } // namespace gamo
