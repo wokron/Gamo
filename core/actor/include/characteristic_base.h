@@ -2,13 +2,15 @@
 
 #include <vector>
 #include <string>
+#include "resource.h"
+#include "spdlog/spdlog.h"
 
 namespace gamo
 {
     class Actor;
     class Transform;
 
-    class Characteristic
+    class Characteristic : public IResource
     {
     private:
         Actor *_belong_actor;
@@ -32,5 +34,15 @@ namespace gamo
         /// this is used to solve the problem that there is no method like "instanceof" in c++
         /// @return the type of characteristic
         virtual std::string Type() = 0;
+
+        void Destroy() override;
+        void Deref() override;
+
+        OVERRIDE_HANDLE_MEM_FREE(Characteristic)
+        {
+            UnregisterHandleMemFree();
+            spdlog::info("characteristic[{}] is destroying...", fmt::ptr(this));
+            delete this;
+        }
     };
 }

@@ -105,6 +105,10 @@ namespace gamo
         {
             RemoveResource(item);
         }
+        for (auto item : _characteristics)
+        {
+            RemoveResource(item);
+        }
     }
 
     void Actor::RemoveResource(Actor *item)
@@ -114,6 +118,16 @@ namespace gamo
             return;
 
         _sub_actors.erase(find);
+        item->Deref();
+    }
+
+    void Actor::RemoveResource(Characteristic *item)
+    {
+        auto find = std::find(_characteristics.begin(), _characteristics.end(), item);
+        if (find == _characteristics.end())
+            return;
+
+        _characteristics.erase(find);
         item->Deref();
     }
 
