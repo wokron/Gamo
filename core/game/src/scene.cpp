@@ -1,6 +1,7 @@
 #include "scene.h"
 #include "director.h"
 #include "actor.h"
+#include "spdlog/spdlog.h"
 #include <algorithm>
 
 namespace gamo
@@ -89,6 +90,21 @@ namespace gamo
 
         _actors.erase(find);
         item->Deref();
+    }
+
+    void Scene::Destroy()
+    {
+        spdlog::warn("scene cannot be destroyed through Destroy()");
+    }
+
+    void Scene::Deref()
+    {
+        UnregisterSystemEvents();
+        RegisterHandleMemFree();
+        for (auto item : _actors)
+        {
+            RemoveResource(item);
+        }
     }
 
 } // namespace gamo

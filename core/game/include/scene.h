@@ -3,25 +3,26 @@
 #include <vector>
 #include "physics.h"
 #include "resource.h"
+#include "spdlog/spdlog.h"
 
 namespace gamo
 {
     class Actor;
     class Camera;
 
-    class Scene : public IResourceSet<Actor>
+    class Scene : public IResourceSet<Actor>, public IResource
     {
     private:
         std::vector<Actor *> _actors = std::vector<Actor *>();
-        b2World* _physics_world = nullptr;
+        b2World *_physics_world = nullptr;
         ContactListener _contact_listener;
 
     public:
         Scene();
-        
+
         void AddActor(Actor *actor);
 
-        Actor* CreateActor(Vect position, float rotate, Vect scale);
+        Actor *CreateActor(Vect position, float rotate, Vect scale);
 
         /// @brief apply init events
         void ApplyInit();
@@ -46,6 +47,16 @@ namespace gamo
         void UnregisterSystemEvents();
 
         void RemoveResource(Actor *item) override;
+
+        void Destroy() override;
+        void Deref() override;
+        
+        OVERRIDE_HANDLE_MEM_FREE(Scene)
+        {
+            UnregisterHandleMemFree();
+            spdlog::info("scene[{}] is destroying...", fmt::ptr(this));
+            delete this;
+        }
     };
 
 } // namespace gamo

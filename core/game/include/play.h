@@ -17,8 +17,7 @@ namespace gamo
     SINGLETON_BEGIN(Play)
     private:
         std::stack<Scene *> _scene_stack = std::stack<Scene *>();
-        // the previous current scene, which will be freed on the next frame (the initial Scene is a sentinel)
-        Scene *_pre_scene = new Scene();
+        Scene *_new_scene = nullptr;
 
         unsigned int _target_frame_rate = 0;
         bool _quit = false;

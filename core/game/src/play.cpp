@@ -50,6 +50,12 @@ namespace gamo
         {
             auto target_ms = SDL_GetTicks64() + 1000u / _target_frame_rate;
 
+            if (_new_scene != nullptr)
+            {
+                _new_scene->RegisterSystemEvents();
+                _new_scene = nullptr;
+            }
+
             Input::GetInstance()->UpdateInputStates();
 
             // init event will be unregistered after the first call, so this is not a bug
@@ -75,9 +81,10 @@ namespace gamo
     void Play::Destroy()
     {
         RenderAsset::GetInstance()->Destroy();
-        _pre_scene = new Scene();
         while (!_scene_stack.empty())
-            _scene_stack.pop();
+        {
+            PopScene();
+        }
     }
 
     void Play::ReplaceScene(Scene *scene)
@@ -93,7 +100,13 @@ namespace gamo
     {
         assert(scene != nullptr);
 
+        if (!_scene_stack.empty())
+        {
+            _scene_stack.top()->UnregisterSystemEvents();
+        }
+
         _scene_stack.push(scene);
+        _new_scene = scene;
     }
 
     void Play::PopScene()
@@ -102,31 +115,16 @@ namespace gamo
         {
             auto scene = _scene_stack.top();
             _scene_stack.pop();
-            // only free no-current scene when pop, since PopScene can be called in Behavior
-            if (_pre_scene != nullptr)
+            scene->Deref();
+            if (!_scene_stack.empty())
             {
-                delete scene;
-            }
-            else
-            {
-                _pre_scene = scene;
+                _new_scene = _scene_stack.top();
             }
         }
     }
 
     Scene *Play::CurrentScene()
     {
-        auto scene = _scene_stack.empty() ? nullptr : _scene_stack.top();
-        if (_pre_scene != nullptr) // when need to switch scene
-        {
-            _pre_scene->UnregisterSystemEvents();
-            delete _pre_scene;
-            _pre_scene = nullptr;
-            if (scene != nullptr)
-            {
-                scene->RegisterSystemEvents();
-            }
-        }
-        return scene;
+        return _scene_stack.empty() ? nullptr : _scene_stack.top();
     }
 } // namespace gamo
