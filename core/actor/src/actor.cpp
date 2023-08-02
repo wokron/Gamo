@@ -1,4 +1,5 @@
 #include "actor.h"
+#include "scene.h"
 #include <algorithm>
 
 namespace gamo
@@ -84,4 +85,18 @@ namespace gamo
         _sub_actors.push_back(sub_actor);
         return sub_actor;
     }
+
+    void Actor::Destroy()
+    {
+        if (_belong_scene != nullptr)
+        {
+            _belong_scene->RemoveResource(this);
+        }
+    }
+
+    void Actor::Deref()
+    {
+        RegisterHandleMemFree();
+    }
+
 } // namespace gamo

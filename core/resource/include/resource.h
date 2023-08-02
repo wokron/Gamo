@@ -20,7 +20,6 @@ namespace gamo
     class IResourceSet
     {
     public:
-        virtual void Remove(T *item) {}
-        virtual void RemoveAll() {}
+        virtual void RemoveResource(T *item) {}
     };
 } // namespace gamo

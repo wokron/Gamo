@@ -11,7 +11,7 @@ class MyResourceSet : public IResourceSet<MyResource>
 {
 public:
     std::vector<MyResource *> members;
-    void Remove(MyResource *item) override;
+    void RemoveResource(MyResource *item) override;
 };
 
 class MyResource : public IResource, public IResourceSet<MyResource>
@@ -25,15 +25,18 @@ public:
     void Destroy() override
     {
         if (sup_resource != nullptr)
-            sup_resource->Remove(this);
+            sup_resource->RemoveResource(this);
         else
-            belong->Remove(this);
+            belong->RemoveResource(this);
     }
 
     void Deref() override
     {
         RegisterHandleMemFree();
-        RemoveAll();
+        for (auto item : sub_resources)
+        {
+            RemoveResource(item);
+        }
     }
 
     OVERRIDE_HANDLE_MEM_FREE(MyResource)
@@ -42,7 +45,7 @@ public:
         UnregisterHandleMemFree();
     }
 
-    void Remove(MyResource *item) override
+    void RemoveResource(MyResource *item) override
     {
         auto find = std::find(sub_resources.begin(), sub_resources.end(), item);
 
@@ -53,17 +56,9 @@ public:
 
         item->Deref();
     }
-
-    void RemoveAll() override 
-    {
-        for (auto item : sub_resources)
-        {
-            Remove(item);
-        }
-    }
 };
 
-void MyResourceSet::Remove(MyResource *item)
+void MyResourceSet::RemoveResource(MyResource *item)
 {
     auto find = std::find(members.begin(), members.end(), item);
 
@@ -128,7 +123,7 @@ TEST(TestResource, test_resource_tree)
     auto r1 = new MyResource();
     r1->belong = &resource_set;
     resource_set.members.push_back(r1);
-    
+
     auto r2 = new MyResource();
     r2->belong = &resource_set;
     resource_set.members.push_back(r2);
@@ -154,7 +149,7 @@ TEST(TestResource, test_resource_tree)
     // set
     // ├── r1
     // │   └── r3
-    // │        └── r4 
+    // │        └── r4
     // └── r2
     r5->Destroy();
     EventDispatcher::GetInstance()->Dispatch(EVENT_MEM_FREE, nullptr);
@@ -169,5 +164,4 @@ TEST(TestResource, test_resource_tree)
     ASSERT_TRUE(r4->is_freed);
     ASSERT_TRUE(r1->sub_resources.empty());
     ASSERT_TRUE(r2->sub_resources.empty());
-
 }

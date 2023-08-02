@@ -1,6 +1,7 @@
 #include "scene.h"
 #include "director.h"
 #include "actor.h"
+#include <algorithm>
 
 namespace gamo
 {
@@ -13,6 +14,13 @@ namespace gamo
     void Scene::AddActor(Actor *actor)
     {
         _actors.push_back(actor);
+    }
+
+    Actor* Scene::CreateActor(Vect position, float rotate, Vect scale)
+    {
+        auto actor = new Actor(this, position, rotate, scale);
+        AddActor(actor);
+        return actor;
     }
 
     void Scene::ApplyInit()
@@ -71,6 +79,16 @@ namespace gamo
         {
             actor->UnregisterSystemEvents();
         }
+    }
+
+    void Scene::RemoveResource(Actor *item)
+    {
+        auto find = std::find(_actors.begin(), _actors.end(), item);
+        if (find == _actors.end())
+            return;
+
+        _actors.erase(find);
+        item->Deref();
     }
 
 } // namespace gamo

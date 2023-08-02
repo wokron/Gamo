@@ -10,7 +10,7 @@ target_include_directories(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME}
-    utils director render physics input
+    utils director render physics input resource
 )
 
 # for test
@@ -25,3 +25,7 @@ add_test(NAME test_scene COMMAND test_scene)
 add_executable(test_physics_in_play test/test_physics_in_play.cpp)
 target_link_libraries(test_physics_in_play gtest gtest_main SDL2 SDL2_image game director actor input)
 add_test(NAME test_physics_in_play COMMAND test_physics_in_play)
+
+add_executable(test_mem_free test/test_mem_free.cpp)
+target_link_libraries(test_mem_free gtest gtest_main game director actor input)
+add_test(NAME test_mem_free COMMAND test_mem_free)

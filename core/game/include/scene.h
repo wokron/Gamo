@@ -2,13 +2,14 @@
 
 #include <vector>
 #include "physics.h"
+#include "resource.h"
 
 namespace gamo
 {
     class Actor;
     class Camera;
 
-    class Scene
+    class Scene : public IResourceSet<Actor>
     {
     private:
         std::vector<Actor *> _actors = std::vector<Actor *>();
@@ -19,6 +20,8 @@ namespace gamo
         Scene();
         
         void AddActor(Actor *actor);
+
+        Actor* CreateActor(Vect position, float rotate, Vect scale);
 
         /// @brief apply init events
         void ApplyInit();
@@ -41,6 +44,8 @@ namespace gamo
         /// @brief unregister system events in this scene
         /// system events include events in behavior, in camera, etc.
         void UnregisterSystemEvents();
+
+        void RemoveResource(Actor *item) override;
     };
 
 } // namespace gamo
