@@ -52,6 +52,7 @@ namespace gamo
 
             if (_new_scene != nullptr)
             {
+                spdlog::info("switch to a new Scene[{}]", fmt::ptr(_new_scene));
                 _new_scene->RegisterSystemEvents();
                 _new_scene = nullptr;
             }
@@ -70,6 +71,8 @@ namespace gamo
                 spdlog::error("fail to finish render step");
             }
 
+            EventDispatcher::GetInstance()->Dispatch(EVENT_MEM_FREE, nullptr); // memory free
+
             auto finish_ms = SDL_GetTicks64();
             if (target_ms > finish_ms)
             {
@@ -85,6 +88,7 @@ namespace gamo
         {
             PopScene();
         }
+        EventDispatcher::GetInstance()->Dispatch(EVENT_MEM_FREE, nullptr); // memory free
     }
 
     void Play::ReplaceScene(Scene *scene)
@@ -116,11 +120,8 @@ namespace gamo
             auto scene = _scene_stack.top();
             _scene_stack.pop();
             scene->Deref();
-            if (!_scene_stack.empty())
-            {
-                _new_scene = _scene_stack.top();
-            }
         }
+        _new_scene = CurrentScene();
     }
 
     Scene *Play::CurrentScene()
