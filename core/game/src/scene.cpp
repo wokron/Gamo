@@ -99,7 +99,6 @@ namespace gamo
 
     void Scene::Deref()
     {
-        UnregisterSystemEvents();
         RegisterHandleMemFree();
         for (auto item : _actors)
         {

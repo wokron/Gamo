@@ -22,6 +22,7 @@ namespace gamo
 
     void Characteristic::Deref()
     {
+        UnregisterEvents();
         RegisterHandleMemFree();
     }
 
