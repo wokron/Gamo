@@ -99,7 +99,7 @@ TEST(TestInput, test_mouse_position)
     {
         int x, y;
         input->GetMousePosition(&x, &y);
-        if (input->GetMouseButton(SDL_BUTTON_LEFT))
+        if (input->GetMouseButton(MouseButton::Left))
         {
             SDL_SetRenderDrawColor(renderer, 0, (Uint8)(x / 400.0 * 255), (Uint8)(y / 400.0 * 255), 255);
         }

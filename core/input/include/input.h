@@ -4,6 +4,15 @@
 
 namespace gamo
 {
+    enum MouseButton
+    {
+        Left = SDL_BUTTON_LEFT,
+        Middle = SDL_BUTTON_MIDDLE,
+        Right = SDL_BUTTON_RIGHT,
+        X1 = SDL_BUTTON_X1,
+        X2 = SDL_BUTTON_X2,
+    };
+
     SINGLETON_BEGIN(Input)
     private:
         bool _quit = false;
@@ -40,17 +49,17 @@ namespace gamo
         /// @brief check if the mouse button with the button number is being pressed now
         /// @param scancode the button number
         /// @return if the button is pressed
-        bool GetMouseButton(int button);
+        bool GetMouseButton(MouseButton button);
 
         /// @brief check if the mouse button with the button number has just been pressed
         /// @param scancode the button number
         /// @return if the button has just been pressed
-        bool GetMouseButtonDown(int button);
+        bool GetMouseButtonDown(MouseButton button);
 
         /// @brief check if the mouse button with the button number has been released
         /// @param scancode the button number
         /// @return if the button has been released
-        bool GetMouseButtonUp(int button);
+        bool GetMouseButtonUp(MouseButton button);
 
         /// @brief get the current mouse position,
         /// regardless of whether the mouse is shown or not.

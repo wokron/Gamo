@@ -68,17 +68,17 @@ namespace gamo
         return _keyboard_up[scancode] == 1;
     }
 
-    bool Input::GetMouseButton(int button)
+    bool Input::GetMouseButton(MouseButton button)
     {
         return _mouse & SDL_BUTTON(button);
     }
 
-    bool Input::GetMouseButtonDown(int button)
+    bool Input::GetMouseButtonDown(MouseButton button)
     {
         return _mouse_down & SDL_BUTTON(button);
     }
 
-    bool Input::GetMouseButtonUp(int button)
+    bool Input::GetMouseButtonUp(MouseButton button)
     {
         return _mouse_up & SDL_BUTTON(button);
     }
