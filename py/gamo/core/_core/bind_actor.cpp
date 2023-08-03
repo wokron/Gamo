@@ -3,7 +3,7 @@
 
 void bind_actor(py::module_ &m)
 {
-    py::class_<Actor>(m, "Actor")
+    py::class_<Actor, IResource>(m, "Actor")
         .def(py::init([](){ return new Actor({0, 0}, 0, {1, 1}); }))
         .def(py::init<Vect, float, Vect>(), "position"_a, "rotate"_a, "scale"_a)
         .def_property_readonly("characteristics", &Actor::GetCharacteristics)
@@ -16,7 +16,7 @@ void bind_actor(py::module_ &m)
         .def("create_sub_actor", &Actor::CreateSubActor, "position"_a, "rotate"_a, "scale"_a)
         .def("add_characteristic", &Actor::AddCharacteristic, "ch"_a);
 
-    py::class_<Characteristic>(m, "Characteristic")
+    py::class_<Characteristic, IResource>(m, "Characteristic")
         .def_property_readonly("actor", &Characteristic::BelongActor);
 
     py::class_<Transform, Characteristic>(m, "Transform")

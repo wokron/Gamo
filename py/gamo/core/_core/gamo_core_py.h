@@ -13,3 +13,4 @@ void bind_game(py::module_ &m);
 void bind_actor(py::module_ &m);
 void bind_input(py::module_ &m);
 void bind_physics(py::module_ &m);
+void bind_resource(py::module_ &m);

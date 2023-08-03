@@ -13,7 +13,7 @@ void bind_game(py::module_ &m)
         .def("push_scene", &Play::PushScene, "scene"_a)
         .def("pop_scene", &Play::PopScene);
 
-    py::class_<Scene>(m, "Scene")
+    py::class_<Scene, IResource>(m, "Scene")
         .def(py::init<>())
         .def("add_actor", &Scene::AddActor, "actor"_a);
 }
