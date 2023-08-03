@@ -60,6 +60,11 @@ void bind_actor(py::module_ &m)
         .def_property("gravity_scale", py::overload_cast<>(&RigidBody::GravityScale), py::overload_cast<float>(&RigidBody::GravityScale))
         .def_property("is_bullet", py::overload_cast<>(&RigidBody::Bullet), py::overload_cast<bool>(&RigidBody::Bullet));
 
+    py::enum_<b2BodyType>(m, "RigidBodyType")
+        .value("Static", b2BodyType::b2_staticBody)
+        .value("Kinematic", b2BodyType::b2_kinematicBody)
+        .value("Dynamic", b2BodyType::b2_dynamicBody);
+
     py::class_<Collider, Characteristic>(m, "Collider")
         .def(py::init<Actor*>())
         .def_property("shape", py::overload_cast<>(&Collider::Shape), py::overload_cast<b2Shape*>(&Collider::Shape))
