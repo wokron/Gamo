@@ -1,5 +1,5 @@
 # Gamo Engine
-- [English](README.md)
+- [English](../README.md)
 - [中文](docs/README.zh.md)
 
 ## 这是什么？
