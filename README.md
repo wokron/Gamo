@@ -1,6 +1,6 @@
 # Gamo Engine
 - [English](README.md)
-- [中文](docs/README_zh.md)
+- [中文](docs/README.zh.md)
 
 ## What is this?
 Gamo is a 2D game engine written in C++, with Python used as a scripting language. The Gamo engine has implemented some basic functionalities, but there is still a long way to go before it's fully developed. If you are interested in this project, feel free to provide suggestions or contribute to its development. Your attention is the greatest recognition for me (wokron).
