@@ -14,6 +14,6 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 # for test
-# add_executable(test_input test/test_input.cpp)
-# target_link_libraries(test_input gtest gtest_main SDL2 SDL2_image game render input)
-# add_test(NAME test_input COMMAND test_input)
+add_executable(test_shape test/test_shape.cpp)
+target_link_libraries(test_shape gtest gtest_main physics)
+add_test(NAME test_shape COMMAND test_shape)
