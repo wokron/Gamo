@@ -18,7 +18,7 @@ namespace gamo
         /// @param offset offset from rigidbody center to shape center
         /// @param rotate the angle of rotate aroud the center, the unit is radians, > 0 for counterclockwise
         /// @return a b2SHape obj, should not free this pointer
-        virtual b2Shape *ToBox2DShape(Vect offset, float rotate) = 0;
+        virtual b2Shape *ToBox2DShape(Vect offset, float rotate, Vect scale) = 0;
     };
     
     class Circle : public Shape
@@ -31,7 +31,7 @@ namespace gamo
         float Radius() { return _radius; }
         void Radius(float radius) { _radius = radius; }
 
-        b2Shape *ToBox2DShape(Vect offset, float rotate) override;
+        b2Shape *ToBox2DShape(Vect offset, float rotate, Vect scale) override;
     };
     
     class Polygon : public Shape
@@ -50,7 +50,7 @@ namespace gamo
             Center(center);
         }
 
-        b2Shape *ToBox2DShape(Vect offset, float rotate) override;
+        b2Shape *ToBox2DShape(Vect offset, float rotate, Vect scale) override;
     };
 
 } // namespace gamo
