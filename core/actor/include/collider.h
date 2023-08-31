@@ -14,7 +14,7 @@ namespace gamo
         // b2FixtureDef _fixturedef;
         b2Fixture *_fixture = nullptr;
 
-        b2Shape *_shape = nullptr;
+        Shape *_shape = nullptr;
         float _friction = 0.2f;
         float _restitution = 0.0f;
         float _density = 0.0f;
@@ -27,8 +27,8 @@ namespace gamo
         // b2FixtureDef &Define() { return _fixturedef; }
         b2Fixture *Fixture() { return _fixture; }
 
-        b2Shape *Shape();
-        void Shape(b2Shape *shape);
+        Shape *ColliderShape();
+        void ColliderShape(Shape *shape);
 
         float Friction();
         void Friction(float f);
@@ -58,6 +58,9 @@ namespace gamo
         void DispatchCollisionEnd(std::vector<Collider *> &others);
 
         std::string Type() override { return std::string("Collider"); }
+    
+    private:
+        void CreateAndRepalceFixture(b2Body *rigidbody);
     };
 
 } // namespace gamo

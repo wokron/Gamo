@@ -43,6 +43,12 @@ namespace gamo
     public:
         std::vector<Vect> &Vertices() { return _vertices; }
         void Vertices(std::vector<Vect> vertices) { _vertices = vertices; }
+        
+        void SetAsBox(float hx, float hy, Vect center)
+        {
+            _vertices = {{hx, hy}, {-hx, hy}, {-hx, -hy}, {hx, -hy}};
+            Center(center);
+        }
 
         b2Shape *ToBox2DShape(Vect offset, float rotate) override;
     };

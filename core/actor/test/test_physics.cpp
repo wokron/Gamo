@@ -41,9 +41,9 @@ TEST(TestPhysics, test_simple)
     actor->GetCharacteristics().push_back(rigidbody);
     // add collider
     auto collider = new Collider(actor);
-    b2PolygonShape shape;
-    shape.SetAsBox(0.5, 0.5);
-    collider->Shape(&shape);
+    Polygon shape;
+    shape.SetAsBox(0.5, 0.5, {0, 0});
+    collider->ColliderShape(&shape);
     collider->Density(10.0f);
     collider->Friction(0.6f);
     collider->Restitution(0.2f);
@@ -63,9 +63,9 @@ TEST(TestPhysics, test_simple)
     actor2->GetCharacteristics().push_back(rigidbody2);
     // add collider
     auto collider2 = new Collider(actor2);
-    b2PolygonShape shape2;
-    shape2.SetAsBox(0.25, 0.25);
-    collider2->Shape(&shape2);
+    Polygon shape2;
+    shape2.SetAsBox(0.25, 0.25, {0, 0});
+    collider2->ColliderShape(&shape2);
     collider2->Density(20.0f);
     collider2->Friction(0.6f);
     collider2->Restitution(0.2f);
@@ -84,9 +84,9 @@ TEST(TestPhysics, test_simple)
     ground_actor->GetCharacteristics().push_back(groundbody);
     // add collider
     auto groundcollider = new Collider(ground_actor);
-    b2PolygonShape groundshape;
-    groundshape.SetAsBox(10, 0.5);
-    groundcollider->Shape(&groundshape);
+    Polygon groundshape;
+    groundshape.SetAsBox(10, 0.5, {0, 0});
+    groundcollider->ColliderShape(&groundshape);
     groundcollider->Category(COLLISION_CATEGORY(3));
     ground_actor->GetCharacteristics().push_back(groundcollider);
 
