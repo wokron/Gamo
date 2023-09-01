@@ -29,7 +29,7 @@ TEST(TestPhysics, test_simple)
 
     auto sprite = GetSprite();
 
-    auto actor = new Actor({0, 2}, 30, {1, 1});
+    auto actor = new Actor({0, 2}, 30, {2, 1});
     actor->Layer(LAYER(0));
     // add renderer
     auto renderer = new Renderer(actor);
@@ -51,6 +51,24 @@ TEST(TestPhysics, test_simple)
     collider->CollideWith(COLLISION_CATEGORY(1) | COLLISION_CATEGORY(2) | COLLISION_CATEGORY(3));
     actor->GetCharacteristics().push_back(collider);
 
+    auto actor_sub = actor->CreateSubActor({-1, -0.5}, 10, {0.5, 0.5});
+    actor_sub->Layer(LAYER(0));
+    // add renderer
+    auto renderer_sub = new Renderer(actor_sub);
+    renderer_sub->TargetSprite(sprite);
+    actor_sub->GetCharacteristics().push_back(renderer_sub);
+    // add collider
+    auto collider_sub = new Collider(actor_sub);
+    Polygon shape_sub;
+    shape_sub.SetAsBox(0.5, 0.5, {0, 0});
+    collider_sub->ColliderShape(&shape_sub);
+    collider_sub->Density(10.0f);
+    collider_sub->Friction(0.6f);
+    collider_sub->Restitution(0.2f);
+    collider_sub->Category(COLLISION_CATEGORY(1));
+    collider_sub->CollideWith(COLLISION_CATEGORY(1) | COLLISION_CATEGORY(2) | COLLISION_CATEGORY(3));
+    actor_sub->GetCharacteristics().push_back(collider_sub);
+
     auto actor2 = new Actor({0.5, 3}, -10, {0.5, 0.5});
     actor2->Layer(LAYER(0));
     // add renderer
@@ -64,7 +82,7 @@ TEST(TestPhysics, test_simple)
     // add collider
     auto collider2 = new Collider(actor2);
     Polygon shape2;
-    shape2.SetAsBox(0.25, 0.25, {0, 0});
+    shape2.SetAsBox(0.5, 0.5, {0, 0});
     collider2->ColliderShape(&shape2);
     collider2->Density(20.0f);
     collider2->Friction(0.6f);
@@ -105,6 +123,9 @@ TEST(TestPhysics, test_simple)
     rigidbody->RegisterHandleInit();
     collider->RegisterHandleInit();
     collider->RegisterHandleBeforeStep();
+    renderer_sub->RegisterHandleCameraDetect();
+    collider_sub->RegisterHandleInit();
+    collider_sub->RegisterHandleBeforeStep();
     renderer2->RegisterHandleCameraDetect();
     rigidbody2->RegisterHandleAfterStep();
     rigidbody2->RegisterHandleBeforeStep();
@@ -144,6 +165,9 @@ TEST(TestPhysics, test_simple)
     rigidbody->UnregisterHandleInit();
     collider->UnregisterHandleInit();
     collider->UnregisterHandleBeforeStep();
+    renderer_sub->UnregisterHandleCameraDetect();
+    collider_sub->UnregisterHandleInit();
+    collider_sub->UnregisterHandleBeforeStep();
     renderer2->UnregisterHandleCameraDetect();
     rigidbody2->UnregisterHandleAfterStep();
     rigidbody2->UnregisterHandleBeforeStep();
