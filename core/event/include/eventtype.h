@@ -15,5 +15,6 @@ namespace gamo
         EVENT_PHYSICS_BEFORE_STEP,
         EVENT_PHYSICS_AFTER_STEP,
         EVENT_MEM_FREE,
+        EVENT_TILE_INIT,
     };
 } // namespace gamo
