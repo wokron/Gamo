@@ -5,48 +5,40 @@ namespace gamo
 {
     Vect Transform::GlobalPosition()
     {
-        auto sup_actor = BelongActor()->SupActor();
-        if (sup_actor == nullptr)
+        Vect global_pos = {0, 0};
+        auto actor = BelongActor();
+        while (actor != nullptr)
         {
-            return Position();
-        }
-        else
-        {
-            auto sup_pos = sup_actor->GetTransform()->GlobalPosition();
-            auto sup_angle = sup_actor->GetTransform()->Rotate();
-            auto relative_pos = Position();
+            float sup_angle = actor->SupActor() == nullptr ? 0 : actor->SupActor()->GetTransform()->Rotate();
             Matrix rotate_m; rotate_m.AsRotate((sup_angle * M_PI / 180));
-            return rotate_m * relative_pos + sup_pos;
+            global_pos = global_pos + rotate_m * actor->GetTransform()->Position();
+            actor = actor->SupActor();
         }
+        return global_pos;
     }
 
     float Transform::GlobalRotate()
     {
-        auto sup_actor = BelongActor()->SupActor();
-        if (sup_actor == nullptr)
+        auto global_rotate = 0;
+        auto actor = BelongActor();
+        while (actor != nullptr)
         {
-            return Rotate();
+            global_rotate += actor->GetTransform()->Rotate();
+            actor = actor->SupActor();
         }
-        else
-        {
-            auto sup_rotate = sup_actor->GetTransform()->GlobalRotate();
-            return sup_rotate + Rotate();
-        }
+        return global_rotate;
     }
 
     Vect Transform::GlobalScale()
     {
-        auto sup_actor = BelongActor()->SupActor();
-        if (sup_actor == nullptr)
+        Vect global_scale = {1, 1};
+        auto actor = BelongActor();
+        while (actor != nullptr)
         {
-            return Scale();
+            global_scale = global_scale * actor->GetTransform()->Scale();
+            actor = actor->SupActor();
         }
-        else
-        {
-            auto sup_scale = sup_actor->GetTransform()->GlobalScale();
-            auto relative_scale = Scale();
-            return relative_scale * sup_scale;
-        }
+        return global_scale;
     }
 
 } // namespace gamo
