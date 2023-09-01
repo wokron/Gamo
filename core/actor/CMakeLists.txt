@@ -29,3 +29,7 @@ add_test(NAME test_behavior COMMAND test_behavior)
 add_executable(test_physics test/test_physics.cpp)
 target_link_libraries(test_physics gtest gtest_main SDL2 SDL2_image actor event game input)
 add_test(NAME test_physics COMMAND test_physics)
+
+add_executable(test_transform test/test_transform.cpp)
+target_link_libraries(test_transform gtest gtest_main SDL2 SDL2_image actor)
+add_test(NAME test_transform COMMAND test_transform)
