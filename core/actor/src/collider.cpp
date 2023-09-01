@@ -5,7 +5,7 @@
 
 namespace gamo
 {
-    void Collider::CreateAndRepalceFixture(b2Body *rigidbody)
+    void Collider::CreateAndRepalceFixture(b2Body *rigidbody, Vect offset, float rotate, Vect scale)
     {
         if (_fixture != nullptr)
         {
@@ -22,7 +22,7 @@ namespace gamo
 
         // fixture definition for initial
         b2FixtureDef def;
-        def.shape = _shape->ToBox2DShape({0, 0}, 0, {1, 1}); // todo: need to use offset and angle
+        def.shape = _shape->ToBox2DShape(offset, rotate, scale);
         def.friction = _friction;
         def.restitution = _restitution;
         def.density = _density;
@@ -34,14 +34,45 @@ namespace gamo
         _fixture = rigidbody->CreateFixture(&def);
     }
 
+    RigidBody *Collider::SearchRigidBody(Vect *rt_offset, float *rt_rotate, Vect *rt_scale)
+    {
+        Vect offset = {0, 0};
+        float rotate = 0;
+        Vect scale = {1, 1};
+        auto cur_actor = BelongActor();
+
+        while (cur_actor->SupActor() != nullptr)
+        {
+            rotate += cur_actor->GetTransform()->Rotate();
+            scale = scale * cur_actor->GetTransform()->Scale();
+            Matrix rotate_m; rotate_m.AsRotate(cur_actor->SupActor()->GetTransform()->Rotate() * M_PI / 180);
+            offset = rotate_m * offset + cur_actor->GetTransform()->Position();
+            cur_actor = cur_actor->SupActor();
+        }
+        scale = scale * cur_actor->GetTransform()->Scale();
+
+        auto rigidbody = (RigidBody *)cur_actor->GetCharacteristicByType("RigidBody"); // rigidbody should be in the root actor
+        if (rigidbody == nullptr)
+        {
+            return nullptr;
+        }
+        
+        if (rt_offset) *rt_offset = offset;
+        if (rt_rotate) *rt_rotate = rotate;
+        if (rt_scale) *rt_scale = scale;
+        return rigidbody;
+    }
+
     void Collider::HandleInit(Event *e)
     {
-        auto rigidbody = (RigidBody *)BelongActor()->GetCharacteristicByType("RigidBody"); // todo: need to implement RigidBody searching method 
+        Vect offset, scale;
+        float rotate;
+        auto rigidbody = SearchRigidBody(&offset, &rotate, &scale);
         if (rigidbody != nullptr)
         {
             assert(rigidbody->Body() != nullptr);
 
-            CreateAndRepalceFixture(rigidbody->Body());
+            CreateAndRepalceFixture(rigidbody->Body(), offset, rotate, scale);
         }
         UnregisterHandleInit();
     }
@@ -92,7 +123,17 @@ namespace gamo
     {
         _shape = shape;
         if (_fixture)
-            CreateAndRepalceFixture(_fixture->GetBody());
+        {
+            Vect offset, scale;
+            float rotate;
+            auto rigidbody = SearchRigidBody(&offset, &rotate, &scale);
+            if (rigidbody != nullptr)
+            {
+                assert(rigidbody->Body() != nullptr);
+
+                CreateAndRepalceFixture(rigidbody->Body(), offset, rotate, scale);
+            }
+        }
     }
 
     float Collider::Friction()

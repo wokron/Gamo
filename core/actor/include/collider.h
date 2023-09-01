@@ -60,7 +60,8 @@ namespace gamo
         std::string Type() override { return std::string("Collider"); }
     
     private:
-        void CreateAndRepalceFixture(b2Body *rigidbody);
+        void CreateAndRepalceFixture(b2Body *rigidbody, Vect offset, float rotate, Vect scale);
+        RigidBody *SearchRigidBody(Vect *rt_offset, float *rt_rotate, Vect *rt_scale);
     };
 
 } // namespace gamo
