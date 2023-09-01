@@ -17,6 +17,7 @@ namespace gamo
 
     public:
         Characteristic(Actor *actor) { _belong_actor = actor; }
+        virtual ~Characteristic() {} // there are subclasses of the Characteristic, so virtual destructor is needed
 
         Actor *BelongActor() { return _belong_actor; }
 
