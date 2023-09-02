@@ -37,3 +37,7 @@ add_test(NAME test_transform COMMAND test_transform)
 add_executable(test_tilemap test/test_tilemap.cpp)
 target_link_libraries(test_tilemap gtest gtest_main SDL2 SDL2_image actor)
 add_test(NAME test_tilemap COMMAND test_tilemap)
+
+add_executable(test_clone test/test_clone.cpp)
+target_link_libraries(test_clone gtest gtest_main SDL2 SDL2_image actor)
+add_test(NAME test_clone COMMAND test_clone)
