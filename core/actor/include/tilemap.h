@@ -21,6 +21,8 @@ namespace gamo
         }
 
         std::string Type() override { return std::string("Tilemap"); }
+
+        Tilemap *Clone() override;
     };
 
     class Tile : public Characteristic
@@ -53,6 +55,8 @@ namespace gamo
         }
 
         std::string Type() override { return std::string("Tile"); }
+
+        Tile *Clone() override;
 
     private:
         Tilemap *SearchTilemap();

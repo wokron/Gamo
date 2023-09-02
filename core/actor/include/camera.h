@@ -38,5 +38,7 @@ namespace gamo
         void UnregisterEvents() override { UnregisterHandleRender(); Characteristic::UnregisterEvents(); }
 
         std::string Type() { return std::string("Camera"); }
+
+        Camera *Clone() override;
     };
 } // namespace gamo

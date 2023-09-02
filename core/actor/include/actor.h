@@ -16,7 +16,7 @@ namespace gamo
     class Transform;
     class Scene;
 
-    class Actor : public IResource, public IResourceSet<Actor>, public IResourceSet<Characteristic>
+    class Actor : public IResource, public IResourceSet<Actor>, public IResourceSet<Characteristic>, public IPrototype<Actor>
     {
     private:
         std::vector<Characteristic *> _characteristics = std::vector<Characteristic *>();
@@ -39,6 +39,7 @@ namespace gamo
         Actor *SupActor() { return _sup_actor; }
 
         Scene *BelongScene() { return _belong_scene; }
+        void BelongScene(Scene *scene) { _belong_scene = scene; }
 
         unsigned int Layer() { return _layer; }
         void Layer(unsigned int layer) { _layer = layer; }
@@ -86,6 +87,8 @@ namespace gamo
 
         void RemoveResource(Actor *item) override;
         void RemoveResource(Characteristic *item) override;
+
+        Actor *Clone() override;
 
     private:
         Actor(Actor *sup_actor, Vect position, float rotate, Vect scale) : Actor(position, rotate, scale) { _sup_actor = sup_actor; }

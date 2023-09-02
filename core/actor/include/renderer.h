@@ -50,6 +50,8 @@ namespace gamo
         void UnregisterEvents() override { UnregisterHandleCameraDetect(); Characteristic::UnregisterEvents(); }
 
         std::string Type() { return std::string("Renderer"); }
+        
+        Renderer *Clone() override;
     };
 
     class RendererEvent : public Event

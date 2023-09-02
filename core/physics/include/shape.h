@@ -5,7 +5,7 @@
 
 namespace gamo
 {
-    class Shape
+    class Shape : public IPrototype<Shape>
     {
     private:
         Vect _center = {0, 0};
@@ -19,6 +19,8 @@ namespace gamo
         /// @param rotate the angle of rotate aroud the center, the unit is radians, > 0 for counterclockwise
         /// @return a b2SHape obj, should not free this pointer
         virtual b2Shape *ToBox2DShape(Vect offset, float rotate, Vect scale) = 0;
+
+        virtual Shape *Clone() override = 0;
     };
     
     class Circle : public Shape
@@ -32,6 +34,14 @@ namespace gamo
         void Radius(float radius) { _radius = radius; }
 
         b2Shape *ToBox2DShape(Vect offset, float rotate, Vect scale) override;
+
+        virtual Circle *Clone() override
+        {
+            auto obj = new Circle();
+            obj->Center(this->Center());
+            obj->_radius = _radius;
+            return obj;
+        }
     };
     
     class Polygon : public Shape
@@ -51,6 +61,14 @@ namespace gamo
         }
 
         b2Shape *ToBox2DShape(Vect offset, float rotate, Vect scale) override;
+
+        virtual Polygon *Clone() override
+        {
+            auto obj = new Polygon();
+            obj->Center(this->Center());
+            obj->_vertices = _vertices;
+            return obj;
+        }
     };
 
 } // namespace gamo

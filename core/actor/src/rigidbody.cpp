@@ -186,4 +186,20 @@ namespace gamo
             _body->SetBullet(_bullet);
     }
 
+    RigidBody *RigidBody::Clone()
+    {
+        auto obj = new RigidBody(nullptr);
+        obj->_body = nullptr;
+        obj->_linear_velocity = _linear_velocity;
+        obj->_angular_velocity = _angular_velocity;
+        obj->_body_type = _body_type;
+        obj->_linear_damping = _linear_damping;
+        obj->_angular_damping = _angular_damping;
+        obj->_allow_sleep = _allow_sleep;
+        obj->_fixed_rotate = _fixed_rotate;
+        obj->_gravity_scale = _gravity_scale;
+        obj->_bullet = _bullet;
+        return obj;
+    }
+
 } // namespace gamo

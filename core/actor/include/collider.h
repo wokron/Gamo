@@ -58,6 +58,8 @@ namespace gamo
         void DispatchCollisionEnd(std::vector<Collider *> &others);
 
         std::string Type() override { return std::string("Collider"); }
+
+        Collider *Clone() override;
     
     private:
         void CreateAndRepalceFixture(b2Body *rigidbody, Vect offset, float rotate, Vect scale);

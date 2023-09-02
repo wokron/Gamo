@@ -26,4 +26,14 @@ namespace gamo
         Rect view = Rect::FromVect(pos - halfwh, halfwh * 2);
         return view;
     }
+
+    Camera *Camera::Clone()
+    {
+        auto obj = new Camera(nullptr);
+        obj->_camera_size = _camera_size;
+        obj->_view = _view;
+        obj->_depth = _depth;
+        obj->_layers = _layers;
+        return obj;
+    }
 } // namespace gamo

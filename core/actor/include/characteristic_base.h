@@ -10,7 +10,7 @@ namespace gamo
     class Actor;
     class Transform;
 
-    class Characteristic : public IResource
+    class Characteristic : public IResource, public IPrototype<Characteristic>
     {
     private:
         Actor *_belong_actor;
@@ -20,6 +20,7 @@ namespace gamo
         virtual ~Characteristic() {} // there are subclasses of the Characteristic, so virtual destructor is needed
 
         Actor *BelongActor() { return _belong_actor; }
+        void BelongActor(Actor *actor) { _belong_actor = actor; }
 
         std::vector<Characteristic *> &GetCharacteristics();
 
@@ -45,5 +46,7 @@ namespace gamo
             spdlog::info("{}[{}] is destroying...", Type(), fmt::ptr(this));
             delete this;
         }
+
+        virtual Characteristic *Clone() override = 0;
     };
 }

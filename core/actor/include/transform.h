@@ -14,6 +14,7 @@ namespace gamo
         Vect _position;
         float _rotate;
         Vect _scale;
+        // todo: the following fields should be removed later
         bool _is_pos_rotate_modified = false;
         bool _is_scale_modified = true;
 
@@ -44,5 +45,7 @@ namespace gamo
         }
 
         std::string Type() { return std::string("Transform"); }
+
+        Transform *Clone() override;
     };
 } // namespace gamo

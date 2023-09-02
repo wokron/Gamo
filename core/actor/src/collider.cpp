@@ -121,7 +121,12 @@ namespace gamo
 
     void Collider::ColliderShape(Shape *shape)
     {
-        _shape = shape;
+        if (_shape != nullptr)
+        {
+            delete _shape;
+            _shape = nullptr;
+        }
+        _shape = shape->Clone();
         if (_fixture)
         {
             Vect offset, scale;
@@ -226,6 +231,20 @@ namespace gamo
             f.maskBits = _collide_with;
             _fixture->SetFilterData(f);
         }
+    }
+
+    Collider *Collider::Clone()
+    {
+        auto obj = new Collider(nullptr);
+        obj->_fixture = nullptr;
+        obj->_shape = (_shape == nullptr ? nullptr : _shape->Clone());
+        obj->_friction = _friction;
+        obj->_restitution = _restitution;
+        obj->_density = _density;
+        obj->_is_sensor = _is_sensor;
+        obj->_category = _category;
+        obj->_collide_with = _collide_with;
+        return obj;
     }
 
 } // namespace gamo

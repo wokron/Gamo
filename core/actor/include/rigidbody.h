@@ -62,6 +62,8 @@ namespace gamo
         void UnregisterEvents() override { UnregisterHandleInit(); UnregisterHandleBeforeStep(); UnregisterHandleAfterStep(); Characteristic::UnregisterEvents(); }
 
         std::string Type() override { return std::string("RigidBody"); }
+
+        RigidBody *Clone() override;
     };
 
     class RigidBodyEvent : public Event

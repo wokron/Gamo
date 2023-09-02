@@ -30,5 +30,7 @@ namespace gamo
         virtual void OnCollisionEnd(Collider *other) {}
 
         std::string Type() { return std::string("Behavior"); }
+
+        virtual Behavior *Clone() override { return new Behavior(nullptr); }
     };
 } // namespace gamo

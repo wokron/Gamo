@@ -4,6 +4,13 @@
 
 namespace gamo
 {
+    Tilemap *Tilemap::Clone()
+    {
+        auto obj = new Tilemap(nullptr);
+        obj->_cell_size = _cell_size;
+        return obj;
+    }
+
     void Tile::HandleInit(Event *e)
     {
         auto tilemap = SearchTilemap();
@@ -25,6 +32,14 @@ namespace gamo
         // corner_position is the positon of the lower left corner of the grid
         auto corner_position = cell_size * total_position;
         return corner_position + cell_size / 2;
+    }
+
+    Tile *Tile::Clone()
+    {
+        auto obj = new Tile(nullptr);
+        obj->_position = _position;
+        obj->_anchor = _anchor;
+        return obj;
     }
 
     Tilemap *Tile::SearchTilemap()

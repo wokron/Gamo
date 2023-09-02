@@ -76,4 +76,14 @@ namespace gamo
             RenderDirector::GetInstance()->PushRenderCall(this, camera);
         }
     }
+
+    Renderer *Renderer::Clone()
+    {
+        auto obj = new Renderer(nullptr);
+        obj->_target_sprite = _target_sprite;
+        obj->_color_config = _color_config;
+        obj->_render_level = _render_level;
+        obj->_visiable = _visiable;
+        return obj;
+    }
 } // namespace gamo

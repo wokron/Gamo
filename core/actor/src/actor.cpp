@@ -135,4 +135,30 @@ namespace gamo
         item->Deref();
     }
 
+    Actor *Actor::Clone()
+    {
+        auto obj = new Actor(_transform->Position(), _transform->Rotate(), _transform->Scale());
+        for (auto item : _characteristics)
+        {
+            if (item->Type() == "Transform")
+                continue;
+            auto item_clone = item->Clone();
+            item_clone->BelongActor(obj);
+            obj->AddCharacteristic(item_clone);
+        }
+        
+        obj->_layer = _layer;
+
+        for (auto sub_actor : _sub_actors)
+        {
+            auto sub_actor_clone = sub_actor->Clone();
+            sub_actor_clone->_sup_actor = obj;
+            obj->_sub_actors.push_back(sub_actor_clone);
+        }
+
+        obj->_sup_actor = nullptr;
+        obj->_belong_scene = nullptr;
+        return obj;
+    }
+
 } // namespace gamo
