@@ -23,6 +23,13 @@ include_directories(third_party/box2d/include)
 add_subdirectory(third_party/pybind11)
 include_directories(third_party/pybind11/include)
 
+set(CLIPPER2_EXAMPLES OFF)
+set(CLIPPER2_TESTS OFF)
+add_subdirectory(third_party/clipper2/CPP)
+
+add_library(convexdecomposition INTERFACE)
+target_include_directories(convexdecomposition INTERFACE third_party/convexdecomposition/src)
+
 # cpp core
 add_subdirectory(core)
 

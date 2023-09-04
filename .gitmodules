@@ -15,3 +15,9 @@
 [submodule "third_party/spdlog"]
 	path = third_party/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "third_party/clipper2"]
+	path = third_party/clipper2
+	url = https://github.com/AngusJohnson/Clipper2
+[submodule "third_party/convexdecomposition"]
+	path = third_party/convexdecomposition
+	url = https://github.com/mjjq/ConvexDecomposition.git
