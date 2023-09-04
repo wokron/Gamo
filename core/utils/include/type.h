@@ -58,6 +58,11 @@ namespace gamo
             return {x, y};
         }
 
+        bool operator==(const Vect &other)
+        {
+            return fabs(this->x - other.x) < 1e-6 && fabs(this->y - other.y) < 1e-6;
+        }
+
         std::string ToString()
         {
             return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
