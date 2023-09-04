@@ -142,7 +142,7 @@ TEST(TestPlay, test_physics)
     // add collider
     auto collider2 = new Collider(actor2);
     Polygon shape2;
-    shape2.SetAsBox(0.5, 0.25, {0, 0});
+    shape2.SetAsBox(0.5, 0.5, {0, 0});
     collider2->ColliderShape(&shape2);
     collider2->Density(20.0f);
     collider2->Friction(0.6f);
