@@ -11,8 +11,7 @@ namespace gamo
     class Collider : public Characteristic
     {
     private:
-        // b2FixtureDef _fixturedef;
-        b2Fixture *_fixture = nullptr;
+        std::vector<b2Fixture *> _fixtures;
 
         Shape *_shape = nullptr;
         float _friction = 0.2f;
@@ -24,8 +23,7 @@ namespace gamo
 
     public:
         Collider(Actor *actor) : Characteristic(actor) {}
-        // b2FixtureDef &Define() { return _fixturedef; }
-        b2Fixture *Fixture() { return _fixture; }
+        std::vector<b2Fixture *> Fixture() { return _fixtures; }
 
         Shape *ColliderShape();
         void ColliderShape(Shape *shape);

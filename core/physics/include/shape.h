@@ -2,6 +2,7 @@
 
 #include "utils.h"
 #include "box2d/box2d.h"
+#include <vector>
 
 namespace gamo
 {
@@ -18,7 +19,7 @@ namespace gamo
         /// @param offset offset from rigidbody center to shape center
         /// @param rotate the angle of rotate aroud the center, the unit is radians, > 0 for counterclockwise
         /// @return a b2SHape obj, should not free this pointer
-        virtual b2Shape *ToBox2DShape(Vect offset, float rotate, Vect scale) = 0;
+        virtual std::vector<b2Shape *> ToBox2DShape(Vect offset, float rotate, Vect scale) = 0;
 
         virtual Shape *Clone() override = 0;
     };
@@ -33,7 +34,7 @@ namespace gamo
         float Radius() { return _radius; }
         void Radius(float radius) { _radius = radius; }
 
-        b2Shape *ToBox2DShape(Vect offset, float rotate, Vect scale) override;
+        std::vector<b2Shape *> ToBox2DShape(Vect offset, float rotate, Vect scale) override;
 
         virtual Circle *Clone() override
         {
@@ -48,7 +49,7 @@ namespace gamo
     {
     private:
         std::vector<Vect> _vertices = {{0.5, 0.5}, {-0.5, 0.5}, {-0.5, -0.5}, {0.5, -0.5}};
-        b2PolygonShape _polygon;
+        std::vector<b2Shape *> _polygons;
 
     public:
         std::vector<Vect> &Vertices() { return _vertices; }
@@ -60,7 +61,7 @@ namespace gamo
             Center(center);
         }
 
-        b2Shape *ToBox2DShape(Vect offset, float rotate, Vect scale) override;
+        std::vector<b2Shape *> ToBox2DShape(Vect offset, float rotate, Vect scale) override;
 
         virtual Polygon *Clone() override
         {
@@ -68,6 +69,21 @@ namespace gamo
             obj->Center(this->Center());
             obj->_vertices = _vertices;
             return obj;
+        }
+
+        ~Polygon()
+        {
+            ClearPolygonList();
+        }
+    private:
+        void ClearPolygonList()
+        {
+            while (!_polygons.empty())
+            {
+                auto pre_point = (b2PolygonShape *)_polygons.back();
+                _polygons.pop_back();
+                delete pre_point;
+            }
         }
     };
 

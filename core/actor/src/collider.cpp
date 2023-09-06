@@ -7,12 +7,13 @@ namespace gamo
 {
     void Collider::CreateAndRepalceFixture(b2Body *rigidbody, Vect offset, float rotate, Vect scale)
     {
-        if (_fixture != nullptr)
+        while (!_fixtures.empty())
         {
-            rigidbody->DestroyFixture(_fixture);
-            _fixture = nullptr;
+            auto fixture = _fixtures.back();
+            _fixtures.pop_back();
+            rigidbody->DestroyFixture(fixture);
         }
-
+        
         if (_shape == nullptr)
         {
             spdlog::error("fail to init collider, shape unset");
@@ -21,17 +22,21 @@ namespace gamo
         }
 
         // fixture definition for initial
-        b2FixtureDef def;
-        def.shape = _shape->ToBox2DShape(offset, rotate * M_PI / 180, scale);
-        def.friction = _friction;
-        def.restitution = _restitution;
-        def.density = _density;
-        def.isSensor = _is_sensor;
-        def.filter.categoryBits = _category;
-        def.filter.maskBits = _collide_with;
-        def.userData.pointer = (uintptr_t)this;
+        for (auto shape : _shape->ToBox2DShape(offset, rotate * M_PI / 180, scale))
+        {
+            b2FixtureDef def;
+            def.shape = shape;
+            def.friction = _friction;
+            def.restitution = _restitution;
+            def.density = _density;
+            def.isSensor = _is_sensor;
+            def.filter.categoryBits = _category;
+            def.filter.maskBits = _collide_with;
+            def.userData.pointer = (uintptr_t)this;
 
-        _fixture = rigidbody->CreateFixture(&def);
+            auto new_fixture = rigidbody->CreateFixture(&def);
+            _fixtures.push_back(new_fixture);
+        }
     }
 
     RigidBody *Collider::SearchRigidBody(Vect *rt_offset, float *rt_rotate, Vect *rt_scale)
@@ -127,7 +132,7 @@ namespace gamo
             _shape = nullptr;
         }
         _shape = shape->Clone();
-        if (_fixture)
+        if (!_fixtures.empty())
         {
             Vect offset, scale;
             float rotate;
@@ -143,100 +148,88 @@ namespace gamo
 
     float Collider::Friction()
     {
-        if (_fixture)
-            _friction = _fixture->GetFriction();
         return _friction;
     }
 
     void Collider::Friction(float f)
     {
         _friction = f;
-        if (_fixture)
-            _fixture->SetFriction(_friction);
+        for (auto fixture : _fixtures)
+            fixture->SetFriction(_friction);
     }
 
     float Collider::Restitution()
     {
-        if (_fixture)
-            _restitution = _fixture->GetRestitution();
         return _restitution;
     }
 
     void Collider::Restitution(float r)
     {
         _restitution = r;
-        if (_fixture)
-            _fixture->SetRestitution(_restitution);
+        for (auto fixture : _fixtures)
+            fixture->SetRestitution(_restitution);
     }
 
     float Collider::Density()
     {
-        if (_fixture)
-            _density = _fixture->GetDensity();
         return _density;
     }
 
     void Collider::Density(float d)
     {
         _density = d;
-        if (_fixture)
-            _fixture->SetDensity(_density);
+        for (auto fixture : _fixtures)
+            fixture->SetDensity(_density);
     }
 
     bool Collider::IsSensor()
     {
-        if (_fixture)
-            _is_sensor = _fixture->IsSensor();
         return _is_sensor;
     }
 
     void Collider::IsSensor(bool is_sensor)
     {
         _is_sensor = is_sensor;
-        if (_fixture)
-            _fixture->SetSensor(_is_sensor);
+        for (auto fixture : _fixtures)
+            fixture->SetSensor(_is_sensor);
     }
 
     unsigned short Collider::Category()
     {
-        if (_fixture)
-            _category = _fixture->GetFilterData().categoryBits;
         return _category;
     }
 
     void Collider::Category(unsigned short c)
     {
         _category = c;
-        if (_fixture)
+        for (auto fixture : _fixtures)
         {
-            auto f = _fixture->GetFilterData();
+            auto f = fixture->GetFilterData();
             f.categoryBits = _category;
-            _fixture->SetFilterData(f);
+            fixture->SetFilterData(f);
         }
     }
 
     unsigned short Collider::CollideWith()
     {
-        if (_fixture)
-            _collide_with = _fixture->GetFilterData().maskBits;
         return _collide_with;
     }
 
     void Collider::CollideWith(unsigned short c)
     {
         _collide_with = c;
-        if (_fixture)
+        for (auto fixture : _fixtures)
         {
-            auto f = _fixture->GetFilterData();
+            auto f = fixture->GetFilterData();
             f.maskBits = _collide_with;
-            _fixture->SetFilterData(f);
+            fixture->SetFilterData(f);
         }
     }
 
     Collider *Collider::Clone()
     {
         auto obj = new Collider(nullptr);
-        obj->_fixture = nullptr;
+        obj->_fixtures = std::vector<b2Fixture *>();
         obj->_shape = (_shape == nullptr ? nullptr : _shape->Clone());
         obj->_friction = _friction;
         obj->_restitution = _restitution;
