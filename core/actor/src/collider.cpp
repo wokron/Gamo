@@ -6,24 +6,27 @@
 namespace gamo
 {
     void Collider::CreateAndRepalceFixture(b2Body *rigidbody, Vect offset, float rotate, Vect scale)
-    {
+    {   
+        if (_shape == nullptr)
+        {
+            spdlog::error("fail to init collider, shape unset");
+            return;
+        }
+
         while (!_fixtures.empty())
         {
             auto fixture = _fixtures.back();
             _fixtures.pop_back();
             rigidbody->DestroyFixture(fixture);
         }
-        
-        if (_shape == nullptr)
-        {
-            spdlog::error("fail to init collider, shape unset");
-            UnregisterHandleInit();
-            return;
-        }
 
-        // fixture definition for initial
+        _prev_offset = offset;
+        _prev_rotate = rotate;
+        _prev_scale = scale;
+
         for (auto shape : _shape->ToBox2DShape(offset, rotate * M_PI / 180, scale))
         {
+            // fixture definition for initial
             b2FixtureDef def;
             def.shape = shape;
             def.friction = _friction;
@@ -84,10 +87,14 @@ namespace gamo
 
     void Collider::HandleBeforeStep(Event *e)
     {
-        auto transform = GetTransform();
-        if (transform->IsScaleModified())
+        Vect offset, scale;
+        float rotate;
+        auto rigidbody = SearchRigidBody(&offset, &rotate, &scale);
+        if (rigidbody != nullptr && (offset != _prev_offset || rotate != _prev_rotate || scale != _prev_scale))
         {
-            // todo: this part should be used to scale the collider, but I haven't thought of a good solution yet
+            assert(rigidbody->Body() != nullptr);
+            
+            CreateAndRepalceFixture(rigidbody->Body(), offset, rotate, scale);
         }
     }
 

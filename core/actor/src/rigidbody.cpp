@@ -42,10 +42,12 @@ namespace gamo
     void RigidBody::HandleBeforeStep(Event *e)
     {
         auto transform = GetTransform();
-        if (transform->IsPositionOrRotateModified())
+        auto pos = transform->Position();
+        float angle = transform->Rotate() * M_PI / 180; 
+        auto body_pos = _body->GetPosition();
+        float body_angle = _body->GetAngle();
+        if (pos != body_pos || fabs(angle - body_angle) < 1e-6)
         {
-            auto pos = transform->Position();
-            float angle = transform->Rotate() * M_PI / 180; 
             _body->SetTransform(pos, angle);
         }
     }
@@ -57,7 +59,6 @@ namespace gamo
         auto transform = GetTransform();
         transform->Position({pos.x, pos.y});
         transform->Rotate(angle / M_PI * 180);
-        transform->IsPositionOrRotateModified(); // reset flag
     }
 
     Vect RigidBody::LinearVelocity()

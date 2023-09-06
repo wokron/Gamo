@@ -44,8 +44,6 @@ namespace gamo
     Transform *Transform::Clone()
     {
         auto obj = new Transform(nullptr, _position, _rotate, _scale);
-        obj->_is_pos_rotate_modified = false;
-        obj->_is_scale_modified = true;
         return obj;
     }
 

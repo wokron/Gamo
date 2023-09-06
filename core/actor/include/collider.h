@@ -21,6 +21,10 @@ namespace gamo
         unsigned short _category = 0x0001;
         unsigned short _collide_with = 0xFFFF;
 
+        Vect _prev_offset = {0, 0};
+        float _prev_rotate = 0;
+        Vect _prev_scale = {1, 1};
+
     public:
         Collider(Actor *actor) : Characteristic(actor) {}
         std::vector<b2Fixture *> Fixture() { return _fixtures; }
