@@ -14,7 +14,7 @@ namespace gamo
     b2Shape *Polygon::ToBox2DShape(Vect offset, float rotate, Vect scale)
     {
         Matrix m_rotate;
-        m_rotate.AsRotate(rotate * M_PI / 180);
+        m_rotate.AsRotate(rotate);
         Matrix m_scale;
         m_scale.AsScale(scale);
 

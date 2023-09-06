@@ -22,7 +22,7 @@ namespace gamo
 
         // fixture definition for initial
         b2FixtureDef def;
-        def.shape = _shape->ToBox2DShape(offset, rotate, scale);
+        def.shape = _shape->ToBox2DShape(offset, rotate * M_PI / 180, scale);
         def.friction = _friction;
         def.restitution = _restitution;
         def.density = _density;
