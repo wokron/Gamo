@@ -23,7 +23,7 @@ namespace gamo
 
         virtual Shape *Clone() override = 0;
     };
-    
+
     class Circle : public Shape
     {
     private:
@@ -31,6 +31,8 @@ namespace gamo
         b2CircleShape _circle;
 
     public:
+        Circle() {}
+        Circle(float radius) : _radius(radius) {}
         float Radius() { return _radius; }
         void Radius(float radius) { _radius = radius; }
 
@@ -44,7 +46,7 @@ namespace gamo
             return obj;
         }
     };
-    
+
     class Polygon : public Shape
     {
     private:
@@ -52,16 +54,20 @@ namespace gamo
         std::vector<b2Shape *> _polygons;
 
     public:
+        Polygon() {}
+        Polygon(std::vector<Vect> vertices) : _vertices(vertices) {}
+        ~Polygon() { ClearPolygonList(); }
+
         std::vector<Vect> &Vertices() { return _vertices; }
         void Vertices(std::vector<Vect> vertices) { _vertices = vertices; }
-        
+
         void SetAsBox(float hx, float hy, Vect center)
         {
             _vertices = {{hx, hy}, {-hx, hy}, {-hx, -hy}, {hx, -hy}};
             Center(center);
         }
 
-        std::vector<b2Shape *> ToBox2DShape(Vect offset, float rotate, Vect scale) override;
+        virtual std::vector<b2Shape *> ToBox2DShape(Vect offset, float rotate, Vect scale) override;
 
         virtual Polygon *Clone() override
         {
@@ -71,10 +77,6 @@ namespace gamo
             return obj;
         }
 
-        ~Polygon()
-        {
-            ClearPolygonList();
-        }
     private:
         void ClearPolygonList()
         {
@@ -85,6 +87,20 @@ namespace gamo
                 delete pre_point;
             }
         }
+    };
+
+    class Terrain : public Polygon
+    {
+    private:
+        b2ChainShape _terrain;
+
+    public:
+        Terrain() {}
+        Terrain(std::vector<Vect> vertices) : Polygon(vertices) {}
+        
+        static std::vector<Terrain> Union(std::vector<Terrain *> terrains);
+
+        std::vector<b2Shape *> ToBox2DShape(Vect offset, float rotate, Vect scale) override;
     };
 
 } // namespace gamo

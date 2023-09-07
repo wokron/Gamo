@@ -44,4 +44,42 @@ namespace gamo
         return _polygons;
     }
 
+    std::vector<Terrain> Terrain::Union(std::vector<Terrain *> terrains)
+    {
+        std::vector<std::vector<Vect>> polygons;
+        for (auto terrain : terrains)
+        {
+            polygons.push_back(terrain->Vertices());
+        }
+
+        auto composed_terrains = PolygonAlgo::ComposePolygons(polygons);
+        std::vector<Terrain> rt;
+        for (auto composed_terrain : composed_terrains)
+        {
+            Terrain t;
+            t.Vertices(composed_terrain);
+            rt.push_back(t);
+        }
+        return rt;
+    }
+
+    std::vector<b2Shape *> Terrain::ToBox2DShape(Vect offset, float rotate, Vect scale)
+    {
+        Matrix m_rotate;
+        m_rotate.AsRotate(rotate);
+        Matrix m_scale;
+        m_scale.AsScale(scale);
+
+        auto count = Vertices().size();
+        b2Vec2 vertices[count];
+
+        for (int i = 0; i < count; i++)
+        {
+            vertices[i] = (m_rotate * (m_scale * (Vertices()[i] - Center()))) + offset;
+        }
+
+        _terrain.CreateLoop(vertices, count);
+        return {&_terrain};
+    }
+
 } // namespace gamo
