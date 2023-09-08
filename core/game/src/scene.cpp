@@ -27,6 +27,7 @@ namespace gamo
     void Scene::ApplyInit()
     {
         EventDispatcher::GetInstance()->Dispatch(EVENT_ON_START, nullptr);
+        EventDispatcher::GetInstance()->Dispatch(EVENT_TILE_INIT, nullptr);
         RigidBodyEvent e(_physics_world);
         EventDispatcher::GetInstance()->Dispatch(&e); // init rigidbody
         EventDispatcher::GetInstance()->Dispatch(EVENT_COLLIDER_INIT, nullptr); // collider must initialed after rigidbody
