@@ -20,8 +20,24 @@ namespace gamo
             UnregisterHandleInit();
             return;
         }
+        // set transform
         auto tile_offset = GlobalOffset(tilemap->CellSize());
         BelongActor()->GetTransform()->Position(tile_offset);
+
+        // register terrain
+        auto colliders = BelongActor()->GetCharacteristicsByType("Collider");
+        for (auto item : colliders)
+        {
+            auto collider = (Collider *)item;
+            auto shape = collider->ColliderShape();
+            if (shape == nullptr)
+                continue;
+            auto terrain = dynamic_cast<Terrain*>(shape);
+            if (terrain == nullptr)
+                continue;
+            tilemap->RegisterTerrain(terrain);
+        }
+        
         UnregisterHandleInit();
     }
 

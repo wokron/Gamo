@@ -10,6 +10,7 @@ namespace gamo
     {
     private:
         Vect _cell_size = {1, 1};
+        TerrainPool _terrain_pool;
 
     public:
         Tilemap(Actor *actor) : Characteristic(actor) {}
@@ -18,6 +19,11 @@ namespace gamo
         {
             assert(cell_size.x > 0 && cell_size.y > 0);
             _cell_size = cell_size;
+        }
+
+        void RegisterTerrain(Terrain *terrain)
+        {
+            _terrain_pool.Register(terrain);
         }
 
         std::string Type() override { return std::string("Tilemap"); }
