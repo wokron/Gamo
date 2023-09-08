@@ -35,7 +35,7 @@ namespace gamo
             b2Vec2 b2vec2_points[count];
             for (int i = 0; i < count; i++)
                 b2vec2_points[i] = points[i];
-            
+
             auto shape = new b2PolygonShape();
             shape->Set(b2vec2_points, count);
             _polygons.push_back(shape);
@@ -103,8 +103,16 @@ namespace gamo
             result_terrain.push_back(result);
         }
 
-        _terrain_pool->Push(result_terrain);
-        auto actual_terrains = _terrain_pool->Pull();
+        PolygonList actual_terrains;
+        if (_terrain_pool != nullptr)
+        {
+            _terrain_pool->Push(result_terrain);
+            actual_terrains = _terrain_pool->Pull();
+        }
+        else
+        {
+            actual_terrains = {Vertices()};
+        }
 
         ClearPolygonList();
         for (auto points : actual_terrains)
@@ -113,7 +121,7 @@ namespace gamo
             b2Vec2 b2vec2_points[count];
             for (int i = 0; i < count; i++)
                 b2vec2_points[i] = points[i];
-            
+
             auto shape = new b2ChainShape();
             shape->CreateLoop(b2vec2_points, count);
             _polygons.push_back(shape);
