@@ -106,9 +106,8 @@ TEST(TestShape, test_polygon)
 
 }
 
-bool MatchPolygon(Terrain actual,  std::vector<Vect> expect)
+bool MatchPolygon(std::vector<Vect> vs, std::vector<Vect> expect)
 {
-    auto vs = actual.Vertices();
     for (auto p : expect)
     {
         if (std::find(vs.begin(), vs.end(), p) == vs.end())
@@ -117,11 +116,15 @@ bool MatchPolygon(Terrain actual,  std::vector<Vect> expect)
     return true;
 }
 
-bool ContainPolygon(std::vector<Terrain> list, std::vector<Vect> p)
+bool ContainPolygon(std::vector<b2Shape *> list, std::vector<Vect> p)
 {
     for (auto item : list)
     {
-        if (MatchPolygon(item, p))
+        auto tmp = ((b2ChainShape *)item);
+        std::vector<Vect> vs;
+        for (int i = 0; i < tmp->m_count; i++)
+            vs.push_back({tmp->m_vertices[i].x, tmp->m_vertices[i].y});
+        if (MatchPolygon(vs, p))
             return true;
     }
     return false;
@@ -129,29 +132,27 @@ bool ContainPolygon(std::vector<Terrain> list, std::vector<Vect> p)
 
 TEST(TestShape, test_terrain)
 {
-    std::vector<Vect> v1 = {{1, 1}, {2, 1}, {2, 2}, {1, 2}};
-    Terrain t1(v1);
-    Terrain t2({{1, 2}, {2, 2}, {2, 3}, {1, 3}});
-    Terrain t3({{3, 1}, {5, 1}, {5, 3}, {4.5, 3}, {4, 2}, {3.5, 3}, {3, 3}});
-    Terrain t4({{3, 3}, {5, 3}, {5, 4}, {3, 4}});
-    Terrain t5({{7, 0}, {7, 1}, {6, 3}});
-    Terrain t6({{7, 1}, {7, 3}, {6.5, 2}});
+    Terrain t1;
+    t1.SetAsBox(0.5, 0.5, {0, 0});
+    Terrain t2({{-1, 0}, {1, 0}, {1, 1}, {0.5, 1}, {0, 0.5}, {-0.5, 1}, {-1, 1}});
+    Terrain t3;
+    t3.SetAsBox(0.5, 0.5, {0, 0});
 
-    auto item = (b2ChainShape *)t1.ToBox2DShape({0, 0}, 0, {1, 1})[0];
-    int count = item->m_count;
-    auto vs = item->m_vertices;
-    ASSERT_EQ(count, 5); // b2ChainShape uses edges to represent polygons, so the number of vertices + 1
-    for (int i = 0; i < count; i++)
-    {
-        ASSERT_FLOAT_EQ(vs[i].x, v1[i % v1.size()].x);
-        ASSERT_FLOAT_EQ(vs[i].y, v1[i % v1.size()].y);
-    }
-    
-    auto result = Terrain::Union({&t1, &t2, &t3, &t4, &t5, &t6});
+    TerrainPool pool;
+    pool.Register(&t1);
+    pool.Register(&t2);
+    pool.Register(&t3);
 
-    ASSERT_EQ(result.size(), 4);
-    ASSERT_TRUE(ContainPolygon(result, {{1, 1}, {2, 1}, {2, 3}, {1, 3}}));
-    ASSERT_TRUE(ContainPolygon(result, {{3, 1}, {5, 1}, {5, 4}, {3, 4}}));
-    ASSERT_TRUE(ContainPolygon(result, {{3.5, 3}, {4, 2}, {4.5, 3}}));
-    ASSERT_TRUE(ContainPolygon(result, {{7, 0}, {7, 3}, {6.5, 2}, {6, 3}}));
+    auto result = t1.ToBox2DShape({1.5, 1.5}, 0, {1, 1});
+    ASSERT_EQ(result.size(), 0);
+
+    result = t2.ToBox2DShape({4, 0}, 0, {1, 1});
+    ASSERT_EQ(result.size(), 0);
+
+    result = t3.ToBox2DShape({4, 1.5}, 0, {2, 1});
+    ASSERT_EQ(result.size(), 3);
+
+    ContainPolygon(result, {{1, 1}, {2, 1}, {2, 2}, {1, 2}});
+    ContainPolygon(result, {{3, 0}, {5, 0}, {5, 2}, {3, 2}});
+    ContainPolygon(result, {{4, 0.5}, {3.5, 1}, {4.5, 1}});
 }
