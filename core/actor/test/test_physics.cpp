@@ -102,7 +102,7 @@ TEST(TestPhysics, test_simple)
     ground_actor->GetCharacteristics().push_back(groundbody);
     // add collider
     auto groundcollider = new Collider(ground_actor);
-    Polygon groundshape;
+    Terrain groundshape;
     groundshape.SetAsBox(10, 0.5, {0, 0});
     groundcollider->ColliderShape(&groundshape);
     groundcollider->Category(COLLISION_CATEGORY(3));
