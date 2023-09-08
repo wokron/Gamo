@@ -51,6 +51,8 @@ namespace gamo
     {
     private:
         std::vector<Vect> _vertices = {{0.5, 0.5}, {-0.5, 0.5}, {-0.5, -0.5}, {0.5, -0.5}};
+
+    protected:
         std::vector<b2Shape *> _polygons;
 
     public:
@@ -77,7 +79,7 @@ namespace gamo
             return obj;
         }
 
-    private:
+    protected:
         void ClearPolygonList()
         {
             while (!_polygons.empty())
@@ -89,18 +91,45 @@ namespace gamo
         }
     };
 
+    class Terrain;
+
+    class TerrainPool
+    {
+    private:
+        int _count = 0;
+        std::vector<std::vector<Vect>> _polygons;
+
+    public:
+        void Register(Terrain *terrain);
+
+        void Push(std::vector<Vect> polygon);
+
+        std::vector<std::vector<Vect>> Pull();
+    };
+
     class Terrain : public Polygon
     {
     private:
         b2ChainShape _terrain;
+        TerrainPool *_terrain_pool = nullptr;
 
     public:
         Terrain() {}
         Terrain(std::vector<Vect> vertices) : Polygon(vertices) {}
+
+        void SetTerrainPool(TerrainPool *pool) { _terrain_pool = pool; }
         
         static std::vector<Terrain> Union(std::vector<Terrain *> terrains);
 
         std::vector<b2Shape *> ToBox2DShape(Vect offset, float rotate, Vect scale) override;
+
+        virtual Terrain *Clone() override
+        {
+            auto obj = new Terrain();
+            obj->Center(this->Center());
+            obj->Vertices(Vertices());
+            return obj;
+        }
     };
 
 } // namespace gamo
