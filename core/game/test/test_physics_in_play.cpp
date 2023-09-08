@@ -49,6 +49,47 @@ public:
     }
 };
 
+class MoveBehavior : public Behavior
+{
+public:
+    RigidBody *rigidbody;
+
+    MoveBehavior(Actor *actor) : Behavior(actor) {}
+
+    void OnStart()
+    {
+        rigidbody = (RigidBody *)BelongActor()->GetCharacteristicByType("RigidBody");
+    }
+
+    void OnUpdate()
+    {
+        Vect lv = {0, 0};
+        if (Input::GetInstance()->GetKey(SDL_SCANCODE_W))
+        {
+            lv = lv + Vect{0, 1};
+        }
+        if (Input::GetInstance()->GetKey(SDL_SCANCODE_A))
+        {
+            lv = lv + Vect{-1, 0};
+        }
+        if (Input::GetInstance()->GetKey(SDL_SCANCODE_S))
+        {
+            lv = lv + Vect{0, -1};
+        }
+        if (Input::GetInstance()->GetKey(SDL_SCANCODE_D))
+        {
+            lv = lv + Vect{1, 0};
+        }
+
+        if (lv == Vect{0, 0})
+        {
+            return;
+        }
+        
+        rigidbody->LinearVelocity(lv);
+    }
+};
+
 class CollisionBehavior : public Behavior
 {
 public:
@@ -63,14 +104,6 @@ public:
     void OnStart()
     {
         rigidbody = (RigidBody *)BelongActor()->GetCharacteristicByType("RigidBody");
-    }
-
-    void OnUpdate()
-    {
-        if (Input::GetInstance()->GetKey(SDL_SCANCODE_A))
-        {
-            rigidbody->LinearVelocity({0, 1});
-        }
     }
 
     void OnCollisionBegin(Collider *other)
@@ -176,6 +209,93 @@ TEST(TestPlay, test_physics)
 
     ASSERT_TRUE(b->triggered_begin);
     ASSERT_TRUE(b->triggered_end);
+
+    play->Destroy();
+}
+
+TEST(TestPlay, test_tilemap_in_play)
+{
+    auto play = Play::GetInstance();
+    play->Quit(false);
+    play->Init("test play test physics", 800, 600, true);
+    
+    auto sprite = GetSprite();
+
+    auto scene = new Scene();
+
+    auto camera_actor = new Actor({0, 0}, 0, {1, 1});
+    auto camera = new Camera(camera_actor);
+    camera->Layers(LAYER(0));
+    camera_actor->GetCharacteristics().push_back(camera);
+    camera_actor->GetCharacteristics().push_back(new QuitBehavior(camera_actor));
+    
+    auto actor = new Actor({0, 2}, -10, {1, 1});
+    actor->Layer(LAYER(0));
+    // add renderer
+    auto renderer = new Renderer(actor);
+    renderer->TargetSprite(sprite);
+    actor->GetCharacteristics().push_back(renderer);
+    // add rigidbody
+    auto rigidbody = new RigidBody(actor);
+    rigidbody->BodyType(b2_dynamicBody);
+    actor->GetCharacteristics().push_back(rigidbody);
+    // add collider
+    auto collider = new Collider(actor);
+    Polygon shape;
+    shape.SetAsBox(0.5, 0.5, {0, 0});
+    collider->ColliderShape(&shape);
+    collider->Density(10.0f);
+    collider->Friction(0.6f);
+    collider->Restitution(0.2f);
+    actor->GetCharacteristics().push_back(collider);
+    auto b = new MoveBehavior(actor);
+    actor->GetCharacteristics().push_back(b);
+    SDL_SetRenderDrawColor(RenderAsset::GetInstance()->Renderer(), 255, 255, 255, 255);
+
+    auto tilemap_actor = new Actor({0, 0}, 0, {1, 1});
+    tilemap_actor->Layer(LAYER(0));
+    auto tilemap = new Tilemap(tilemap_actor);
+    tilemap_actor->AddCharacteristic(tilemap);
+    auto tilemap_rigidbody = new RigidBody(tilemap_actor);
+    tilemap_actor->AddCharacteristic(tilemap_rigidbody);
+
+    auto tile_actor_prototype = new Actor({0, 0}, 0, {1, 1});
+    auto tile = new Tile(tile_actor_prototype);
+    tile_actor_prototype->AddCharacteristic(tile);
+    auto tile_renderer = new Renderer(tile_actor_prototype);
+    tile_renderer->TargetSprite(sprite);
+    tile_actor_prototype->AddCharacteristic(tile_renderer);
+    auto tile_collider = new Collider(tile_actor_prototype);
+    Terrain tileshape;
+    tileshape.SetAsBox(0.5, 0.5, {0, 0});
+    tile_collider->ColliderShape(&tileshape);
+    tile_actor_prototype->AddCharacteristic(tile_collider);
+
+    for (int i = -3; i <= 3; i++)
+    {
+        auto actual_tile = tilemap_actor->CreateSubActor(tile_actor_prototype);
+        actual_tile->Layer(LAYER(0));
+        auto pos_tile = (Tile *)actual_tile->GetCharacteristicByType("Tile");
+        pos_tile->Position(i, -2);
+    }
+
+    auto actual_tile1 = tilemap_actor->CreateSubActor(tile_actor_prototype);
+    actual_tile1->Layer(LAYER(0));
+    auto pos_tile = (Tile *)actual_tile1->GetCharacteristicByType("Tile");
+    pos_tile->Position(-1, -1);
+
+    auto actual_tile2 = tilemap_actor->CreateSubActor(tile_actor_prototype);
+    actual_tile2->Layer(LAYER(0));
+    pos_tile = (Tile *)actual_tile2->GetCharacteristicByType("Tile");
+    pos_tile->Position(1, -1);
+
+    scene->AddActor(actor);
+    scene->AddActor(tilemap_actor);
+    scene->AddActor(camera_actor);
+
+    play->PushScene(scene);
+
+    play->Perform();
 
     play->Destroy();
 }

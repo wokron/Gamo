@@ -75,6 +75,8 @@ namespace gamo
         /// @return the pointer to the new actor
         Actor *CreateSubActor(Vect position, float rotate, Vect scale);
 
+        Actor *CreateSubActor(Actor *prototype);
+
         void Destroy() override;
         void Deref() override;
 

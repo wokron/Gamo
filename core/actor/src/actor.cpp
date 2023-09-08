@@ -86,6 +86,14 @@ namespace gamo
         return sub_actor;
     }
 
+    Actor *Actor::CreateSubActor(Actor *prototype)
+    {
+        Actor *sub_actor = prototype->Clone();
+        sub_actor->_sup_actor = this;
+        _sub_actors.push_back(sub_actor);
+        return sub_actor;
+    }
+
     void Actor::Destroy()
     {
         if (_sup_actor != nullptr)
