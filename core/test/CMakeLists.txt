@@ -1,5 +1,3 @@
-project(gamo_test)
-
 # actor
 add_executable(test_actor test_actor.cpp)
 target_link_libraries(test_actor gtest gtest_main gamo)
