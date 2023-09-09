@@ -2,9 +2,9 @@
 
 #include <vector>
 #include <string>
-#include "utils.h"
+#include "gamo/utils/utils.h"
 #include "characteristic.h"
-#include "resource.h"
+#include "gamo/resource/resource.h"
 #include "spdlog/spdlog.h"
 
 // this macro is used to represent the layer in actor and camera. use like LAYER(0), LAYER(31). n in [0, 32)

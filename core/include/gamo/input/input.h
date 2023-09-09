@@ -1,5 +1,5 @@
 #pragma once
-#include "utils.h"
+#include "gamo/utils/utils.h"
 #include <SDL2/SDL.h>
 
 namespace gamo

@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "singleton.h"
+#include "gamo/utils/singleton.h"
 
 using namespace gamo;
 

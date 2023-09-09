@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <queue>
-#include "utils.h"
+#include "gamo/utils/utils.h"
 
 namespace gamo
 {

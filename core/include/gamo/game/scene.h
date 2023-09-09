@@ -1,8 +1,8 @@
 #pragma once
 
 #include <vector>
-#include "physics.h"
-#include "resource.h"
+#include "gamo/physics/physics.h"
+#include "gamo/resource/resource.h"
 #include "spdlog/spdlog.h"
 
 namespace gamo

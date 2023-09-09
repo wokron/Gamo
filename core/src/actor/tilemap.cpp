@@ -1,5 +1,4 @@
-#include "actor.h"
-#include "tilemap.h"
+#include "gamo/actor/actor.h"
 #include "spdlog/spdlog.h"
 
 namespace gamo

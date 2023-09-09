@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
-#include "actor.h"
-#include "render.h"
+#include "gamo/actor/actor.h"
+#include "gamo/render/render.h"
 #include <SDL2/SDL_image.h>
 #include <algorithm>
 #include "config.h"

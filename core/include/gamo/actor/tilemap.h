@@ -1,7 +1,7 @@
 #pragma once
 
 #include "characteristic.h"
-#include "utils.h"
+#include "gamo/utils/utils.h"
 #include "assert.h"
 
 namespace gamo

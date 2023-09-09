@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "algo.h"
+#include "gamo/algo/algo.h"
 
 using namespace gamo;
 

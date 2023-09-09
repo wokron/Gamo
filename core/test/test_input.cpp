@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
-#include "game.h"
-#include "render.h"
-#include "input.h"
+#include "gamo/game/game.h"
+#include "gamo/render/render.h"
+#include "gamo/input/input.h"
 #include "spdlog/spdlog.h"
 
 using namespace gamo;

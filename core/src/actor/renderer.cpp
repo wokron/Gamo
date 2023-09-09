@@ -1,6 +1,6 @@
-#include "actor.h"
-#include "render.h"
-#include "director.h"
+#include "gamo/actor/actor.h"
+#include "gamo/render/render.h"
+#include "gamo/director/director.h"
 
 namespace gamo
 {

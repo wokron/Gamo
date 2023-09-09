@@ -1,7 +1,8 @@
 #pragma once
 
 #include "scene.h"
-#include "singleton.h"
+#include "gamo/utils/singleton.h"
+#include "gamo/utils/singleton.h"
 #include <stack>
 #include <vector>
 #include <string>

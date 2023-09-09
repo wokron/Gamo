@@ -1,4 +1,4 @@
-#include "render_asset.h"
+#include "gamo/render/render_asset.h"
 #include "spdlog/spdlog.h"
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"

@@ -1,4 +1,4 @@
-#include "actor.h"
+#include "gamo/actor/actor.h"
 
 namespace gamo
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "utils.h"
+#include "gamo/utils/utils.h"
 #include "characteristic_base.h"
 #include <string>
 

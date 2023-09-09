@@ -1,5 +1,5 @@
-#include "actor.h"
-#include "math.h"
+#include "gamo/actor/actor.h"
+#include <math.h>
 
 namespace gamo
 {

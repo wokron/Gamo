@@ -2,7 +2,7 @@
 #include "gtest/gtest.h"
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
-#include "render.h"
+#include "gamo/render/render.h"
 #include "config.h"
 
 using namespace gamo;

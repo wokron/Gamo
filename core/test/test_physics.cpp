@@ -1,8 +1,8 @@
 #include "gtest/gtest.h"
-#include "collider.h"
-#include "game.h"
-#include "actor.h"
-#include "director.h"
+#include "gamo/actor/collider.h"
+#include "gamo/game/game.h"
+#include "gamo/actor/actor.h"
+#include "gamo/director/director.h"
 #include "config.h"
 
 using namespace gamo;

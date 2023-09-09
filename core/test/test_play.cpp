@@ -1,8 +1,8 @@
 #include "gtest/gtest.h"
-#include "director.h"
-#include "game.h"
-#include "render.h"
-#include "actor.h"
+#include "gamo/director/director.h"
+#include "gamo/game/game.h"
+#include "gamo/render/render.h"
+#include "gamo/actor/actor.h"
 #include "SDL2/SDL_image.h"
 #include <thread>
 #include "config.h"

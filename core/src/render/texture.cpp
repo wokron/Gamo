@@ -1,4 +1,4 @@
-#include "render.h"
+#include "gamo/render/render.h"
 #include "spdlog/spdlog.h"
 #include <SDL2/SDL_image.h>
 

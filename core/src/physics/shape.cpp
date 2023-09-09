@@ -1,5 +1,5 @@
-#include "physics.h"
-#include "algo.h"
+#include "gamo/physics/physics.h"
+#include "gamo/algo/algo.h"
 
 namespace gamo
 {

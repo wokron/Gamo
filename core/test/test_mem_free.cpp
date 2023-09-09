@@ -1,8 +1,8 @@
 #include "gtest/gtest.h"
-#include "scene.h"
-#include "actor.h"
-#include "event.h"
-#include "play.h"
+#include "gamo/game/scene.h"
+#include "gamo/actor/actor.h"
+#include "gamo/event/event.h"
+#include "gamo/game/play.h"
 #include "spdlog/spdlog.h"
 
 using namespace gamo;

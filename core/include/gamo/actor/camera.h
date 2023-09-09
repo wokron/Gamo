@@ -1,8 +1,8 @@
 #pragma once
 
 #include "characteristic_base.h"
-#include "utils.h"
-#include "event.h"
+#include "gamo/utils/utils.h"
+#include "gamo/event/event.h"
 #include <string>
 
 namespace gamo

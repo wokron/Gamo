@@ -1,5 +1,5 @@
-#include "actor.h"
-#include "collider.h"
+#include "gamo/actor/actor.h"
+#include "gamo/actor/collider.h"
 #include "assert.h"
 #include "spdlog/spdlog.h"
 

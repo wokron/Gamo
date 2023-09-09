@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <assert.h>
-#include "utils.h"
+#include "gamo/utils/utils.h"
 
 namespace gamo
 {

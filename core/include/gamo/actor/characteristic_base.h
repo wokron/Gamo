@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <string>
-#include "resource.h"
+#include "gamo/resource/resource.h"
 #include "spdlog/spdlog.h"
 
 namespace gamo

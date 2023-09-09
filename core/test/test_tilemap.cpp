@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "actor.h"
+#include "gamo/actor/actor.h"
 
 using namespace gamo;
 

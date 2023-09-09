@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "event.h"
+#include "gamo/event/event.h"
 #include <algorithm>
 #include <functional>
 

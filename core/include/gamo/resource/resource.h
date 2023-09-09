@@ -1,6 +1,6 @@
 #pragma once
 
-#include "event.h"
+#include "gamo/event/event.h"
 
 #define OVERRIDE_HANDLE_MEM_FREE(class) \
 EVENT_DECLARE(class, HandleMemFree, EVENT_MEM_FREE) override

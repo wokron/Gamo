@@ -1,8 +1,8 @@
 #pragma once
 
 #include "characteristic.h"
-#include "physics.h"
-#include "event.h"
+#include "gamo/physics/physics.h"
+#include "gamo/event/event.h"
 
 #define COLLISION_CATEGORY(n) (1u << (n))
 

@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "physics.h"
+#include "gamo/physics/physics.h"
 #include <math.h>
 
 using namespace gamo;

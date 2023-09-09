@@ -1,10 +1,10 @@
-#include "play.h"
-#include "director.h"
-#include "render.h"
-#include "scene.h"
+#include "gamo/game/play.h"
+#include "gamo/director/director.h"
+#include "gamo/render/render.h"
+#include "gamo/game/scene.h"
 #include "spdlog/spdlog.h"
-#include "event.h"
-#include "input.h"
+#include "gamo/event/event.h"
+#include "gamo/input/input.h"
 #include <string>
 #include <algorithm>
 

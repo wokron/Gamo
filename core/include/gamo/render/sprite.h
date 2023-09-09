@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "utils.h"
+#include "gamo/utils/utils.h"
 
 namespace gamo
 {

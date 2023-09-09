@@ -1,4 +1,4 @@
-#include "input.h"
+#include "gamo/input/input.h"
 #include <SDL2/SDL.h>
 
 namespace gamo

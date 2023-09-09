@@ -2,7 +2,7 @@
 
 #include "eventpp/eventdispatcher.h"
 #include "event_base.h"
-#include "utils.h"
+#include "gamo/utils/utils.h"
 
 /// @brief this macro is used to represent a member function (such as "object.func()")
 /// as a parameter of the Append function of EventDispatcher,

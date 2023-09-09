@@ -1,10 +1,10 @@
 #pragma once
 
 #include "characteristic_base.h"
-#include "render.h"
+#include "gamo/render/render.h"
 #include "camera.h"
-#include "event.h"
-#include "utils.h"
+#include "gamo/event/event.h"
+#include "gamo/utils/utils.h"
 #include <string>
 
 namespace gamo

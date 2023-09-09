@@ -1,7 +1,7 @@
 #pragma once
 
 #include "characteristic_base.h"
-#include "event.h"
+#include "gamo/event/event.h"
 
 namespace gamo
 {

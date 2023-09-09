@@ -1,5 +1,5 @@
-#include "actor.h"
-#include "scene.h"
+#include "gamo/actor/actor.h"
+#include "gamo/game/scene.h"
 #include <algorithm>
 
 namespace gamo

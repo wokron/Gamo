@@ -1,6 +1,6 @@
-#include "scene.h"
-#include "director.h"
-#include "actor.h"
+#include "gamo/game/scene.h"
+#include "gamo/director/director.h"
+#include "gamo/actor/actor.h"
 #include "spdlog/spdlog.h"
 #include <algorithm>
 

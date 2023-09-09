@@ -1,5 +1,5 @@
-#include "render_director.h"
-#include "characteristic.h"
+#include "gamo/director/director.h"
+#include "gamo/actor/characteristic.h"
 #include "assert.h"
 
 namespace gamo

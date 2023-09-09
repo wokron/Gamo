@@ -1,4 +1,4 @@
-#include "event.h"
+#include "gamo/event/event.h"
 
 namespace gamo
 {

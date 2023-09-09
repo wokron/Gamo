@@ -1,7 +1,7 @@
-#include "actor.h"
-#include "game.h"
-#include "collider.h"
-#include "math.h"
+#include "gamo/actor/actor.h"
+#include "gamo/game/game.h"
+#include "gamo/actor/collider.h"
+#include <math.h>
 
 namespace gamo
 {

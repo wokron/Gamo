@@ -1,6 +1,6 @@
-#include "actor.h"
+#include "gamo/actor/actor.h"
 #include "assert.h"
-#include "event.h"
+#include "gamo/event/event.h"
 
 namespace gamo
 {

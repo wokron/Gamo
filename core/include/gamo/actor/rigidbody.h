@@ -1,9 +1,9 @@
 #pragma once
 
 #include "characteristic.h"
-#include "physics.h"
-#include "utils.h"
-#include "event.h"
+#include "gamo/physics/physics.h"
+#include "gamo/utils/utils.h"
+#include "gamo/event/event.h"
 
 namespace gamo
 {
