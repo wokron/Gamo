@@ -10,7 +10,7 @@ target_include_directories(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME}
-    utils actor
+    PUBLIC actor utils
 )
 
 # # for test

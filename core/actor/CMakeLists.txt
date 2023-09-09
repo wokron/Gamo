@@ -10,7 +10,7 @@ target_include_directories(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME}
-    render event director physics utils game resource spdlog
+    PUBLIC render event director physics utils game resource spdlog
 )
 
 # for test
